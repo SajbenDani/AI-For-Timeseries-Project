@@ -1,0 +1,228 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{url}
+\begin{document}
+
+\title{Reproducing and Improving QUANT:\\ A Minimalist Interval Method for Time Series Classification}
+
+\author{\IEEEauthorblockN{D\'aniel Sajben}
+\IEEEauthorblockA{\textit{University College Dublin}\\
+Dublin, Ireland \\
+sajben.dani@gmail.com}
+% add the other group members here
+}
+
+\maketitle
+
+\begin{abstract}
+QUANT is a time series classifier that describes each series by the quantiles of a fixed set of windows and feeds them to an off-the-shelf tree ensemble. Its authors report state-of-the-art accuracy for interval methods on 142 UCR datasets in under 15 minutes of single-core compute. We re-ran the published code on the published data and resamples. On the 112 original datasets, our mean accuracy matches the paper to four decimal places, and no dataset differs by more than resampling noise. On the 30 newer datasets, the only clear gaps come from four datasets that the archive maintainers corrected after the paper was published. We also found that the train/test resamples used are not documented and had to be inferred.
+% TODO: one or two sentences on the improvements once they are done.
+\end{abstract}
+
+\begin{IEEEkeywords}
+time series classification, interval methods, quantiles, reproducibility, UCR archive
+\end{IEEEkeywords}
+
+% =====================================================================
+\section{Introduction}
+% Grading criterion 1: motivation and impact.
+
+\textbf{The problem.} In time series classification (TSC), each example is a sequence of measurements over time, such as an ECG trace or an accelerometer recording, and the goal is to predict its label. The most accurate TSC methods, such as HIVE-COTE~2 (HC2)~\cite{hc2}, take days or weeks of compute on the standard UCR benchmark~\cite{middlehurst2024bakeoff}. This makes them hard to use in practice.
+
+\textbf{Why QUANT.} QUANT~\cite{quant} goes the other way: it is very simple and very fast. It uses one type of feature (quantiles), fixed windows, and a standard classifier, yet it reports accuracy on par with the best interval methods such as rSTSF~\cite{rstsf}. It is also one of the fastest methods on the 142-dataset UCR archive (under 15 minutes in total on one CPU core). We picked it for three reasons:
+\begin{itemize}
+\item \textbf{Impact.} It was published in a top data mining journal (DAMI 2024) and is now part of the \texttt{aeon} toolkit and later benchmarks, so its claims matter to the community.
+\item \textbf{Testability.} The code, data, resamples and per-resample results are all public, so a precise, dataset-by-dataset check is possible.
+\item \textbf{Room to improve.} The authors list open problems themselves: variable-length and multivariate series, and making the classifier cheaper. Its simplicity also makes it easy to change one part at a time.
+\end{itemize}
+
+\textbf{Contributions.} (1) An independent, fully scripted reproduction of the main UCR-142 result on a laptop CPU. (2) A list of the details that are missing from the paper or that changed after publication. (3) Proposed improvements (Section~\ref{sec:improve}).
+
+% =====================================================================
+\section{The QUANT Method}
+\label{sec:method}
+
+QUANT turns each time series into a fixed-length feature vector in four steps~\cite{quant}:
+\begin{enumerate}
+\item \textbf{Four views of the series:} the raw series $X$, its first difference $X'$ (smoothed with a moving average of width 5), its second difference $X''$, and the magnitude of its Fourier transform $|\mathcal{F}(X)|$. The differences describe change; the Fourier view describes frequency content.
+\item \textbf{Fixed dyadic windows:} each view is split into 1, 2, 4, 8, 16 and 32 equal windows (depth $d=6$), plus the same windows shifted by half a window. This gives up to 120 windows per view.
+\item \textbf{Quantiles per window:} in a window of length $m$, QUANT takes $1+\lfloor (m-1)/4 \rfloor$ evenly spaced quantiles. From every second quantile it subtracts the window mean, so the features describe both the actual values and their shape around the mean.
+\item \textbf{Classifier:} an ExtraTrees forest~\cite{extratrees} with 200 trees, entropy splits, and 10\% of the features tried at each split (instead of the usual $\sqrt{p}$).
+\end{enumerate}
+Long windows capture the distribution of values; short windows capture where things happen in time. Because the number of quantiles grows with window length, the total number of features stays proportional to series length. In our runs this was 2{,}957 features for a typical dataset and at most about 25{,}000. There is no training of the transform itself. All learning happens in the forest, which is where most of the runtime goes.
+
+% =====================================================================
+\section{Reproduction Approach}
+\label{sec:repro}
+% Grading criterion 2.
+
+\subsection{Code and Environment}
+We used the authors' repository~\cite{quantcode} unchanged (commit \texttt{f3907f7}). The original \texttt{run.py} only reports accuracy, so we wrote a thin wrapper, \texttt{run\_repro.py}. It runs exactly the same steps (same file loader, resampling, transform and classifier settings) and also records per-stage timings, saves after every resample so long runs can resume, and fixes the classifier seed so our numbers can be re-created. All runs used Python 3.11, PyTorch 2.14 (CPU), scikit-learn 1.9~\cite{sklearn} and NumPy 2.4 on a laptop with an AMD Ryzen 5 5600H (6 cores) and 16\,GB RAM. No GPU is needed.
+
+\subsection{Data and Resamples}
+As in the paper, we used the 142 UCR datasets from the ``bake off redux''~\cite{middlehurst2024bakeoff}: the 112 equal-length datasets of the 2018 archive~\cite{ucr} and 30 newer ones. They are all univariate and equal-length. Training sets range from 16 to 8{,}926 series (median 217), series lengths from 15 to 4{,}767 (median 331), and the number of classes from 2 to 60. The domains include image outlines, sensors, motion, ECG, spectrographs, electricity use, traffic and astronomy. In total the data takes 1.3\,GB.
+
+Each dataset is evaluated on 30 train/test splits (``resamples''): the original split plus 29 random ones with the same class balance. Accuracy is averaged over the 30. The resample indices come from the bake-off authors and exist in two versions, made by the Java or the Python version of their tool. The QUANT paper does not say which version it used (see Section~\ref{sec:lessons}).
+
+\subsection{What We Compare}
+We compare our results against two references:
+\begin{itemize}
+\item the paper's own per-resample results, published in the QUANT repository; and
+\item an independent run of QUANT by the bake-off redux authors~\cite{middlehurst2024bakeoff}, which also gives the results of the competing methods.
+\end{itemize}
+For each dataset, a Welch $t$-test over the 30 resamples tells us whether a gap is larger than resampling noise. Across datasets we report the mean accuracy, wins/draws/losses (W/D/L) and a Wilcoxon signed-rank test, as the paper does (following~\cite{mcm}).
+
+% =====================================================================
+\section{Reproduction Results and Lessons Learned}
+\label{sec:results}
+% Grading criterion 3.
+
+\subsection{Accuracy}
+Table~\ref{tab:acc} summarises the main result.
+
+\textbf{The 112 original datasets reproduce exactly.} Our mean accuracy is 0.8671, the same as the paper's to four decimal places. On 111 of the 112 datasets, our mean is within 0.01 of the paper's; the largest gap is 0.011 (PigCVP). For none of them is the gap larger than resampling noise (all Welch $p>0.1$). Our per-resample accuracies also track the paper's closely (median correlation 0.89 across the 30 resamples). This confirms that we used the same splits, and that the only remaining source of variation is the classifier's random seed.
+
+\textbf{On the 30 newer datasets, four results do not reproduce, and there is a clear reason.} Covid3Month, FloodModeling1, FloodModeling2 and FloodModeling3 were corrected by the archive maintainers after the QUANT preprint appeared~\cite{middlehurst2024bakeoff}. We could only download the corrected versions. On these four, our accuracy is much lower than the paper's (e.g.\ Covid3Month: 0.62 vs 0.81; the paper even reports 100\% on the original split). However, the bake-off authors' own QUANT run on the corrected data matches ours (Table~\ref{tab:acc}), so the gap comes from the data, not the method or our code. Without these four, all three runs agree: 0.8548 (ours), 0.8548 (bake-off) and 0.8546 (paper) over 138 datasets.
+
+\begin{table}[t]
+\caption{Mean accuracy of QUANT over 30 resamples}
+\label{tab:acc}
+\centering
+\begin{tabular}{@{}lrccc@{}}
+\toprule
+Datasets & $n$ & Paper & Bake-off & Ours \\
+\midrule
+Original UCR & 112 & 0.8671 & 0.8671 & 0.8671 \\
+New, unchanged & 26 & 0.8008 & 0.8019 & 0.8017 \\
+New, corrected later & 4 & 0.9306 & 0.8662 & 0.8673 \\
+\midrule
+All & 142 & 0.8568 & 0.8552 & 0.8551 \\
+All except corrected & 138 & 0.8546 & 0.8548 & 0.8548 \\
+\bottomrule
+\multicolumn{5}{@{}p{0.92\columnwidth}@{}}{\footnotesize Paper: published per-resample results. Bake-off: independent QUANT run by~\cite{middlehurst2024bakeoff} on the corrected data. Ours: this work.}
+\end{tabular}
+\end{table}
+
+\subsection{Comparison With Other Methods}
+We recreated the paper's comparison of QUANT with other methods (its Figs.~1 and~6), using the bake-off result files~\cite{middlehurst2024bakeoff} for the competitors. Table~\ref{tab:mcm} shows the result. Every conclusion of the paper still holds:
+\begin{itemize}
+\item QUANT is slightly more accurate than the best interval methods (rSTSF, DrCIF). The gain over rSTSF is statistically significant; the gain over DrCIF is not.
+\item QUANT is clearly less accurate than HC2 and MultiRocket+Hydra.
+\item QUANT is roughly level with RDST, WEASEL-D and InceptionTime.
+\item QUANT is clearly better than FreshPRINCE and Proximity Forest.
+\end{itemize}
+The only visible change is for InceptionTime. The paper shows QUANT as marginally ahead (+0.0001); with the corrected data it is marginally behind ($-0.0014$). Neither difference is significant. The competitors' numbers printed in the paper (e.g.\ HC2 0.8789) are also slightly higher than in the current bake-off files (0.8758), because those were updated for the same dataset corrections.
+
+\begin{table}[t]
+\caption{QUANT vs other methods: mean accuracy difference ($\Delta$, positive = QUANT better), wins/draws/losses and Wilcoxon $p$}
+\label{tab:mcm}
+\centering
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrrrcc@{}}
+\toprule
+Method & $n$ & $\Delta$ paper & $\Delta$ ours & W/D/L ours & $p$ ours \\
+\midrule
+HC2 & 142 & $-0.0222$ & $-0.0207$ & 42/7/93 & $<$0.001 \\
+MultiRocket+Hydra & 142 & $-0.0165$ & $-0.0163$ & 48/6/88 & $<$0.001 \\
+RDST & 142 & $-0.0083$ & $-0.0077$ & 62/4/76 & 0.133 \\
+WEASEL-D & 142 & $-0.0040$ & $-0.0022$ & 69/3/70 & 0.493 \\
+InceptionTime & 142 & $+0.0001$ & $-0.0014$ & 64/4/74 & 0.252 \\
+FreshPRINCE & 142 & $+0.0087$ & $+0.0087$ & 99/3/40 & $<$0.001 \\
+Proximity Forest & 142 & $+0.0267$ & $+0.0270$ & 97/6/39 & $<$0.001 \\
+\midrule
+rSTSF & 112 & $+0.0031$ & $+0.0031$ & 66/8/38 & 0.022 \\
+DrCIF & 112 & $+0.0035$ & $+0.0034$ & 60/8/44 & 0.157 \\
+\bottomrule
+\multicolumn{6}{@{}p{0.95\columnwidth}@{}}{\footnotesize $\Delta$ paper: as printed in~\cite{quant} (Figs.~1, 6). Ours: our QUANT results vs the current bake-off result files. Accuracies rounded to 4 decimals before counting W/D/L.}
+\end{tabular}
+\end{table}
+
+\subsection{Runtime}
+The paper reports under 15 minutes of single-core compute (training and testing) for all 142 datasets. We timed one full pass on one core and one thread (Table~\ref{tab:time}). On our laptop it takes 18.3 minutes. This is the same order of magnitude, but about 23\% slower in total. The typical dataset is actually slightly faster for us (median 2.0\,s vs 2.2\,s). The extra time comes almost entirely from six datasets with long series (e.g.\ KeplerLightCurves, HandOutlines, the Asphalt sets), which together add 2.5 of the extra 3.5 minutes. The likely cause is hardware: the paper used server CPUs, and large feature matrices are limited by memory speed. With all 12 threads the full benchmark takes 5.6 minutes per resample, close to the paper's 6 minutes on 8 cores. The paper's main point about cost is confirmed: about 78\% of the time is spent training the forest, and the quantile features themselves are cheap.
+
+\begin{table}[t]
+\caption{Total compute time over all 142 datasets (one resample)}
+\label{tab:time}
+\centering
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Run & Total & Transform & Classifier \\
+\midrule
+Paper, 1 core (Xeon cluster) & 14.9 min & 3.8 min & 11.0 min \\
+Ours, 1 core (Ryzen 5600H) & 18.3 min & 4.0 min & 14.3 min \\
+Ours, 12 threads (Ryzen 5600H) & 5.6 min & 2.4 min & 3.2 min \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Lessons Learned}
+\label{sec:lessons}
+\textbf{What works as published.} The accuracy claims hold. The code runs unchanged, and on unchanged data our numbers match the paper's. The paper's ranking against other methods is also unchanged. Reproducing the main result needs only a laptop CPU.
+
+\textbf{What is missing or has changed.} None of these issues breaks the method, but each one costs time or can quietly change the numbers:
+\begin{enumerate}
+\item \textbf{The resamples are not documented.} The docs point to the bake-off page, which offers two sets of split indices (Java and Python). Neither the paper nor the code says which was used. We ran QUANT on 9 small datasets with both sets and correlated the per-resample accuracies with the published ones. The Java set matches on the 112 original datasets (correlation 0.83--0.96, vs about 0 for the Python set). The Python set matches on the 30 new ones (e.g.\ Tools: 0.91 vs 0.06). This matches the bake-off's own protocol. \emph{Why it matters:} the mean accuracy barely changes, but per-resample and paired comparisons do.
+\item \textbf{The dataset names do not match the download.} \texttt{ucr142.txt} uses names such as \texttt{AconityMINIPrinterLargeEq}, while the released folders are called \texttt{AconityMINIPrinterLarge\_eq}. As a result, \texttt{run.py} fails on 24 of the 142 datasets without a renaming step, which we added.
+\item \textbf{The data changed after publication.} Four datasets were corrected later, which lowers QUANT's 142-dataset mean from 0.8568 to 0.8551. \emph{Lesson:} published benchmark numbers are tied to a specific data version, which should be recorded (e.g.\ with checksums).
+\item \textbf{Results are not exactly repeatable.} \texttt{run.py} does not seed the classifier, so per-resample numbers vary between runs. This is small on average, but individual datasets swing a lot between resamples (standard deviation up to 0.09 on Beef). Single-split comparisons on small datasets are therefore unreliable, which is why the 30 resamples matter. We fixed the seed in our runs; with a fixed seed the results are identical on 1 or 12 threads.
+\item \textbf{Win/draw/loss counts depend on rounding.} From the published files we recover the paper's mean differences exactly, but the W/D/L counts differ by 1--3 datasets depending on how ties are rounded. This is not stated in the paper. Since the paper itself notes that QUANT, rSTSF and DrCIF are very close, these counts should be read with care.
+\item \textbf{The sensitivity analysis cannot be repeated exactly.} The paper tunes its settings on ``a random sample of 50'' datasets with 5-fold cross-validation, but it lists neither the datasets nor the folds.
+\item \textbf{The timing setup is not part of the code.} \texttt{run.py} uses all CPU cores by default (\texttt{n\_jobs=-1}) and records no timings, so the single-core numbers cannot be produced with the released script. Absolute times also depend on hardware. The ``under 15 minutes'' claim is best read as ``about a quarter of an hour on one core'', not as a fixed number.
+\end{enumerate}
+
+\textbf{Takeaways for the improvement phase.} (i) Training the forest dominates the cost, so the biggest speed gains will come from fewer or better features, not from a faster transform. (ii) Long series are where QUANT is slowest. (iii) Accuracy gaps between strong methods are small and noisy, so any improvement must be tested over all resamples with paired statistical tests.
+
+% =====================================================================
+\section{Proposed Improvements}
+\label{sec:improve}
+% Grading criterion 4.
+
+\subsection{Motivation}
+
+\subsection{Method}
+
+\subsection{Experimental Setup}
+
+\subsection{Results}
+
+\subsection{Discussion}
+
+% =====================================================================
+\section{Conclusion}
+
+% =====================================================================
+\section*{Code Availability}
+All code, commands and result files are available at \url{https://github.com/SajbenDani/quant-reproduction} (private until submission). The repository README lists the environment setup, the data download, and the command that produces each number in this report.
+
+% =====================================================================
+\clearpage
+\section*{Work Plan and Contributions}
+
+\subsection*{Work Plan}
+
+\subsection*{Work Division}
+
+\subsection*{Individual Contributions}
+
+% =====================================================================
+\clearpage
+\begin{thebibliography}{00}
+\bibitem{quant} A. Dempster, D. F. Schmidt, and G. I. Webb, ``QUANT: A minimalist interval method for time series classification,'' \textit{Data Mining and Knowledge Discovery}, vol. 38, pp. 2377--2402, 2024.
+\bibitem{quantcode} A. Dempster, ``QUANT source code,'' \url{https://github.com/angus924/quant}, 2024.
+\bibitem{middlehurst2024bakeoff} M. Middlehurst, P. Sch\"afer, and A. Bagnall, ``Bake off redux: A review and experimental evaluation of recent time series classification algorithms,'' \textit{Data Mining and Knowledge Discovery}, vol. 38, pp. 1958--2031, 2024.
+\bibitem{ucr} H. A. Dau, A. Bagnall, K. Kamgar, C.-C. M. Yeh, Y. Zhu, S. Gharghabi, C. A. Ratanamahatana, and E. Keogh, ``The UCR time series archive,'' \textit{IEEE/CAA Journal of Automatica Sinica}, vol. 6, no. 6, pp. 1293--1305, 2019.
+\bibitem{extratrees} P. Geurts, D. Ernst, and L. Wehenkel, ``Extremely randomized trees,'' \textit{Machine Learning}, vol. 63, no. 1, pp. 3--42, 2006.
+\bibitem{hc2} M. Middlehurst, J. Large, M. Flynn, J. Lines, A. Bostrom, and A. Bagnall, ``HIVE-COTE 2.0: A new meta ensemble for time series classification,'' \textit{Machine Learning}, vol. 110, pp. 3211--3243, 2021.
+\bibitem{rstsf} N. Cabello, E. Naghizade, J. Qi, and L. Kulik, ``Fast, accurate and explainable time series classification through randomization,'' \textit{Data Mining and Knowledge Discovery}, vol. 38, pp. 748--811, 2024.
+\bibitem{mcm} A. Ismail-Fawaz, A. Dempster, C. W. Tan, M. Herrmann, L. Miller, D. F. Schmidt, S. Berretti, J. Weber, M. Devanne, G. Forestier, and G. I. Webb, ``An approach to multiple comparison benchmark evaluations that is stable under manipulation of the comparate set,'' arXiv:2305.11921, 2023.
+\bibitem{sklearn} F. Pedregosa \textit{et al.}, ``Scikit-learn: Machine learning in Python,'' \textit{Journal of Machine Learning Research}, vol. 12, pp. 2825--2830, 2011.
+\end{thebibliography}
+
+\end{document}

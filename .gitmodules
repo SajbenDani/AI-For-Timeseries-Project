@@ -1,0 +1,4 @@
+[submodule "codebase/quant"]
+	path = codebase/quant
+	url = https://github.com/angus924/quant.git
+	ignore = untracked

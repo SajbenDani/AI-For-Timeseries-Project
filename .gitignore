@@ -1,0 +1,13 @@
+.venv/
+data/
+logs/
+__pycache__/
+*.pyc
+# course material / third-party PDFs are not redistributed
+Papers/*.pdf
+# LaTeX build files
+*.aux
+*.log
+*.out
+*.synctex.gz
+results/checks/remaining.txt

@@ -1,0 +1,4 @@
+run,n,total_min,transform_min,classifier_min,median_per_dataset_s,slowest_dataset,slowest_s
+"paper, 1 core (mean of 30 resamples)",142,14.86,3.82,11.04,2.15,KeplerLightCurves,74.09
+"ours, 1 core (original split)",142,18.33,4.0,14.33,1.99,KeplerLightCurves,117.35
+"ours, 12 threads (mean of 30 resamples)",142,5.6,2.4,3.2,1.05,KeplerLightCurves,28.48

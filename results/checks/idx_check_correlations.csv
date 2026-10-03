@@ -1,0 +1,10 @@
+dataset,corr_java,corr_python
+Beef,0.92,-0.0
+ACSF1,0.96,-0.23
+Adiac,0.83,-0.17
+Car,0.85,0.08
+OliveOil,0.93,-0.16
+Colposcopy,0.07,0.56
+Covid3MonthDiscrete,-0.32,0.08
+Tools,0.06,0.91
+SharePriceIncrease,0.35,0.26
