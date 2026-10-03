@@ -5,7 +5,7 @@ This repository reproduces **QUANT** (Dempster, Schmidt & Webb, *Data Mining and
 **Setup** (Python 3.11):
 
 ```bash
-git clone --recursive <this repo> && cd <repo>
+git clone --recursive https://github.com/SajbenDani/AI-For-Timeseries-Project.git && cd AI-For-Timeseries-Project
 python -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
