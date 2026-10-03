@@ -26,7 +26,7 @@ Student ID: 26100566}
 \maketitle
 
 \begin{abstract}
-QUANT is a time series classifier that describes each series by the quantiles of a fixed set of windows and feeds them to an off-the-shelf tree ensemble. Its authors report state-of-the-art accuracy for interval methods on 142 UCR datasets in under 15 minutes of single-core compute. We re-ran the published code on the published data and resamples. On the 112 original datasets, our mean accuracy matches the paper to four decimal places, and no dataset differs by more than resampling noise. On the 30 newer datasets, the only clear gaps come from four datasets that the archive maintainers corrected after the paper was published. We also found that the train/test resamples used are not documented and had to be inferred.
+QUANT is a time series classifier that describes each series by the quantiles of a fixed set of windows and feeds them to an off-the-shelf tree ensemble. Its authors report state-of-the-art accuracy for interval methods on 142 UCR datasets in under 15 minutes of single-core compute. We re-ran the published code on the published data and resamples. On the 112 original datasets, our mean accuracy matches the paper to four decimal places, and no dataset differs by more than resampling noise. On the 30 newer datasets, the only clear gaps come from four datasets that the archive maintainers corrected after the paper was published. We also found that the train/test resamples used are not documented and had to be inferred. Controlled tests then show where QUANT is weak. Its fixed windows make it sensitive to patterns that occur at different times: under random offsets it loses twice as much accuracy as a convolution-based method. It also falls behind on datasets with many classes and very few examples per class. Finally, 25 benchmark datasets contain exact train/test copies.
 % TODO: one or two sentences on the improvements once they are done.
 \end{abstract}
 
@@ -182,7 +182,67 @@ Ours, 12 threads (Ryzen 5600H) & 5.6 min & 2.4 min & 3.2 min \\
 \item \textbf{The timing setup is not part of the code.} \texttt{run.py} uses all CPU cores by default (\texttt{n\_jobs=-1}) and records no timings, so the single-core numbers cannot be produced with the released script. Absolute times also depend on hardware. The ``under 15 minutes'' claim is best read as ``about a quarter of an hour on one core'', not as a fixed number.
 \end{enumerate}
 
-\textbf{Takeaways for the improvement phase.} (i) Training the forest dominates the cost, so the biggest speed gains will come from fewer or better features, not from a faster transform. (ii) Long series are where QUANT is slowest. (iii) Accuracy gaps between strong methods are small and noisy, so any improvement must be tested over all resamples with paired statistical tests.
+\textbf{Takeaway.} The published results hold. However, gaps between strong methods are small and noisy, so any improvement must be tested over all resamples with paired tests. The next section uses this protocol to find where QUANT is weak.
+
+% =====================================================================
+\section{Where QUANT Is Weak}
+\label{sec:weak}
+
+To decide what to improve, we measured where QUANT loses accuracy. Each test changes one thing at a time. As a reference we use Hydra~\cite{hydra}, a fast convolution-based method by the same authors. Hydra counts which short patterns occur \emph{anywhere} in a series, so, unlike QUANT, it does not depend on where a pattern happens. All tests reuse our resamples and seeds; on unchanged data, QUANT's results are identical to Section~\ref{sec:results}. Table~\ref{tab:weak} summarises the findings and proposes a solution for each.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/weaknesses.pdf}
+\caption{Where QUANT is weak, with Hydra as a reference. (a) Every series is placed at a random position inside a longer window (30 datasets, 10 resamples). (b) Training sets cut to a few examples per class (25 datasets, 10 resamples); ``QUANT features + ridge'' replaces the forest by a linear classifier. (c) The 11 padded variable-length datasets: accuracy on the less and the more padded half of each dataset's test series (30 resamples).}
+\label{fig:weak}
+\end{figure*}
+
+\begin{table*}[t]
+\caption{QUANT's weaknesses and proposed solutions}
+\label{tab:weak}
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}p{0.16\textwidth}p{0.33\textwidth}p{0.45\textwidth}@{}}
+\toprule
+Weakness & Evidence & Proposed solutions \\
+\midrule
+Fixed positions (main weakness) & Under random offsets QUANT loses 5.6 points, Hydra 2.4; 5.1 points behind MultiRocket+Hydra on gesture data & Position-free features: quantiles of sliding windows, pooled over all positions; random-shift augmentation of the training series; aligning series before windowing; ensembling with a convolution method \\
+Many classes, few examples & 5.6 points behind Hydra on 18 such datasets, up to 27 on Pig data; a linear classifier is worse & The position-free features above (with 2 examples per class the forest cannot learn all positions); a classifier built for small data, e.g.\ TabPFN~\cite{tabpfn}, which matched HC2 on ROCKET features~\cite{rocketpfn}; probability averaging with Hydra \\
+Padding (shared with Hydra) & Both lose about 8 points on more heavily padded series & Variable-length QUANT: windows as fractions of each series' own length, plus the length as a feature \\
+Train/test copies & 25 datasets; up to 5.7 points of inflated accuracy & Remove duplicates before resampling, and report results with and without copies \\
+Level offsets (minor) & Normalising costs 3.1 points on average but gains 2--6 on gesture data & Give the forest both raw and per-series normalised quantiles and let it choose \\
+Class imbalance & 0.9 points extra loss in balanced accuracy when imbalance $>3$ & Class-weighted or balanced-bootstrap trees; adjusted decision thresholds \\
+Long series & 9 features per time point; 10 longest datasets take 37\% of the time & Cap the number of quantiles per window; prune unimportant features~\cite{detachrocket}; train each tree on a subsample~\cite{dempster2024scalable} \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{Patterns at Different Positions}
+\textbf{Test.} We took 30 randomly chosen original UCR datasets and placed every series (train and test) at a random position inside a window 10\%, 25\% or 50\% longer. The gap is filled with the series' first or last value plus a little noise, so the patterns stay the same and only their position changes.
+
+\textbf{Result.} QUANT is much more sensitive than Hydra (Fig.~\ref{fig:weak}a). With 50\% extra length, QUANT loses 5.6 points of accuracy and Hydra only 2.4. Hydra's lead grows from 1.1 points (not significant) to 4.4 points (21 wins of 30, $p<0.001$). The worst cases are shape and motion data, e.g.\ FaceFour ($-22$ points), WordSynonyms ($-20$) and FiftyWords ($-19$). This matches what Zhang et al.~\cite{zhang2025revisit} found for an older interval method.
+
+\textbf{Why.} QUANT's windows are fixed. A feature means, for example, ``the 90th percentile between 25\% and 50\% of the series''. When a pattern moves, it falls into a different window and produces different features. Real data show the same effect. In the 10 gesture datasets, people start moving at different times, and there QUANT trails MultiRocket+Hydra by 5.1 points, against 1.7 points on the original datasets.
+
+\textbf{Padding is not the cause.} The gesture datasets, and the appliance dataset PLAID, were originally of different lengths and were padded to equal length. We therefore also checked, on these 11 datasets, whether padding itself hurts QUANT. Within each dataset, the more heavily padded test series are harder for \emph{both} methods: accuracy falls by about 8 points. QUANT's gap to Hydra, however, hardly changes (1.1 vs 2.0 points, $p=0.83$; Fig.~\ref{fig:weak}c). The deficit therefore comes from patterns at different positions, not from the padding.
+
+\subsection{Many Classes and Few Examples}
+Across the 142 datasets, QUANT's gap to MultiRocket+Hydra grows with the number of classes (Spearman $\rho=-0.32$, $p<0.001$). It is largest with at most 5 training examples per class: 9.7 points on average over 8 datasets.
+
+\textbf{Few examples alone is a mild weakness.} We cut 25 datasets (each with at least 20 examples per class) down to 2, 5, 10 or 20 training examples per class (Fig.~\ref{fig:weak}b). QUANT's gap to Hydra grows only from 0.2 to 1.1 points.
+
+\textbf{Many classes with few examples is a severe one.} On the 18 datasets with at least 25 classes or at most 5 examples per class, QUANT trails Hydra by 5.6 points (Hydra wins 15 of 18, $p=0.002$). On the three Pig datasets (52 classes, 2 examples each) the gap is 8--27 points.
+
+\textbf{Why.} The classifier is not the problem: a linear classifier on the same features is 3--5 points worse in the few-example test and 11.7 points worse here. The likely cause is again position. In the Pig recordings the heartbeats fall at arbitrary positions, and in the word and shape datasets the outlines start at different points. With only two examples per class, the forest cannot learn every position at which a pattern may appear. Hydra's position-free pattern counts do not need to.
+
+\subsection{Other Findings}
+\begin{itemize}
+\item \textbf{Train/test copies (an evaluation issue).} 25 of the 142 datasets contain test series that are exact copies of training series. QUANT, like a 1-nearest-neighbour classifier, gets these right whenever the labels agree. Removing them lowers accuracy by 5.7 points on Worms, 4.3 on Crop and 3.9 on WormsTwoClass, but moves the 142-dataset mean only from 0.8551 to 0.8542. In PhoneHeartbeatSound and ElectricDevices, some copies carry \emph{different} labels, which caps the reachable accuracy.
+\item \textbf{Class imbalance.} When the largest class is over 3 times the smallest, QUANT's gap to MultiRocket+Hydra is 0.9 points larger in balanced accuracy than in plain accuracy, against under 0.1 points on balanced datasets ($\rho=-0.18$, $p=0.03$). The forest slightly neglects small classes.
+\item \textbf{Not normalising is mostly a strength.} 51 datasets (including all 30 new ones) are not z-normalised, and QUANT never normalises its input. Normalising each series first lowers accuracy by 3.1 points on average (worse on 41 of 51 datasets, $p<0.001$). The reason is that the absolute level often carries the class: the Pig and FloodModeling datasets lose 16--21 points. Normalising helps only where the level is noise, such as the gesture datasets (+2 to +6 points).
+\item \textbf{Cost on long series.} QUANT creates about 9 features per time point, and training time follows training size $\times$ number of features ($\rho=0.97$). The 10 datasets with the longest series take 37\% of the single-core time.
+\end{itemize}
 
 % =====================================================================
 \section{Proposed Improvements}
@@ -190,6 +250,7 @@ Ours, 12 threads (Ryzen 5600H) & 5.6 min & 2.4 min & 3.2 min \\
 % Grading criterion 4.
 
 \subsection{Motivation}
+Section~\ref{sec:weak} shows that QUANT's main weakness is its dependence on \emph{where} patterns occur, and that this also explains most of its losses on data with many classes and few examples. The solutions in Table~\ref{tab:weak} are our candidate improvements. They are ordered by the size of the problem each one targets.
 
 \subsection{Method}
 
@@ -228,6 +289,12 @@ All code, commands and result files are available at \url{https://github.com/Saj
 \bibitem{rstsf} N. Cabello, E. Naghizade, J. Qi, and L. Kulik, ``Fast, accurate and explainable time series classification through randomization,'' \textit{Data Mining and Knowledge Discovery}, vol. 38, pp. 748--811, 2024.
 \bibitem{mcm} A. Ismail-Fawaz, A. Dempster, C. W. Tan, M. Herrmann, L. Miller, D. F. Schmidt, S. Berretti, J. Weber, M. Devanne, G. Forestier, and G. I. Webb, ``An approach to multiple comparison benchmark evaluations that is stable under manipulation of the comparate set,'' arXiv:2305.11921, 2023.
 \bibitem{sklearn} F. Pedregosa \textit{et al.}, ``Scikit-learn: Machine learning in Python,'' \textit{Journal of Machine Learning Research}, vol. 12, pp. 2825--2830, 2011.
+\bibitem{hydra} A. Dempster, D. F. Schmidt, and G. I. Webb, ``Hydra: Competing convolutional kernels for fast and accurate time series classification,'' \textit{Data Mining and Knowledge Discovery}, vol. 37, pp. 1779--1805, 2023.
+\bibitem{zhang2025revisit} Y. Zhang, G. Batista, and S. S. Kanhere, ``Revisit time series classification benchmark: The impact of temporal information for classification,'' arXiv:2503.20264, 2025.
+\bibitem{tabpfn} N. Hollmann, S. M\"uller, L. Purucker, A. Krishnakumar, M. K\"orfer, S. B. Hoo, R. T. Schirrmeister, and F. Hutter, ``Accurate predictions on small data with a tabular foundation model,'' \textit{Nature}, vol. 637, pp. 319--326, 2025.
+\bibitem{rocketpfn} F. M. O'Rourke, A. Trisovic, and D. Bertsimas, ``RocketPFN: Accurate time series classification via in-context learning,'' arXiv:2606.21786, 2026.
+\bibitem{detachrocket} G. Uribarri, F. Barone, A. Ansuini, and E. Frans\'en, ``Detach-ROCKET: Sequential feature selection for time series classification with random convolutional kernels,'' \textit{Data Mining and Knowledge Discovery}, vol. 38, 2024.
+\bibitem{dempster2024scalable} A. Dempster, C. W. Tan, L. Miller, N. M. Foumani, D. F. Schmidt, and G. I. Webb, ``Highly scalable time series classification for very large datasets,'' in \textit{Advanced Analytics and Learning on Temporal Data (AALTD)}, Springer, 2024.
 \end{thebibliography}
 
 \end{document}

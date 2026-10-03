@@ -35,3 +35,23 @@ python scripts/compare_timing.py       # compute time vs paper -> results/repro/
 | Compute time, 1 core (all 142) | | 14.9 min | | **18.3 min** |
 
 \*Covid3Month and FloodModeling1-3 were fixed by the archive maintainers after the paper. The paper's numbers use the old versions. On the 138 other datasets, ours and the paper's agree (0.8548 vs 0.8546). Per-dataset results are in `results/repro/comparison_per_dataset.csv`.
+
+## Where QUANT is weak
+
+Controlled tests that change one thing at a time and compare QUANT with [Hydra](https://github.com/angus924/hydra), a convolution method that does not care *where* a pattern occurs. Hydra's original code is in `codebase/hydra`. The tests reuse the resamples and seeds above, so on unchanged data QUANT's numbers are identical to the reproduction. They take about 4 h in total and can be resumed.
+
+```bash
+python scripts/weakness_tests.py padding duplicates fewshot manyclass shift normalise   # -> results/weaknesses/
+python scripts/weakness_analysis.py    # numbers quoted in the report -> results/weaknesses/summary.txt
+                                       # figure -> Papers/figures/weaknesses.pdf
+```
+
+| Test | Finding |
+|---|---|
+| Patterns at random positions (30 datasets) | QUANT loses 5.6 points, Hydra 2.4; Hydra's lead grows from 1.1 to 4.4 points. **Main weakness.** |
+| Many classes / ≤5 examples per class (18 datasets) | QUANT 5.6 points behind Hydra (up to 27 on Pig data); a linear classifier on QUANT's features is worse still |
+| Fewer training examples (25 datasets, 2-20 per class) | Gap to Hydra grows only from 0.2 to 1.1 points |
+| Padded variable-length data (11 datasets) | Padding hurts QUANT and Hydra equally (about 8 points); not QUANT-specific |
+| Exact train/test copies (25 datasets) | Inflate accuracy by up to 5.7 points (Worms); 142-dataset mean 0.8551 → 0.8542 without them |
+| Class imbalance (bake-off results) | 0.9 points extra loss in balanced accuracy when the largest class is >3x the smallest |
+| z-normalising the input (51 datasets) | Costs 3.1 points on average (the level often carries the class); helps only on gesture data (+2-6) |

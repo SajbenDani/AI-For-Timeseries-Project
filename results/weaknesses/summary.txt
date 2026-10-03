@@ -1,0 +1,145 @@
+== 1. Padded variable-length datasets (11 datasets, 30 resamples) ==
+sanity check, max |QUANT here - reproduction|: 1.1e-07
+                         quant  hydra  padded  mr_hydra
+dataset                                                
+GesturePebbleZ2Eq        0.949  0.960   0.519     0.968
+GesturePebbleZ1Eq        0.945  0.953   0.522     0.957
+GestureMidAirD1Eq        0.709  0.761   0.534     0.774
+GestureMidAirD2Eq        0.601  0.635   0.534     0.637
+GestureMidAirD3Eq        0.479  0.492   0.535     0.485
+ShakeGestureWiimoteZEq   0.849  0.921   0.564     0.929
+PickupGestureWiimoteZEq  0.807  0.800   0.596     0.847
+AllGestureWiimoteZEq     0.667  0.665   0.750     0.731
+AllGestureWiimoteYEq     0.700  0.750   0.751     0.806
+AllGestureWiimoteXEq     0.682  0.693   0.751     0.765
+PLAIDEq                  0.921  0.851   0.757     0.939
+mean: QUANT 0.7555  Hydra 0.7710  MR-Hydra (bake-off) 0.8033
+QUANT - MR-Hydra: 10 gesture datasets -0.0508, original 112 datasets -0.0169
+QUANT vs Hydra: diff -0.0155  W/D/L 3/0/8  Wilcoxon p=0.083
+Spearman(mean padded fraction, QUANT - Hydra) over datasets: rho=+0.30 p=0.37
+accuracy on the less vs more padded half of each dataset's test series (mean over datasets):
+                   Hydra   QUANT
+less padded half  0.8090  0.7981
+more padded half  0.7324  0.7124
+QUANT - Hydra: less padded -0.0109, more padded -0.0200; difference Wilcoxon p=0.83
+
+== 2. Exact train/test copies (datasets with any duplicate series, 30 resamples) ==
+sanity check, max |QUANT here - reproduction|: 2.5e-07
+                         copy_share  conflicts  quant  quant_no_copies  quant_on_copies  quant_drop     nn  nn_no_copies  nn_on_copies
+dataset                                                                                                                               
+PowerCons                     0.377          0  0.991            0.986            1.000       0.005  0.970         0.952         1.000
+Worms                         0.184          0  0.745            0.689            1.000       0.057  0.500         0.388         1.000
+WormsTwoClass                 0.173          0  0.810            0.771            1.000       0.039  0.626         0.549         1.000
+Crop                          0.162          0  0.776            0.733            1.000       0.043  0.726         0.674         1.000
+PhoneHeartbeatSound           0.049        265  0.664            0.698            0.000      -0.034  0.350         0.368         0.000
+ElectricDevices               0.032       1422  0.877            0.884            0.659      -0.007  0.691         0.692         0.657
+Tools                         0.031          0  0.809            0.803            1.000       0.006  0.312         0.290         1.000
+Covid3MonthDiscrete           0.020          0  0.622            0.615            1.000       0.008  0.558         0.549         1.000
+ToeSegmentation1              0.019          0  0.856            0.854            1.000       0.003  0.616         0.609         1.000
+InlineSkate                   0.016          0  0.581            0.574            1.000       0.007  0.328         0.317         1.000
+InsectEPGSmallTrain           0.010          0  1.000            1.000            1.000       0.000  1.000         1.000         1.000
+Rock                          0.008          0  0.797            0.795            1.000       0.001  0.701         0.699         1.000
+SwedishLeaf                   0.003          0  0.957            0.957            1.000       0.000  0.774         0.773         1.000
+UMD                           0.002          0  0.971            0.971            1.000       0.000  0.762         0.761         1.000
+Strawberry                    0.001         15  0.976            0.977            0.000      -0.001  0.955         0.956         0.000
+Symbols                       0.001          0  0.949            0.949            1.000       0.000  0.884         0.884         1.000
+ShapesAll                     0.001          0  0.887            0.887            1.000       0.000  0.755         0.754         1.000
+ArrowHead                     0.001          0  0.831            0.831            1.000       0.000  0.839         0.839         1.000
+MixedShapesRegularTrain       0.001          0  0.965            0.965            1.000       0.000  0.898         0.898         1.000
+FaceAll                       0.001          0  0.953            0.953            1.000       0.000  0.875         0.875         1.000
+MedicalImages                 0.001          0  0.811            0.811            1.000       0.000  0.700         0.700         1.000
+FreezerSmallTrain             0.000          0  0.999            0.999            1.000       0.000  0.732         0.732         1.000
+FacesUCR                      0.000          0  0.901            0.901            1.000       0.000  0.764         0.764         1.000
+MixedShapesSmallTrain         0.000          0  0.928            0.928            1.000       0.000  0.828         0.828         1.000
+FreezerRegularTrain           0.000          0  0.999            0.999            1.000       0.000  0.790         0.789         1.000
+datasets: 25;  QUANT accuracy on copied series: 0.906
+142-dataset mean: 0.8551 -> 0.8542 without copied test series
+datasets whose accuracy drops by >0.01 without copies: 3
+
+== 3. Few training examples per class (learning curves, 10 resamples) ==
+datasets: 25
+method      Hydra   QUANT  QUANT features + ridge
+per_class                                        
+2          0.6475  0.6369                  0.5942
+5          0.7369  0.7293                  0.6759
+10         0.7897  0.7821                  0.7427
+20         0.8242  0.8202                  0.7774
+all        0.8803  0.8785                  0.8448
+k=  2: QUANT vs Hydra: diff -0.0105  W/D/L 8/0/17  Wilcoxon p=0.11
+       QUANT vs same features + ridge: diff +0.0427  W/D/L 19/0/6  Wilcoxon p=0.0013
+k=  5: QUANT vs Hydra: diff -0.0076  W/D/L 8/0/17  Wilcoxon p=0.16
+       QUANT vs same features + ridge: diff +0.0534  W/D/L 23/1/1  Wilcoxon p=6.8e-05
+k= 10: QUANT vs Hydra: diff -0.0076  W/D/L 10/1/14  Wilcoxon p=0.32
+       QUANT vs same features + ridge: diff +0.0394  W/D/L 18/0/7  Wilcoxon p=0.0016
+k= 20: QUANT vs Hydra: diff -0.0040  W/D/L 11/2/12  Wilcoxon p=0.61
+       QUANT vs same features + ridge: diff +0.0428  W/D/L 20/0/5  Wilcoxon p=0.00022
+k=all: QUANT vs Hydra: diff -0.0018  W/D/L 12/2/11  Wilcoxon p=0.89
+       QUANT vs same features + ridge: diff +0.0337  W/D/L 20/1/4  Wilcoxon p=0.00063
+
+== 3c. Many classes or <=5 examples per class (full training sets, 10 resamples) ==
+method                      Hydra  QUANT  QUANT features + ridge  classes  train_per_class
+dataset                                                                                   
+PigAirwayPressure           0.729  0.466                   0.147       52            2.000
+PigCVP                      0.923  0.650                   0.230       52            2.000
+PigArtPressure              0.954  0.873                   0.433       52            2.000
+DiatomSizeReduction         0.948  0.923                   0.947        4            4.000
+Symbols                     0.971  0.956                   0.722        6            4.167
+PickupGestureWiimoteZEq     0.796  0.810                   0.774       10            5.000
+Rock                        0.884  0.802                   0.868        4            5.000
+ShakeGestureWiimoteZEq      0.920  0.856                   0.858       10            5.000
+Phoneme                     0.321  0.372                   0.267       39            5.487
+GestureMidAirD2Eq           0.632  0.594                   0.576       26            8.000
+GestureMidAirD1Eq           0.773  0.705                   0.646       26            8.000
+GestureMidAirD3Eq           0.498  0.497                   0.443       26            8.000
+FiftyWords                  0.828  0.772                   0.635       50            9.000
+ShapesAll                   0.935  0.885                   0.842       60           10.000
+Adiac                       0.809  0.811                   0.665       37           10.541
+WordSynonyms                0.746  0.702                   0.583       25           10.680
+NonInvasiveFetalECGThorax1  0.945  0.935                   0.910       42           42.857
+NonInvasiveFetalECGThorax2  0.957  0.953                   0.913       42           42.857
+means: {'QUANT': 0.7534, 'QUANT features + ridge': 0.6366, 'Hydra': 0.8094}
+QUANT vs Hydra: diff -0.0560  W/D/L 3/0/15  Wilcoxon p=0.0019
+QUANT vs same features + ridge: diff +0.1168  W/D/L 15/0/3  Wilcoxon p=0.00084
+<=5 examples per class (8 datasets) means: {'QUANT': 0.7919, 'QUANT features + ridge': 0.6224, 'Hydra': 0.8907}
+
+== 3b. Across the 142 datasets: gap to MultiRocket+Hydra vs training examples per class ==
+Spearman(classes, QUANT - MR-Hydra): rho=-0.32 p=0.00011
+Spearman(train per class, QUANT - MR-Hydra): rho=+0.24 p=0.0044
+                   mean  count
+train_per_class               
+<=5             -0.0968      8
+5-20            -0.0136     45
+20-100          -0.0167     48
+>100            -0.0030     41
+
+== 4. Misalignment stress test (random offsets, 10 resamples) ==
+datasets: 30
+method   Hydra   QUANT  Hydra drop  QUANT drop
+level                                         
+0.00    0.8742  0.8628      0.0000      0.0000
+0.10    0.8656  0.8442     -0.0086     -0.0186
+0.25    0.8523  0.8191     -0.0219     -0.0437
+0.50    0.8503  0.8065     -0.0238     -0.0563
+level 0.00: QUANT vs Hydra: diff -0.0113  W/D/L 11/3/16  Wilcoxon p=0.15
+level 0.10: QUANT vs Hydra: diff -0.0214  W/D/L 8/2/20  Wilcoxon p=0.0062
+level 0.25: QUANT vs Hydra: diff -0.0332  W/D/L 9/1/20  Wilcoxon p=0.008
+level 0.50: QUANT vs Hydra: diff -0.0438  W/D/L 9/0/21  Wilcoxon p=0.00067
+datasets losing >5 points at level 0.5: QUANT 11, Hydra 5
+largest QUANT drops: {'FaceFour': 0.22, 'WordSynonyms': 0.205, 'FiftyWords': 0.187, 'UMD': 0.15, 'CricketY': 0.141}
+
+== 5. z-normalised vs raw input (datasets not already z-normalised, 30 resamples) ==
+datasets: 51;  z-normalised vs raw: diff -0.0314  W/D/L 9/1/41  Wilcoxon p=4.6e-05
+largest losses from normalising: {'PigAirwayPressure': -0.213, 'PigCVP': -0.208, 'FloodModeling3Discrete': -0.204, 'FloodModeling1Discrete': -0.155, 'InsectEPGSmallTrain': -0.148}
+largest gains from normalising: {'Tools': 0.024, 'AllGestureWiimoteYEq': 0.027, 'GestureMidAirD1Eq': 0.028, 'GestureMidAirD2Eq': 0.05, 'GestureMidAirD3Eq': 0.063}
+
+== 6. Class imbalance: balanced accuracy vs accuracy gap to MultiRocket+Hydra (bake-off runs) ==
+Spearman(imbalance ratio, extra balanced-accuracy gap): rho=-0.18 p=0.031
+                    mean  count
+balanced (<=1.5) -0.0008     79
+1.5-3            -0.0040     33
+>3               -0.0089     30
+
+== 7. Compute cost (single-core run of the original split) ==
+features per time point (median): 9.22
+Spearman(train size x features, classifier time): rho=+0.97
+10 longest-series datasets: 37% of total time (6.7 of 18.3 min)

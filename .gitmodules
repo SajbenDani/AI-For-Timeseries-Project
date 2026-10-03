@@ -2,3 +2,7 @@
 	path = codebase/quant
 	url = https://github.com/angus924/quant.git
 	ignore = untracked
+[submodule "codebase/hydra"]
+	path = codebase/hydra
+	url = https://github.com/angus924/hydra.git
+	ignore = untracked
