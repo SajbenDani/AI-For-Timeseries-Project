@@ -7,6 +7,7 @@
 \usepackage{xcolor}
 \usepackage{booktabs}
 \usepackage{url}
+\usepackage[breakable]{tcolorbox}
 \begin{document}
 
 \title{Reproducing and Improving QUANT:\\ A Minimalist Interval Method for Time Series Classification}
@@ -40,14 +41,19 @@ time series classification, interval methods, quantiles, reproducibility, UCR ar
 
 \textbf{The problem.} In time series classification (TSC), each example is a sequence of measurements over time, such as an ECG trace or an accelerometer recording, and the goal is to predict its label. The most accurate TSC methods, such as HIVE-COTE~2 (HC2)~\cite{hc2}, take days or weeks of compute on the standard UCR benchmark~\cite{middlehurst2024bakeoff}. This makes them hard to use in practice.
 
-\textbf{Why QUANT.} QUANT~\cite{quant} goes the other way: it is very simple and very fast. It uses one type of feature (quantiles), fixed windows, and a standard classifier, yet it reports accuracy on par with the best interval methods such as rSTSF~\cite{rstsf}. It is also one of the fastest methods on the 142-dataset UCR archive (under 15 minutes in total on one CPU core). We picked it for three reasons:
-\begin{itemize}
-\item \textbf{Impact.} It was published in a top data mining journal (DAMI 2024) and is now part of the \texttt{aeon} toolkit and later benchmarks, so its claims matter to the community.
-\item \textbf{Testability.} The code, data, resamples and per-resample results are all public, so a precise, dataset-by-dataset check is possible.
-\item \textbf{Room to improve.} The authors list open problems themselves: variable-length and multivariate series, and making the classifier cheaper. Its simplicity also makes it easy to change one part at a time.
-\end{itemize}
+\subsection{Motivation}
+\begin{tcolorbox}[breakable, colback=green!15, colframe=green!15, boxrule=0pt, arc=0pt, left=2pt, right=2pt, top=2pt, bottom=2pt, before upper={\setlength{\parindent}{1em}}]
+In a world where the trend is to build bigger and bigger data centres to gain one or two percentage points on a benchmark, QUANT~\cite{quant}, an efficiency focused method, really stood out to us. We see the same habit in how people use language models. Many pick the largest model available (for example Claude Fable over Opus or Sonnet) even for simple tasks, because it is supposed to be the best and they trust it most. The strain on the environment and the size of the bill rarely come up, at least as long as someone else is paying. We think efficiency is key for the future, and we expect the field to keep moving in that direction. Methods that use only the compute a task actually needs, from mixture-of-experts models to small, specialised methods like QUANT, are a good step that way.
 
-\textbf{Contributions.} (1) An independent, fully scripted reproduction of the main UCR-142 result on a laptop CPU. (2) A list of the details that are missing from the paper or that changed after publication. (3) Proposed improvements (Section~\ref{sec:improve}).
+Unsurprisingly, QUANT's main strength is efficiency. Instead of adding more parts, the authors stepped back and asked what an interval method actually needs. Their answer was very little: one type of feature (quantiles), a fixed set of windows and an off-the-shelf classifier. What sold the paper to us was the runtime comparison. QUANT needs under 15 minutes on a single CPU core for all 142 datasets. HC2~\cite{hc2}, the most accurate method in the comparison, needs several weeks and scores only about 2 percentage points higher (0.879 vs 0.857). That is exactly the trade-off we see with large language models. We wanted to find out whether we could shrink this gap further, or make QUANT even cheaper without losing accuracy.
+
+The paper also compares QUANT with several other methods, such as MultiRocket+Hydra, rSTSF~\cite{rstsf}, RDST and HC2. All of them are slower, from about an hour for MultiRocket+Hydra and rSTSF to several weeks for HC2, and the most accurate ones beat QUANT by up to about 2 points. We thought we could take ideas from these methods and build them into QUANT, raising its accuracy while keeping it fast. We also liked that every method is tested on exactly the same 142 datasets and 30 resamples. The comparisons felt transparent, so we believed we had a real chance to improve QUANT in a statistically significant way. That could even help the time series community, which mattered more to us than tweaking random seeds for an extra 0.01\% just to finish an assignment.
+
+In short, this is why we chose this paper. We hope you are as curious about our results as we were when we wrote this section, before we started the research.
+\end{tcolorbox}
+
+\subsection{Contributions}
+(1) An independent, fully scripted reproduction of the main UCR-142 result on a laptop CPU. (2) A list of the details that are missing from the paper or that changed after publication. (3) Proposed improvements (Section~\ref{sec:improve}).
 
 % =====================================================================
 \section{The QUANT Method}
