@@ -1,6 +1,6 @@
 # Ideas for improving QUANT
 
-The 10 most promising ways to improve QUANT, ranked by expected impact. Each idea is backed by (a) something we **measured** in our weakness tests (report Section V, `results/weaknesses/summary.txt`) and (b) **published work** it builds on. Nothing here is implemented yet.
+The most promising ways to improve QUANT. Ideas 1–10 are ranked by expected impact. Ideas 11–13 came from the team's suggestions, and the verdict on every suggestion is at the end. Each idea is backed by (a) something we **measured** in our weakness tests (report Section V, `results/weaknesses/summary.txt`) and (b) **published work** it builds on. Nothing here is implemented yet.
 
 **The one-sentence diagnosis behind most ideas:** QUANT describes "what values occur in a *fixed window*", so when the same pattern appears at a different time, it produces different features. When patterns moved to random positions, QUANT lost 5.6 accuracy points against Hydra's 2.4 (Hydra is position-free). The same cause most likely explains its large losses on gesture data (−5.1 points) and on many-class data with few examples (up to −27 points).
 
@@ -14,10 +14,13 @@ The 10 most promising ways to improve QUANT, ranked by expected impact. Each ide
 | 4 | QUANT features + tabular foundation model (TabPFN / TabICL) | Few examples, many classes | Medium | Medium (GPU helps) | Yes (only ROCKET-style features tried) |
 | 5 | Shift/warp augmentation of training data + test-time augmentation | Patterns at different positions / speeds | Low | Low | For QUANT, yes |
 | 6 | Align series before windowing (cross-correlation / phase alignment) | Position; periodic signals | Low-medium | Medium | For QUANT, yes |
-| 7 | Phase-invariant representations (autocorrelation, log-spectrum, AR) | Periodic signals with random phase | Low | Low | Partly (rSTSF uses AR) |
+| 7 | Phase-invariant representations (autocorrelation, AR coefficients) | Periodic signals with random phase | Low | Low | Partly (rSTSF uses AR) |
 | 8 | Oblique / rotation trees for correlated quantile features | Few examples; wasted splits | Medium | Medium (speed) | For QUANT, yes |
 | 9 | Prune features + sample big windows more often (authors' own idea) | Training cost on long series | Low-medium | Low | Partly |
 | 10 | Native variable-length QUANT (windows relative to each series' length) | Padding (costs ~8 points) | Medium | Low | Yes (aeon can't do it) |
+| 11 | Multi-scale differences ("wavelet-like" views) | Change at medium speeds, located in time | Low | Low | For QUANT, yes |
+| 12 | Order-aware counts per window (mean crossings, peaks, slope) | Quantiles ignore the order of values inside a window | Low | Low | For QUANT, yes |
+| 13 | Quick classifier check: Random Forest, LightGBM | Completes the "which classifier?" comparison | Low | Low (expect small gains) | No |
 
 **Suggested order:**
 1. Start with **5 and 6**. They are cheap tests of the "position" diagnosis.
@@ -25,6 +28,7 @@ The 10 most promising ways to improve QUANT, ranked by expected impact. Each ide
 3. Use **3** as a strong, safe baseline.
 4. Add **4** if we can get a free GPU (Kaggle / Colab).
 5. **9** and **10** are good secondary contributions (speed, new capability).
+6. **11–13** are cheap add-ons. Run 11 and 12 together with 7 (they are all "new view / new feature" changes), and 13 alongside 4 and 8 (they are all classifier changes).
 
 ---
 
@@ -135,8 +139,9 @@ The 10 most promising ways to improve QUANT, ranked by expected impact. Each ide
 
 **What.** QUANT computes quantiles on four views of each series (raw, 1st and 2nd difference, Fourier magnitude). Add views that ignore *when* things happen:
 - the **autocorrelation function** (how similar the series is to itself shifted by k steps),
-- the **log-spectrum**,
 - **autoregressive (AR) coefficients**.
+
+A log-spectrum would add little. Taking the log doesn't change the order of values, and quantile features and tree splits care only about order.
 
 **Why it should help.**
 - The Fourier *magnitude* is already one such view, and the QUANT paper itself found it gave the largest per-dataset gains of all added views.
@@ -209,6 +214,83 @@ The 10 most promising ways to improve QUANT, ranked by expected impact. Each ide
 **How to test.**
 - Compare the 11 datasets, native vs padded, on identical splits.
 - Sanity check: on equal-length data it must give exactly QUANT's features.
+
+## 11. Multi-scale differences ("wavelet-like" views)
+
+**What.** QUANT's first difference shows step-to-step change, smoothed with one fixed moving average of width 5. Add a small stack of views that show change at several speeds: the difference between moving averages of widths 2, 4, 8 and 16 (this is what Haar wavelets compute), each kept at full length. QUANT then takes its usual window quantiles on each.
+
+**Why it should help.**
+- Today QUANT sees change either at the finest scale (the differences) or at all scales but without time (the Fourier view). Wavelet-like views add "how much medium-speed change, and *where*": the time-localised frequency content the Fourier view lacks.
+- It also answers the smoothing question. The paper tried only one width (5) for the first difference ("helps a little") and found no consistent gain from smoothing the other views. Trying another single width is just tuning; giving the forest several widths at once lets it pick the right scale for each dataset.
+
+**Inspired by:**
+- The [QUANT paper](https://arxiv.org/abs/2308.00928) §3.1 and Fig. 20 (smoothing the first difference helps).
+- Haar wavelets for time series (Chan & Fu, ICDE 1999).
+- [MiniRocket](https://arxiv.org/abs/2012.08791)'s dilations: looking at several scales is central to ROCKET-style accuracy.
+
+**Watch out.** Each extra view adds about as many features as the series is long, so keep it to 2–3 scales or combine it with idea 9 (pruning).
+
+**How to test.** Run 142 × 30 against QUANT, adding one scale at a time.
+
+## 12. Order-aware counts in each window
+
+**What.** For every window QUANT already uses, add a few cheap counts:
+- how often the series crosses its window mean,
+- the number of local peaks,
+- the longest run above the mean,
+- the slope (trend) of the window.
+
+**Why it should help.**
+- Quantiles ignore the *order* of values inside a window: shuffle a window and QUANT's features don't change. Mean crossings and peaks *do* depend on order (a smooth hill vs a zig-zag made of the same values), so they add new information at almost no cost.
+- It stays "QUANT": a fixed, cheap feature set plus a forest. We only add what quantiles cannot see.
+- Mean, min, max, median and IQR need not be added, because they already *are* quantiles.
+
+**Inspired by:**
+- [rSTSF](https://arxiv.org/abs/2105.14876), which counts mean crossings and values above the mean in each window.
+- TSF (window slope; Deng et al., 2013).
+- [catch22](https://arxiv.org/abs/1901.10200) (longest stretch above the mean).
+- [MultiRocket](https://arxiv.org/abs/2102.00457)'s "longest stretch of positive values".
+
+**How to test.** Run 142 × 30. Check that the forest actually uses the counts (feature importances) and how much extra time they cost.
+
+## 13. Quick classifier check: Random Forest and LightGBM
+
+**What.** Keep QUANT's features and swap only the classifier: a Random Forest with the same settings, and LightGBM (gradient boosting).
+
+**Why it's worth a quick look, but only a quick one.**
+- It's cheap to run in the same harness as ideas 4 and 8, and it completes the "which classifier?" picture for the report.
+- Expect little:
+  - ExtraTrees is usually as accurate as Random Forest and faster, which is why QUANT and rSTSF chose it ([Geurts et al. 2006](https://link.springer.com/article/10.1007/s10994-006-6226-1)).
+  - On time series features, the [FreshPRINCE authors](https://arxiv.org/abs/2201.12048) found Rotation Forest *significantly* better than XGBoost and ridge. That's one more reason to prefer idea 8.
+  - Boosting builds one tree per class per round, which is slow with 50+ classes. It can also overfit when about 200 training series meet thousands of features.
+- Its best chance is the few large datasets (thousands of training series), so analyse the results by dataset size.
+- If we try boosting, LightGBM is the faster choice. XGBoost's `feature_weights` option is interesting too, because it could implement idea 9's "sample big windows more often".
+
+**How to test.** Start with the 25 + 18 test datasets, then 142 × 30. Compare accuracy and training time with ExtraTrees.
+
+---
+
+## Your suggestions: verdicts
+
+**The rule we used:** add only what quantiles *can't* see (the order inside a window, patterns anywhere in the series, change at several scales) and keep QUANT's recipe of a fixed, cheap feature set plus a forest. Importing whole feature sets from other methods would just rebuild those methods, not improve QUANT.
+
+| Suggestion | Verdict | Why |
+|---|---|---|
+| XGBoost / LightGBM | Quick check (idea 13) | FreshPRINCE found Rotation Forest significantly better than XGBoost on time series features; slow with many classes; may help the largest datasets |
+| Random Forest | Quick check (idea 13) | Usually about as accurate as ExtraTrees but slower; a cheap drop-in test |
+| Ridge regression | No | Already measured: 3–5 points worse with few examples and 11.7 points worse on many-class data |
+| DeepSurv | No | It's a survival-analysis model: it predicts *how long until an event* (e.g. patient survival) from tabular data. It isn't a classifier and isn't built for time series |
+| A new view beside raw, 1st/2nd difference and DFT | Yes | Autocorrelation and AR coefficients (idea 7); multi-scale differences / wavelets (idea 11). QUANT already uses four views: the raw series counts as one |
+| Different moving averages | Yes, as a multi-scale stack (idea 11) | The paper tried only width 5 on the first difference; one other width would just be tuning |
+| Simple stats (mean, std, slope, min/max, IQR, skewness, kurtosis) | Only the slope (idea 12) | Min, max, median and IQR *are* quantiles; std, skewness and kurtosis are nearly implied by them ([MomentQuant](https://arxiv.org/abs/2609.05136) even goes the other way) |
+| catch22 | No, but borrow its ideas | It would turn QUANT into DrCIF, which QUANT already matches; slow. Its useful parts (autocorrelation, order) are in ideas 7 and 12 |
+| TSFresh | No | Hundreds of features would make it FreshPRINCE, which QUANT already beats by about 0.9 points; very slow |
+| Counts (mean crossings, peaks, values above the mean) | Yes (idea 12) | Order-aware and cheap. "Values above the mean" is mostly already covered by the quantiles |
+| Spectral band power, autocorrelation at lags | Autocorrelation yes (idea 7); band power no | The quantiles of QUANT's Fourier view already describe each frequency band |
+| Wavelets | Yes (idea 11) | Adds frequency content that is located in time |
+| Convolutional features (ROCKET's proportion of positive values) | Yes, QUANT-style (idea 2) | Take quantiles of the convolution output instead of copying ROCKET's statistic |
+| Shapelets, dictionary words, DTW distances to prototypes | No, as features | These are separate method families and slow. Combine their *predictions* instead (idea 3) |
+| Learned embeddings (CNN / self-supervised) | No | Needs a GPU, and [RocketPFN](https://arxiv.org/abs/2606.21786) found such embeddings lose to random features on UCR. That would be a different research project |
 
 ---
 
