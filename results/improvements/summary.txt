@@ -1,0 +1,75 @@
+== 0. Reference: plain QUANT (our reproduction) ==
+142 datasets, 30 resamples: 0.8551 (paper 0.8568)
+142 datasets, first 10 resamples (the improvement tests use these): 0.8536
+
+== 1. Idea 10: QUANT on variable-length series without padding (11 datasets, 30 resamples) ==
+sanity check, max |padded QUANT here - reproduction|: 1.1e-07
+method                   QUANT (padded, original)  QUANT (stretched to equal length) + length  QUANT (native windows)  QUANT (native windows) + length  MR-Hydra (bake-off)
+dataset                                                                                                                                                                    
+AllGestureWiimoteXEq                        0.682                                       0.696                   0.703                            0.702                0.765
+AllGestureWiimoteYEq                        0.700                                       0.753                   0.747                            0.746                0.806
+AllGestureWiimoteZEq                        0.667                                       0.658                   0.668                            0.666                0.731
+GestureMidAirD1Eq                           0.709                                       0.689                   0.669                            0.673                0.774
+GestureMidAirD2Eq                           0.601                                       0.551                   0.556                            0.566                0.637
+GestureMidAirD3Eq                           0.479                                       0.458                   0.384                            0.412                0.485
+GesturePebbleZ1Eq                           0.945                                       0.980                   0.984                            0.984                0.957
+GesturePebbleZ2Eq                           0.949                                       0.979                   0.984                            0.984                0.968
+PLAIDEq                                     0.921                                       0.892                   0.920                            0.919                0.939
+PickupGestureWiimoteZEq                     0.807                                       0.767                   0.791                            0.791                0.847
+ShakeGestureWiimoteZEq                      0.849                                       0.886                   0.881                            0.879                0.929
+means: QUANT (padded, original) 0.7555, QUANT (stretched to equal length) + length 0.7554, QUANT (native windows) 0.7535, QUANT (native windows) + length 0.7566, MR-Hydra (bake-off) 0.8033
+QUANT (stretched to equal length) + length vs padded: diff -0.01 pts  W/D/L 5/0/6  Wilcoxon p=0.97; closes -0% of the gap to MR-Hydra; now ahead of MR-Hydra on 2 of 11
+QUANT (native windows) vs padded: diff -0.20 pts  W/D/L 6/0/5  Wilcoxon p=0.97; closes -4% of the gap to MR-Hydra; now ahead of MR-Hydra on 2 of 11
+QUANT (native windows) + length vs padded: diff +0.11 pts  W/D/L 5/0/6  Wilcoxon p=0.9; closes 2% of the gap to MR-Hydra; now ahead of MR-Hydra on 2 of 11
+native + length vs stretched + length: diff +0.12 pts  W/D/L 7/0/4  Wilcoxon p=0.7
+effect on the 142-dataset mean if native + length replaced padded QUANT on these 11: 0.8551 -> 0.8552
+
+== 2. Ideas 1, 2, 3, 5 on the 142 datasets (first 10 resamples, seed = resample) ==
+sanity check, max |QUANT in the ensemble run - reproduction|: 4.3e-07
+QUANT + pooled quantiles         (142 datasets) 0.8575 vs QUANT 0.8536: diff +0.39 pts  W/D/L 84/19/39  Wilcoxon p=2.3e-06
+    many-class/few-example (18): +1.02 pts   gestures (10): +0.81 pts   training time x1.0   extra feature time 1.5 min (QUANT's own: 2.4 min)
+    end to end, one split of these datasets, all cores: 6.6 min vs QUANT 5.2 min (x1.3)
+    largest gains: PigAirwayPressure +10.8, ToeSegmentation1 +3.3, LargeKitchenAppliances +2.9, Lightning7 +2.7
+    worst changes: DodgerLoopDayNmv -1.4, DistalPhalanxOutlineAgeGroup -1.2, GestureMidAirD3Eq -0.9, Covid3MonthDiscrete -0.8
+QUANT + conv quantiles           (142 datasets) 0.8576 vs QUANT 0.8536: diff +0.40 pts  W/D/L 78/7/57  Wilcoxon p=0.0044
+    many-class/few-example (18): +1.49 pts   gestures (10): +0.97 pts   training time x1.4   extra feature time 11.9 min (QUANT's own: 2.4 min)
+    end to end, one split of these datasets, all cores: 18.3 min vs QUANT 5.2 min (x3.6)
+    largest gains: PigAirwayPressure +7.4, PigCVP +6.5, BeetleFly +5.0, ToeSegmentation1 +4.8
+    worst changes: BirdChicken -2.5, WormsTwoClass -2.2, Colposcopy -2.2, DodgerLoopDayNmv -2.1
+conv quantiles alone             (142 datasets) 0.8366 vs QUANT 0.8536: diff -1.70 pts  W/D/L 35/5/102  Wilcoxon p=3e-08
+    many-class/few-example (18): -0.26 pts   gestures (10): -1.36 pts   training time x0.5   extra feature time 11.9 min (QUANT's own: 2.4 min)
+    end to end, one split of these datasets, all cores: 13.4 min vs QUANT 5.2 min (x2.6)
+    largest gains: PigAirwayPressure +13.6, PigCVP +12.8, ToeSegmentation1 +7.2, PigArtPressure +6.4
+    worst changes: EthanolLevel -32.0, CinCECGTorso -19.7, Beef -17.3, DodgerLoopDayNmv -12.5
+Hydra                            (142 datasets) 0.8574 vs QUANT 0.8536: diff +0.38 pts  W/D/L 72/10/60  Wilcoxon p=0.13
+    many-class/few-example (18): +5.60 pts   gestures (10): +2.43 pts   training time x0.6   extra feature time 18.2 min (QUANT's own: 2.4 min)
+    end to end, one split of these datasets, all cores: 19.8 min vs QUANT 5.2 min (x3.8)
+    largest gains: PigCVP +27.4, PigAirwayPressure +26.3, OSULeaf +10.2, ToeSegmentation1 +9.8
+    worst changes: SemgHandMovementCh2 -37.0, EthanolLevel -16.9, SemgHandGenderCh2 -13.9, SemgHandSubjectCh2 -13.8
+QUANT + Hydra (equal weights)    (142 datasets) 0.8725 vs QUANT 0.8536: diff +1.89 pts  W/D/L 99/8/35  Wilcoxon p=8e-10
+    many-class/few-example (18): +6.39 pts   gestures (10): +4.12 pts   training time x1.6   extra feature time 18.2 min (QUANT's own: 2.4 min)
+    end to end, one split of these datasets, all cores: 24.9 min vs QUANT 5.2 min (x4.8)
+    largest gains: PigCVP +27.6, PigAirwayPressure +25.0, OSULeaf +10.2, ToeSegmentation1 +9.8
+    worst changes: EthanolLevel -5.9, SemgHandMovementCh2 -5.3, FloodModeling3Discrete -4.4, SemgHandSubjectCh2 -3.5
+QUANT + Hydra (weighted)         (142 datasets) 0.8739 vs QUANT 0.8536: diff +2.03 pts  W/D/L 99/10/33  Wilcoxon p=4.2e-12
+    many-class/few-example (18): +6.39 pts   gestures (10): +3.85 pts   training time x4.9   extra feature time 18.2 min (QUANT's own: 2.4 min)
+    end to end, one split of these datasets, all cores: 34.1 min vs QUANT 5.2 min (x6.6)
+    largest gains: PigCVP +27.4, PigAirwayPressure +26.4, OSULeaf +10.3, ToeSegmentation1 +9.8
+    worst changes: FloodModeling3Discrete -4.0, BirdChicken -3.0, SmoothSubspace -2.3, MiddlePhalanxTW -1.5
+QUANT + augmentation             (142 datasets) 0.8464 vs QUANT 0.8536: diff -0.72 pts  W/D/L 46/9/87  Wilcoxon p=6.5e-05
+    many-class/few-example (18): +0.34 pts   gestures (10): -2.78 pts   training time x7.2   extra feature time 7.4 min (QUANT's own: 2.4 min)
+    end to end, one split of these datasets, all cores: 29.9 min vs QUANT 5.2 min (x5.8)
+    largest gains: PigAirwayPressure +29.7, PigCVP +11.7, SonyAIBORobotSurface1 +5.9, Lightning2 +4.4
+    worst changes: Beef -17.7, CinCECGTorso -13.2, InsectWingbeatSound -10.4, PickupGestureWiimoteZEq -8.4
+QUANT + augmentation + TTA       (142 datasets) 0.8501 vs QUANT 0.8536: diff -0.35 pts  W/D/L 59/10/73  Wilcoxon p=0.032
+    many-class/few-example (18): +1.10 pts   gestures (10): -2.34 pts   training time x7.5   extra feature time 7.4 min (QUANT's own: 2.4 min)
+    end to end, one split of these datasets, all cores: 30.6 min vs QUANT 5.2 min (x5.9)
+    largest gains: PigAirwayPressure +33.0, PigCVP +12.6, ToeSegmentation1 +5.0, Lightning2 +4.1
+    worst changes: Beef -17.0, CinCECGTorso -13.8, InsectWingbeatSound -9.1, PickupGestureWiimoteZEq -6.6
+
+bake-off redux on the same first 10 resamples: QUANT 0.8548, MR-Hydra 0.8706, HC2 0.8753
+QUANT + Hydra (weighted) vs MR-Hydra (bake-off, same 10 resamples): diff +0.33 pts  W/D/L 70/9/63  Wilcoxon p=0.37
+QUANT + Hydra (weighted) vs HC2 (bake-off, same 10 resamples): diff -0.13 pts  W/D/L 64/9/69  Wilcoxon p=0.63
+weighted ensemble: QUANT's mean weight 0.48, median temperature 0.25
+oracle (best of QUANT and Hydra per dataset): 0.8729
+
