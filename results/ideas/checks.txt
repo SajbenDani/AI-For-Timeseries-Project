@@ -1,0 +1,71 @@
+Read-only checks for the efficient approaches in ideas.md (bake-off redux: mean of 30 resamples).
+
+== 1. Periodic series (idea 15: cycle view) ==
+periodicity = median over training series of the highest autocorrelation peak at a lag that fits >= 3 times
+Spearman(periodicity, QUANT - MR-Hydra) = -0.01 (p = 0.91) over 142 datasets
+  QUANT - MR-Hydra: -2.23 pts on the 36 periodic datasets (>= 0.3) vs -1.42 on the other 106 (Mann-Whitney p = 0.21)
+  QUANT - HC2: -3.88 pts on the 36 periodic datasets (>= 0.3) vs -1.45 on the other 106 (Mann-Whitney p = 0.00073)
+Most periodic datasets (QUANT, and its gap to MR-Hydra and HC2, in points):
+  ACSF1                            periodicity 1.00  cycles 365.0  QUANT  81.0  vs MR-Hydra   -2.4  vs HC2   -3.8  Device
+  Haptics                          periodicity 0.93  cycles 218.4  QUANT  51.9  vs MR-Hydra   -1.7  vs HC2   -3.5  Motion
+  PigArtPressure                   periodicity 0.89  cycles  11.8  QUANT  88.9  vs MR-Hydra   -3.8  vs HC2   -9.3  Hemodynamics
+  PLAIDEq                          periodicity 0.83  cycles 269.0  QUANT  91.6  vs MR-Hydra   -2.3  vs HC2   +2.3  nan
+  DodgerLoopGameNmv                periodicity 0.76  cycles  57.6  QUANT  83.3  vs MR-Hydra   -3.2  vs HC2   -1.2  nan
+  DodgerLoopWeekendNmv             periodicity 0.76  cycles  64.8  QUANT  98.5  vs MR-Hydra   +0.4  vs HC2   +0.1  nan
+  DodgerLoopDayNmv                 periodicity 0.74  cycles  41.1  QUANT  61.2  vs MR-Hydra   +6.4  vs HC2   +0.4  nan
+  RefrigerationDevices             periodicity 0.64  cycles  20.0  QUANT  74.4  vs MR-Hydra   -0.4  vs HC2   -7.2  Device
+  HouseTwenty                      periodicity 0.62  cycles  78.5  QUANT  96.8  vs MR-Hydra   -1.3  vs HC2   -1.6  Device
+  KeplerLightCurves                periodicity 0.62  cycles  83.6  QUANT  94.8  vs MR-Hydra   +2.3  vs HC2   -1.9  nan
+  Lightning2                       periodicity 0.60  cycles  24.5  QUANT  78.1  vs MR-Hydra   +2.5  vs HC2   +1.1  Sensor
+  PigCVP                           periodicity 0.56  cycles  13.4  QUANT  64.1  vs MR-Hydra  -21.2  vs HC2  -28.9  Hemodynamics
+  FordA                            periodicity 0.54  cycles  18.5  QUANT  96.8  vs MR-Hydra   +1.3  vs HC2   +1.3  Sensor
+  AconityMINIPrinterLargeEq        periodicity 0.54  cycles  60.0  QUANT  94.4  vs MR-Hydra   -1.3  vs HC2   -1.1  nan
+  SyntheticControl                 periodicity 0.52  cycles   8.6  QUANT  99.3  vs MR-Hydra   +0.1  vs HC2   -0.5  Simulated
+  Phoneme                          periodicity 0.52  cycles  21.6  QUANT  37.3  vs MR-Hydra   +0.8  vs HC2   -2.4  Sensor
+  CBF                              periodicity 0.52  cycles  14.2  QUANT  99.1  vs MR-Hydra   -0.2  vs HC2   -0.7  Simulated
+  AconityMINIPrinterSmallEq        periodicity 0.46  cycles  60.0  QUANT  97.6  vs MR-Hydra   -0.2  vs HC2   -0.3  nan
+  FordB                            periodicity 0.45  cycles  19.2  QUANT  91.7  vs MR-Hydra   -1.4  vs HC2   -1.7  Sensor
+  ToeSegmentation1                 periodicity 0.44  cycles   3.3  QUANT  85.2  vs MR-Hydra   -8.0  vs HC2  -10.4  Motion
+  Lightning7                       periodicity 0.43  cycles  18.8  QUANT  74.7  vs MR-Hydra   -5.7  vs HC2   -4.6  Sensor
+  ShakeGestureWiimoteZEq           periodicity 0.41  cycles  13.3  QUANT  85.5  vs MR-Hydra   -7.3  vs HC2   -7.6  nan
+  Covid3MonthDiscrete              periodicity 0.39  cycles  16.8  QUANT  61.5  vs MR-Hydra   +0.6  vs HC2   -4.0  nan
+  Tools                            periodicity 0.38  cycles 121.9  QUANT  81.0  vs MR-Hydra   -5.5  vs HC2   -7.4  nan
+  InsectWingbeatSound              periodicity 0.38  cycles   4.7  QUANT  65.6  vs MR-Hydra   -1.0  vs HC2   -0.0  Sensor
+
+== 2. Random split thresholds on QUANT's features (idea 17: rank-uniform splits) ==
+share = expected share of training series on the smaller side of a root split, threshold uniform in [min, max]
+(scikit-learn's ExtraTrees); a threshold uniform over the ranks would give about 0.25 for every feature
+  raw               : median share 0.141; features with share < 0.10: 27.1% (mean over datasets)
+  1st difference    : median share 0.124; features with share < 0.10: 36.5% (mean over datasets)
+  2nd difference    : median share 0.116; features with share < 0.10: 43.1% (mean over datasets)
+  Fourier magnitude : median share 0.131; features with share < 0.10: 30.9% (mean over datasets)
+  all views         : features with share < 0.10: 34.8% (mean over datasets)
+  does it line up with QUANT's losses? Spearman(unbalanced share, QUANT - MR-Hydra) = -0.09 (p = 0.3); many-class datasets 42% vs others 34%
+
+== 3. Where the ensemble's gain and cost come from (idea 18: second opinion only when needed) ==
+one core, resample 0: QUANT 15.7 min; Hydra adds 50.0 min (46.3 of it computing features)
+test series are 67% of all series and take 59% of Hydra's feature time
+  the 20 datasets with the largest gains: 66% of the total gain, 6% of Hydra's extra time (found with test results: an upper bound)
+  the 40 datasets with the largest gains: 94% of the total gain, 13% of Hydra's extra time (found with test results: an upper bound)
+Simple rules that use only the training data's size (QUANT accuracy 10 resamples: 85.36%, full ensemble 87.25%):
+  Hydra only if classes >= 10                     :  32 datasets, accuracy 86.40%, keeps 55% of the gain, total 24.6 min on one core
+  Hydra only if <= 10 training series per class   :  33 datasets, accuracy 86.27%, keeps 48% of the gain, total 21.0 min on one core
+  Hydra only if classes >= 10 or <= 10 per class  :  53 datasets, accuracy 86.62%, keeps 66% of the gain, total 27.5 min on one core
+
+== 4. Where an elastic method beats QUANT (idea 14: speed-invariant quantiles) ==
+Proximity Forest (elastic distances such as DTW) beats QUANT by > 1 point on 23 of 142 datasets; mean gap there +4.2 pts
+  by type: Image 8, new (no type) 6, Motion 3, Sensor 3, Spectrum 2, Simulated 1
+  share of each type where PF wins: Motion 18%, ECG 0%, Image 25%, Sensor 15%, Spectro 0%, Device 0%
+  AllGestureWiimoteXEq             PF - QUANT  +9.0 pts  new (no type)
+  AllGestureWiimoteZEq             PF - QUANT  +8.0 pts  new (no type)
+  WordSynonyms                     PF - QUANT  +7.7 pts  Image
+  Lightning2                       PF - QUANT  +6.8 pts  Sensor
+  FacesUCR                         PF - QUANT  +5.4 pts  Image
+  FiftyWords                       PF - QUANT  +5.4 pts  Image
+  AllGestureWiimoteYEq             PF - QUANT  +4.8 pts  new (no type)
+  DodgerLoopGameNmv                PF - QUANT  +4.8 pts  new (no type)
+  AsphaltObstaclesUniEq            PF - QUANT  +4.6 pts  new (no type)
+  Lightning7                       PF - QUANT  +4.5 pts  Sensor
+  ArrowHead                        PF - QUANT  +4.5 pts  Image
+  DiatomSizeReduction              PF - QUANT  +4.5 pts  Image
+

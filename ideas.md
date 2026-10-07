@@ -1,8 +1,8 @@
 # Ideas for improving QUANT
 
-The most promising ways to improve QUANT. Ideas 1–10 are ranked by expected impact. Ideas 11–13 came from the team's suggestions, and the verdict on every suggestion is at the end. Each idea is backed by (a) something we **measured** in our weakness tests (report Section V, `results/weaknesses/summary.txt`) and (b) **published work** it builds on.
+The most promising ways to improve QUANT. Ideas 1–10 are ranked by expected impact. Ideas 11–13 came from the team's suggestions, and the verdict on every suggestion is at the end. Ideas 14–18 are **efficient approaches**: new ideas, added after our experiments, that should raise accuracy while keeping QUANT cheap. Each idea is backed by (a) something we **measured** in our weakness tests (report Section V, `results/weaknesses/summary.txt`) and (b) **published work** it builds on.
 
-**Status (5 Oct 2026):** ideas 1, 2, 3, 5 and 10 have been implemented and tested (`scripts/improvement_tests.py`). Results and explanations are in [report.md](report.md). The other ideas are not implemented.
+**Status (7 Oct 2026):** ideas 1, 2, 3, 5 and 10 have been implemented and tested on all 142 datasets, plus a stress test with patterns at random positions (`scripts/improvement_tests.py`). Results and explanations are in [report.md](report.md). The other ideas are not implemented. Ideas 14–18 (efficient approaches) were added on 7 Oct 2026 and are not implemented yet.
 
 **The one-sentence diagnosis behind most ideas:** QUANT describes "what values occur in a *fixed window*", so when the same pattern appears at a different time, it produces different features. When patterns moved to random positions, QUANT lost 5.6 accuracy points against Hydra's 2.4 (Hydra is position-free). The same cause most likely explains its large losses on gesture data (−5.1 points) and on many-class data with few examples (up to −27 points).
 
@@ -10,19 +10,24 @@ The most promising ways to improve QUANT. Ideas 1–10 are ranked by expected im
 
 | # | Idea | Fixes which weakness | Effort | Risk | New? | Status |
 |---|---|---|---|---|---|---|
-| 1 | Position-free QUANT: sliding-window quantiles, pooled over positions | Patterns at different positions | Medium | Medium | Yes | **Done: success** (+0.4 pts) |
-| 2 | "QUANT meets ROCKET": quantiles of random-convolution outputs | Position + local shape | Medium | Medium | Yes (no paper pools by quantiles) | **Done: success** (+0.4 pts, slower) |
-| 3 | QUANT + Hydra ensemble with calibrated, accuracy-weighted votes | Different errors of the two methods | Low | Low | For UCR, yes | **Done: success** (+2.0 pts, but 5–7× slower) |
+| 1 | Position-free QUANT: sliding-window quantiles, pooled over positions | Patterns at different positions | Medium | Medium | Yes | **Done: success** (+0.4 pts; +1.8 under random shifts) |
+| 2 | "QUANT meets ROCKET": quantiles of random-convolution outputs | Position + local shape | Medium | Medium | Yes (no paper pools by quantiles) | **Done: success** (+0.4 pts, slower; +2.8 under random shifts) |
+| 3 | QUANT + Hydra ensemble with calibrated, accuracy-weighted votes | Different errors of the two methods | Low | Low | For UCR, yes | **Done: success** (+2.0 pts, but 4–6× slower; +5.0 under random shifts) |
 | 4 | QUANT features + tabular foundation model (TabPFN / TabICL) | Few examples, many classes | Medium | Medium (GPU helps) | Yes (only ROCKET-style features tried) | Not done (needs a GPU) |
-| 5 | Shift/warp augmentation of training data + test-time augmentation | Patterns at different positions / speeds | Low | Low | For QUANT, yes | **Done: did not help** on average (−0.7 pts; −0.35 with test-time averaging), but +1.1 pts on many-class data |
+| 5 | Shift/warp augmentation of training data + test-time augmentation | Patterns at different positions / speeds | Low | Low | For QUANT, yes | **Done: did not help** on average (−0.7 pts; −0.35 with test-time averaging), but +1.1 pts on many-class data and +2.0 under random shifts |
 | 6 | Align series before windowing (cross-correlation / phase alignment) | Position; periodic signals | Low-medium | Medium | For QUANT, yes | Not done |
 | 7 | Phase-invariant representations (autocorrelation, AR coefficients) | Periodic signals with random phase | Low | Low | Partly (rSTSF uses AR) | Not done |
 | 8 | Oblique / rotation trees for correlated quantile features | Few examples; wasted splits | Medium | Medium (speed) | For QUANT, yes | Not done |
 | 9 | Prune features + sample big windows more often (authors' own idea) | Training cost on long series | Low-medium | Low | Partly | Not done |
-| 10 | Native variable-length QUANT (windows relative to each series' length) | Padding (costs ~8 points) | Medium | Low | Yes (aeon can't do it) | **Done: did not help** (+0.1 pts, p=0.9) |
+| 10 | Native variable-length QUANT (windows relative to each series' length) | Padding (costs ~8 points) | Medium | Low | Yes (aeon can't do it) | **Done: success, only as an addition** (padded + native: +2.0 pts on the 11 datasets; native alone +0.1) |
 | 11 | Multi-scale differences ("wavelet-like" views) | Change at medium speeds, located in time | Low | Low | For QUANT, yes | Not done |
 | 12 | Order-aware counts per window (mean crossings, peaks, slope) | Quantiles ignore the order of values inside a window | Low | Low | For QUANT, yes | Not done |
 | 13 | Quick classifier check: Random Forest, LightGBM | Completes the "which classifier?" comparison | Low | Low (expect small gains) | No | Not done |
+| 14 | *Efficient approach:* speed-invariant quantiles (values weighted by how much the series moves) | The same movement made at different speeds (gestures, handwriting) | Low-medium | Medium | Yes | Not done |
+| 15 | *Efficient approach:* cycle view: fold repeating series into one typical cycle | Position and rate in repeating signals (Pig, appliances) | Medium | Medium | Yes (folding is done by hand in astronomy) | Not done |
+| 16 | *Efficient approach:* shape-aware Fourier view (a slice of the bispectrum) | QUANT's position-free view is blind to shape | Low | Medium | Yes (bispectra used only as 2-D images for CNNs) | Not done |
+| 17 | *Efficient approach:* rank-uniform splits for ExtraTrees | A third of QUANT's features get lopsided random splits | Very low | Low | For ExtraTrees, yes (the transform is known for ordinary trees) | Not done |
+| 18 | *Efficient approach:* second opinion only when needed (gated QUANT + Hydra) | The ensemble's 4–6× cost | Low-medium | Low | For TSC, yes | Not done |
 
 **Suggested order:**
 1. Start with **5 and 6**. They are cheap tests of the "position" diagnosis.
@@ -31,12 +36,13 @@ The most promising ways to improve QUANT. Ideas 1–10 are ranked by expected im
 4. Add **4** if we can get a free GPU (Kaggle / Colab).
 5. **9** and **10** are good secondary contributions (speed, new capability).
 6. **11–13** are cheap add-ons. Run 11 and 12 together with 7 (they are all "new view / new feature" changes), and 13 alongside 4 and 8 (they are all classifier changes).
+7. **14–18 (efficient approaches)** keep QUANT cheap. Start with **17** (a few lines of code, no extra runtime). Then do **15 and 16** (new views, run with the same code as ideas 1 and 2), **18** (reuses the ensemble code) and **14**.
 
 ---
 
 ## 1. Position-free QUANT: pooled sliding-window quantiles
 
-> **Status: done. Success (small).** 85.36% → 85.75% (+0.39 pts) on 142 datasets × 10 splits, better on 84 / worse on 39, p = 2e-6; +1.0 pts on the 18 many-class datasets (PigAirwayPressure +10.8). Almost no extra cost. Details in [report.md](report.md).
+> **Status: done. Success (small).** 85.36% → 85.75% (+0.39 pts) on 142 datasets × 10 splits, better on 84 / worse on 39, p = 2e-6; +1.0 pts on the 18 many-class datasets (PigAirwayPressure +10.8). Cheap: 1.4× QUANT's runtime on one core (21.5 vs 15.7 min). Under random shifts (stress test, 50%) it loses 4.1 pts instead of QUANT's 5.7, and beats QUANT by +1.8 pts. Details in [report.md](report.md).
 
 **What.** QUANT currently takes quantiles in fixed windows (first half, second quarter, ...). Instead, slide a window of each size across the *whole* series, compute the quantiles at every position, and then summarise those values over all positions (maximum, mean, and a few quantiles). A feature then reads "somewhere in the series there is a stretch whose 90th percentile is this high", which no longer depends on *where* it happens. Keep the original fixed-window features too, so location information isn't lost; the forest picks what helps.
 
@@ -55,7 +61,7 @@ The most promising ways to improve QUANT. Ideas 1–10 are ranked by expected im
 
 ## 2. "QUANT meets ROCKET": quantile pooling of random convolutions
 
-> **Status: done. Success (small).** 85.36% → 85.76% (+0.40 pts), better on 78 / worse on 57, p = 0.004; +1.5 pts on many-class data. Same gain as idea 1 but training ×1.4 and features ~5× slower to compute. The convolution quantiles *alone* are 1.7 pts worse than QUANT.
+> **Status: done. Success (small).** 85.36% → 85.76% (+0.40 pts), better on 78 / worse on 57, p = 0.004; +1.5 pts on many-class data. Same gain as idea 1 but 4.0× QUANT's runtime on one core (62 vs 16 min), mostly for the convolutions. The convolution quantiles *alone* are 1.7 pts worse than QUANT. Under random shifts (50%) it loses 3.3 pts instead of 5.7 (+2.8 pts vs QUANT).
 
 **What.** Pass each series through a few hundred random convolution kernels, as MiniRocket does. Each kernel is a small "shape detector", and its output is a new series showing how well that shape matches at each time. Then describe each output series with **quantiles over the whole series**, instead of ROCKET's usual summaries (maximum, or the proportion of positive values, "PPV"). It's a natural fusion: the maximum *is* the 100% quantile, and PPV is just the share of values above 0, so quantiles carry both and more.
 
@@ -72,7 +78,7 @@ The most promising ways to improve QUANT. Ideas 1–10 are ranked by expected im
 
 ## 3. QUANT + Hydra ensemble (calibrated, accuracy-weighted)
 
-> **Status: done. Success.** 85.36% → 87.39% (+2.03 pts), better on 99 / worse on 33, p = 4e-12; +6.4 pts on many-class data. Statistically level with MultiRocket+Hydra (87.06%) and HIVE-COTE 2 (87.53%) on the same splits. Equal weights (no extra cross-validation) give nearly the same: 87.25%. **Cost:** about 6.6× QUANT's runtime (4.8× with equal weights), mainly for computing Hydra's features. Estimated 1.5–2 h on one core vs QUANT's 15–18 min.
+> **Status: done. Success.** 85.36% → 87.39% (+2.03 pts), better on 99 / worse on 33, p = 4e-12; +6.4 pts on many-class data. Statistically level with MultiRocket+Hydra (87.06%) and HIVE-COTE 2 (87.53%) on the same splits. Equal weights (no extra cross-validation) give nearly the same: 87.25%. **Cost (measured on one core):** 91 min vs QUANT's 15.7 min (×5.8); 66 min (×4.2) with equal weights. Half the time goes to computing Hydra's features; the weighting's cross-validation adds 26 min for only +0.14 pts. Under random shifts (50%) it loses only 2.5 pts, as little as Hydra (2.4), and beats QUANT by +5.0 pts.
 
 **What.** Train QUANT and Hydra (or MultiRocket+Hydra) separately and average their predicted class probabilities. Each model's vote is weighted by its cross-validated accuracy on the training data, as HIVE-COTE does with its "CAWPE" weighting.
 - Ridge-based methods give poor probabilities (MultiRocket+Hydra: log-loss 4.6 vs QUANT's 0.5 in the bake-off). They first need calibrating, e.g. a softmax over their scores with a temperature fitted by cross-validation.
@@ -110,7 +116,7 @@ The most promising ways to improve QUANT. Ideas 1–10 are ranked by expected im
 
 ## 5. Shift/warp augmentation + test-time augmentation
 
-> **Status: done. Did not help on average.** 85.36% → 84.64% (−0.72 pts, p = 7e-5); with test-time augmentation 85.01% (−0.35 pts, p = 0.03), worse on 73 / better on 59 datasets. But it helps exactly where QUANT is weakest: PigAirwayPressure +33, PigCVP +13, +1.1 pts on the 18 many-class / few-example datasets. It hurts where position *is* the meaning: spectra (Beef −17) and gestures (−2.3). About 6× QUANT's runtime. Possible follow-up: use it only when there are very few examples per class.
+> **Status: done. Did not help on average.** 85.36% → 84.64% (−0.72 pts, p = 7e-5); with test-time augmentation 85.01% (−0.35 pts, p = 0.03), worse on 73 / better on 59 datasets. But it helps exactly where QUANT is weakest: PigAirwayPressure +33, PigCVP +13, +1.1 pts on the 18 many-class / few-example datasets. It hurts where position *is* the meaning: spectra (Beef −17) and gestures (−2.3). About 6× QUANT's runtime. Under random shifts (50%) it does help (+2.0 pts vs QUANT), but such shifts are rarer in the real datasets than we assumed. Possible follow-up: use it only when there are very few examples per class.
 
 **What.**
 - **Training:** add shifted and slightly stretched copies of every training series, so the forest sees each pattern at several positions and speeds.
@@ -151,7 +157,7 @@ The most promising ways to improve QUANT. Ideas 1–10 are ranked by expected im
 - the **autocorrelation function** (how similar the series is to itself shifted by k steps),
 - **autoregressive (AR) coefficients**.
 
-A log-spectrum would add little. Taking the log doesn't change the order of values, and quantile features and tree splits care only about order.
+A log-spectrum would add little. Taking the log doesn't change the order of values, and quantile features and ordinary tree splits care only about order. (ExtraTrees is an exception, because it picks its split points at random; see idea 17.)
 
 **Why it should help.**
 - The Fourier *magnitude* is already one such view, and the QUANT paper itself found it gave the largest per-dataset gains of all added views.
@@ -204,7 +210,11 @@ A log-spectrum would add little. Taking the log doesn't change the order of valu
 
 ## 10. Native variable-length QUANT
 
-> **Status: done. Did not help.** 75.55% → 75.66% on the 11 variable-length datasets × 30 splits (+0.1 pts, p = 0.9). Large effects in both directions: GesturePebble +3.5 to +3.9, but GestureMidAir −3.6 to −6.7. Stretching all series to one length gives the same average. The padding seems to carry useful speed information on some datasets.
+> **Status: done. Success, but only as an addition to the padded version.** On the 11 variable-length datasets × 30 splits:
+> - **Native windows alone** (replacing the padding): 75.55% → 75.66% (+0.1 pts, p = 0.9). Large effects in both directions: GesturePebble +3.5 to +3.9, GestureMidAir −3.6 to −6.7. Stretching all series to one length gives the same average.
+> - **Padded + native features together**, letting the forest choose: 77.53% (+2.0 pts), better on 10 of 11, p = 0.005. That closes 41% of the gap to MultiRocket+Hydra.
+>
+> The padding carries useful information (gesture length and speed), so it should be kept. Caveat: the combined version was added after seeing the first results, so it should be confirmed on fresh data. Our simple code computes the native windows slowly (117 s vs 8 s for QUANT's features on these 11 datasets).
 
 **What.** Let QUANT handle series of different lengths without padding:
 - Define windows as *fractions* of each series' own length (its first half, its second quarter, ...).
@@ -282,6 +292,140 @@ A log-spectrum would add little. Taking the log doesn't change the order of valu
 
 ---
 
+## Efficient approaches (ideas 14–18)
+
+*Added 7 Oct 2026, after our five experiments. Each idea should raise accuracy while keeping QUANT cheap: at most about 1.3× its runtime by our estimate. Idea 18 instead makes our best but slowest result cheaper. We searched the literature (Oct 2026) for each one; the closest published work is named under each idea. The supporting numbers come from `scripts/idea_checks.py` (output in `results/ideas/checks.txt`). That script trains no new model; it only measures the data, QUANT's features and results we already have.*
+
+**Why these five.** Three things we learned point the way:
+1. **Changing the statistic inside each window seems to have run its course.** Two 2026 follow-ups did exactly that. [AQ-QUANT](https://doi.org/10.1109/ACCESS.2026.3712607) replaced the quantiles with area-based ones and matched QUANT's mean accuracy. [MomentQuant](https://arxiv.org/abs/2609.05136) approximated them faster, with a tiny loss. Neither raised the mean, so none of the ideas below changes the statistic inside a window.
+2. **Adding a view of the series helps; replacing one doesn't** (our ideas 1, 2 and 10).
+3. **The biggest gain came from a different kind of invariance.** Hydra ignores *where* patterns happen. Averaging it with QUANT gave +2 points, but at 4–6× the cost.
+
+Almost everything QUANT computes depends on *when* things happen. The exceptions are the whole-series quantiles and the Fourier magnitudes: they ignore position, but they also ignore shape. Nothing in QUANT ignores speed. So ideas 14–16 each add one cheap view that ignores something new. Idea 17 makes the forest use QUANT's existing features better, at no cost, and idea 18 makes the +2-point ensemble cheap.
+
+| # | Idea | What it ignores or fixes | Extra runtime vs QUANT (estimate) |
+|---|---|---|---|
+| 14 | Speed-invariant quantiles | how fast a movement is made | ×1.3 |
+| 15 | Cycle view | where a repeating signal starts, and its rate | ×1.1–1.2 |
+| 16 | Shape-aware Fourier view | position, while keeping shape | ×1.15 |
+| 17 | Rank-uniform splits | wasted random splits in the forest | ×1.0 |
+| 18 | Second opinion only when needed | the ensemble's cost | ×1.8–2.5 instead of ×4.2 |
+
+## 14. Speed-invariant quantiles *(efficient approach)*
+
+**What.** For every window QUANT already uses, add a second set of quantiles in which each moment counts by *how much the series moves* there, not by *how long it lasts*. A stretch where the series stands still adds nothing, and a quick sweep through a range of values counts each value in that range once. Technically, these are quantiles of the values weighted by the size of each step: a level counts as often as the series passes through it.
+
+**Why it should help.**
+- **The same movement made faster or slower gives the same features.** QUANT's ordinary quantiles change when a gesture is slower, because the slow parts last longer and so get more weight. These quantiles don't, for any speed-up or slow-down inside a window. This follows from a classical result, Banach's indicatrix (1925).
+- **QUANT has nothing like this, and that's where elastic methods win.** Proximity Forest compares series with time-warping distances such as DTW. On average it is 2.7 points worse than QUANT, but it beats QUANT by more than 1 point on 23 datasets (+4.2 points there). The biggest wins are on gestures (AllGestureWiimoteX +9.0, Z +8.0, Y +4.8) and handwritten words (WordSynonyms +7.7, FiftyWords +5.4).
+- **It follows the "add, don't replace" rule.** Idea 10 showed that speed is sometimes the class (GestureMidAir) and sometimes noise (GesturePebble). With both kinds of quantiles, the forest can pick per dataset. Flat stretches, such as constant padding, add nothing.
+
+**Why it's new.** In TSC, speed-invariant features exist only as path signatures or iterated sums ([FRUITS](https://arxiv.org/abs/2311.14549), DAMI 2024) and as topological summaries ([persistence curves](https://arxiv.org/abs/2003.06462), 2020). Our weighted quantiles carry much the same information as a topological "Betti curve". But they cost one weighted sort per window, the same as QUANT's own sort, and they fit straight into QUANT's windows. We found no paper that uses them.
+
+**How to build it.**
+1. Smooth the series the way QUANT smooths its first difference (moving average of width 5), so noise doesn't dominate.
+2. Give each step between neighbouring points a weight equal to its size.
+3. In each window, sort the step midpoints and read off the weighted quantiles, as many as QUANT takes there.
+4. In a flat window, fall back to ordinary quantiles.
+
+**Cost.** One more view: about ×1.3 if it's added for the raw series only.
+
+**How to test.**
+- Run 142 datasets × 10 resamples against QUANT, as for our other ideas. Look separately at the gestures, the handwriting datasets and the 23 datasets that Proximity Forest wins.
+- Add a "speed stress test" like our shift test: stretch every series by a random factor (0.7–1.3), then pad or crop it back to its length. QUANT should lose accuracy, and this version much less.
+
+## 15. Cycle view: fold repeating series into one typical cycle *(efficient approach)*
+
+**What.** Many series repeat themselves: heartbeats, breathing, engine vibration, appliances switching on and off. For these:
+1. Find the length of one cycle from the Fourier magnitudes QUANT already computes (their strongest peak), and check it with the autocorrelation.
+2. Cut the series into cycles and take the median cycle. This gives one clean "typical cycle", stretched to a fixed length (e.g. 64 points) and rotated so it always starts at the same point of the cycle, e.g. its lowest value.
+3. Run QUANT's windows on this typical cycle, and on the spread between cycles (how much the individual cycles differ at each point).
+4. Add two numbers as features: the cycle length, and how strongly the series repeats.
+
+**Why it should help.**
+- **QUANT falls furthest behind on repeating data.** On the 36 datasets whose series repeat at least 3 times, QUANT trails HC2 by 3.9 points, against 1.5 on the other 106 (p = 0.0007). Against MultiRocket+Hydra the difference is smaller and not significant (−2.2 vs −1.4). The worst cases:
+  - PigCVP: −21 points vs MultiRocket+Hydra, with about 13 cycles per series;
+  - PigArtPressure: −9 vs HC2;
+  - RefrigerationDevices: −7 vs HC2.
+- **The typical cycle doesn't depend on where the recording starts.** That is the weakness we measured most. In the Pig recordings the beats start at arbitrary points, and teaching QUANT this through augmentation was worth +13 to +33 points there (idea 5). The cycle view gets the same invariance with no extra training copies.
+- **Averaging removes noise.** The median of 10 cycles is much cleaner than any single cycle.
+- **It separates rhythm from shape.** The heart rate goes into one feature (the cycle length), and the beat's shape into the folded view.
+
+**Why it's new.** Folding is standard in astronomy. The creators of UCR's StarLightCurves dataset folded every light curve by its period and aligned the cycles before publishing it ([Rebbapragada et al. 2009](https://arxiv.org/abs/0905.3428)). ECG analysis uses average-beat templates in the same way. But no general-purpose TSC method folds automatically, and none of the methods in the bake-off has a folded view.
+
+**Cost.** Folding takes one pass over the series, and the typical cycle is short. That gives about 600 extra features (+20% for a typical dataset, less for long series), so about ×1.1–1.2.
+
+**Risk.** On series that don't repeat, the typical cycle is meaningless. The "how strongly it repeats" feature lets the forest ignore it. Alternatively, build the view only when the training series repeat.
+
+**How to test.** Run 142 × 10 against QUANT, focusing on the 36 repeating datasets and the Pig data. Variants:
+- cut fixed-length cycles, or cut at landmarks such as each cycle's lowest point (this copes better with a changing heart rate);
+- for series with fewer than 3 cycles, treat the whole series as one cycle. This gives closed outlines, such as leaf or word shapes, a standard starting point.
+
+## 16. Shape-aware Fourier view: a slice of the bispectrum *(efficient approach)*
+
+**What.** QUANT's Fourier view keeps only the *size* of each frequency, not its *timing* (its phase). That's why it ignores position: moving a pattern changes only the phases. But it also makes the view blind to shape. For example, a wave that rises fast and falls slowly, and its mirror image in time, have identical Fourier magnitudes. One product of Fourier coefficients, X(f)·X(f)·conj(X(2f)), fixes this. When a pattern moves, the phase changes cancel out, but the product still records how frequency f lines up with frequency 2f, and that is shape. Add its real and imaginary parts as one more view (each about a quarter as long as the series), with QUANT's usual windows and quantiles.
+
+**Why it should help.**
+- **It targets the gap between QUANT and Hydra.** Hydra knows "which shapes occur, anywhere". QUANT's Fourier view knows "which frequencies occur, anywhere", but not the shape. In our shift test QUANT still lost 5.7 points against Hydra's 2.4, so its position-free Fourier view wasn't enough.
+- **Both parts mean something simple.**
+  - The real part tracks sharp peaks vs sharp troughs (skewness).
+  - The imaginary part tracks a fast rise with a slow decay vs the reverse (time asymmetry), as in heartbeats and pressure waves. Econometrics uses this part to test whether a series looks the same backwards (Hinich & Rothman 1998).
+
+  The Fourier magnitude sees neither.
+- **Fourier views are QUANT's best addition.** The QUANT paper found that the Fourier magnitude gave the largest per-dataset gains of all the views it added.
+
+**Why it's new.** The full two-dimensional bispectrum is used in signal processing (EEG, machine faults). It has also been used as an image for deep CNNs ([Parker et al. 2020](https://arxiv.org/abs/2003.02353)), which is powerful but slow. A one-dimensional slice summarised by QUANT's quantiles, next to the magnitudes, has not been tried.
+
+**Cost.** It is computed from the Fourier transform QUANT already has, with one multiplication per frequency. The new view adds about 15% more features: ×1.15.
+
+**How to test.** Run 142 × 10 against QUANT, plus the shift stress test (it should be as robust as the magnitude view) and the many-class datasets. Variants:
+- shrink the values with a signed cube root, so they are on the series' own scale;
+- add the next slice, X(f)·X(2f)·conj(X(3f)).
+
+## 17. Rank-uniform splits: quantile features deserve quantile thresholds *(efficient approach)*
+
+**What.** Before training the forest, replace each feature value with its rank among the training series, scaled from 0 (smallest) to 1 (largest). Map test values onto the same scale by interpolating between the training values. The features and the forest stay the same.
+
+**Why it should help.**
+- **ExtraTrees chooses its split points at random.** It picks them uniformly between the smallest and largest value in the branch ([Geurts et al. 2006](https://link.springer.com/article/10.1007/s10994-006-6226-1); scikit-learn does the same). Often a few series have much larger values than the rest; this is common for differences and Fourier magnitudes. Then most random split points cut off just those few series. Such splits teach the tree little and usually lose to another feature's split, so the skewed feature is mostly wasted.
+- **This affects a third of QUANT's features.** For 35% of them, a random split puts on average fewer than 10% of the training series on the smaller side. The share is 43% for the second-difference features and 77% of all features in PigCVP. It is a little higher on the many-class datasets (42% vs 34%). After ranking, every random split cuts off a random share instead: 25% on average for the smaller side.
+- **It costs nothing.** Ordinary decision trees try every split point, so ranking makes no difference to them. ExtraTrees tries one random point per feature, and ranking changes which ones it tries, while keeping exactly the same possible splits. More balanced splits also give shallower trees, so training may even get faster.
+- It also corrects a remark under idea 7: for ExtraTrees, a log-spectrum *would* change the result, for this same reason.
+
+**Caveats.**
+- How skewed a dataset's features are does not line up with where QUANT loses accuracy (correlation −0.09 with its gap to MultiRocket+Hydra, p = 0.3). So this is a general fix, not a cure for a known weakness, and the gain may be small.
+- Random split points in value space are good at isolating outliers, which can help with rare classes. Ranking loses some of that.
+
+**Why it's new.** [Galili & Meilijson (2016)](https://arxiv.org/abs/1611.04561) proposed the same transform for ordinary trees and random forests. There it has a smaller effect: it only changes where a split lands between two neighbouring values. For ExtraTrees it decides which splits get tried at all. We found no study of that, and no one has measured how skewed QUANT's features are.
+
+**Cost.** One sort per feature on the training set takes seconds in total. There are no extra features: ×1.0, or less if the trees get shallower.
+
+**How to test.** Run 142 × 10 against QUANT, plus a one-core timing run. If it helps, check whether it adds to the gains of ideas 1, 15 and 16.
+
+## 18. Second opinion only when needed: gated QUANT + Hydra *(efficient approach)*
+
+**What.** Keep our best result, the QUANT + Hydra ensemble (+2.0 points), but pay for Hydra only where QUANT is unsure:
+1. **Per dataset:** skip Hydra when the training data say QUANT will do well. For example, QUANT's cross-validated accuracy on the training set is very high, or the dataset has few classes and many examples per class, where our weakness tests found QUANT strong.
+2. **Per test series:** QUANT predicts first. Only the series where QUANT's top two class probabilities are close get Hydra's features and the averaged vote.
+3. Optionally, use a smaller Hydra with fewer kernels.
+
+**Why it should help.**
+- **The gain is concentrated; the cost is not.** Looking back at our results, 20 datasets gave 66% of the ensemble's gain while costing only 6% of Hydra's extra time. 40 datasets gave 94% of the gain for 13% of the time. A gate that finds those datasets keeps most of the gain for little cost.
+- **Even a crude rule works.** Take "use Hydra only if there are at least 10 classes, or at most 10 training series per class", which matches the weaknesses in report Section V. It keeps 66% of the gain: 86.62%, against 85.36% for QUANT alone and 87.25% for the full ensemble. It takes 27.5 min on one core instead of 65.6, so 1.75× QUANT's time instead of 4.2×. We tried three such rules and this was the best, so treat the number as optimistic.
+- **Test series are two thirds of all series** and take 59% of Hydra's feature time. So skipping Hydra on test series where QUANT is confident saves much of the remaining cost.
+- **QUANT knows when it is unsure.** Its probabilities are among the best of the top methods (bake-off AUROC 0.956; log-loss 0.53, against 4.6 for MultiRocket+Hydra), and a reliable confidence is what a gate needs.
+
+**Why it's new.** The [Meta-Learning Gap](https://arxiv.org/abs/2512.06666) paper (2025) tested six ways to combine Hydra and QUANT: feature concatenation, two kinds of stacking, and weighted averaging. All of them run both models on every series. Cascades that call an expensive model only when a cheap one is unsure are standard in other fields, e.g. Viola–Jones face detection (2001), but we found none in TSC.
+
+**Cost.** The goal is to keep at least 80% of the +2.0 points at about 2× QUANT's time.
+
+**How to test.**
+- Use the same 142 × 10 setup as the ensemble.
+- Set the thresholds on training data only (cross-validation), never on test results.
+- Plot accuracy against one-core time for several thresholds, next to QUANT (×1), the full ensemble (×4.2) and MultiRocket+Hydra (about 1 h).
+
+---
+
 ## Your suggestions: verdicts
 
 **The rule we used:** add only what quantiles *can't* see (the order inside a window, patterns anywhere in the series, change at several scales) and keep QUANT's recipe of a fixed, cheap feature set plus a forest. Importing whole feature sets from other methods would just rebuild those methods, not improve QUANT.
@@ -314,3 +458,5 @@ A log-spectrum would add little. Taking the log doesn't change the order of valu
 - **Faster quantile computation.** Already published as [MomentQuant](https://arxiv.org/abs/2609.05136) (2026), and the transform is only ~22% of the runtime.
 - **Multivariate QUANT and regression.** Already exist (authors' code and aeon's `QUANTRegressor`), so there's little novelty.
 - **Deep foundation models as feature extractors (Mantis, MOMENT).** [RocketPFN](https://arxiv.org/abs/2606.21786) shows they lose to simple random features on UCR.
+- **"When" features: where inside a window the area builds up.** Already published as part of [AQ-QUANT](https://doi.org/10.1109/ACCESS.2026.3712607) (IEEE Access 2026). It replaced QUANT's quantiles with area quantiles and matched QUANT's mean accuracy, but did not beat it.
+- **A more compact summary per window (e.g. L-moments instead of hundreds of quantiles).** This would make long series cheaper. But like AQ-QUANT and MomentQuant, it only changes the statistic inside each window, and that hasn't raised mean accuracy so far.

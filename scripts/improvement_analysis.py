@@ -93,9 +93,17 @@ if v is not None:
             f"gap to MR-Hydra; now ahead of MR-Hydra on {(per[m] > per['MR-Hydra (bake-off)']).sum()} of 11")
     say(f"native + length vs stretched + length: "
         f"{fmt(paired(per['QUANT (native windows) + length'], per['QUANT (stretched to equal length) + length']))}")
-    gain = (per["QUANT (native windows) + length"] - per[base]).mean()
-    say(f"effect on the 142-dataset mean if native + length replaced padded QUANT on these 11: "
+    best = max(order[1:-1], key=lambda m: per[m].mean())
+    gain = (per[best] - per[base]).mean()
+    say(f"effect on the 142-dataset mean if {best} replaced padded QUANT on these 11: "
         f"{q30.mean():.4f} -> {q30.mean() + gain * 11 / 142:.4f}")
+    first = REPRO[REPRO["resample"] == 0].set_index("dataset")
+    t_quant = (first.time_transform_training_seconds + first.time_transform_test_seconds)[per.index].sum()
+    t_native = v.groupby("dataset").transform_seconds.first().sum()
+    fit = v.groupby("method").fit_seconds.sum() / v["resample"].nunique()
+    say(f"end to end, one split of the 11, all cores: padded {(t_quant + fit[base]):.0f} s; padded + native "
+        f"{(t_quant + t_native + fit['QUANT (padded + native windows)']):.0f} s (native features {t_native:.0f} s "
+        f"vs QUANT's {t_quant:.0f} s; training x{fit['QUANT (padded + native windows)'] / fit[base]:.1f})")
     results["varlen"] = per[order].mean()
     say()
 
@@ -173,7 +181,7 @@ if frames:
 s = load("shift")
 if s is not None and frames:
     say("== 3. Misalignment stress test (30 datasets, first 5 resamples) ==")
-    done = sorted(s.groupby("dataset").level.nunique().loc[lambda x: x == 3].index)
+    done = sorted(s.groupby("dataset")["level"].nunique().loc[lambda x: x == 3].index)
     resamples = sorted(s["resample"].unique())
     base = pd.read_csv(ROOT / "results" / "weaknesses" / "shift.csv")
     base = base[base.dataset.isin(done) & base["resample"].isin(resamples)]
@@ -185,7 +193,7 @@ if s is not None and frames:
     say(curve.round(4).T.to_string())
     say("drop from level 0 to 0.5 (pts): " + ", ".join(
         f"{m} {100 * (curve[m][0.5] - curve[m][0.0]):+.1f}" for m in curve.columns))
-    per = every[every.level == 0.5].groupby(["method", "dataset"]).accuracy.mean().unstack(0)
+    per = every[every["level"] == 0.5].groupby(["method", "dataset"]).accuracy.mean().unstack(0)
     for m in [c for c in curve.columns if c not in ("QUANT", "Hydra")]:
         say(f"level 0.5, {m} vs QUANT: {fmt(paired(per[m], per['QUANT']))}")
     results["shift"] = curve
@@ -249,12 +257,13 @@ if {"benchmark", "shift", "varlen"} <= results.keys():
                          "QUANT + augmentation + TTA"] if m in t.index][::-1]
     y = np.arange(len(shown))
     ax = axes[0]
-    ax.barh(y + 0.18, 100 * t.loc[shown, "diff"], 0.36, color=BLUE, label="all 142 datasets")
-    ax.barh(y - 0.18, 100 * t.loc[shown, "manyclass_diff"], 0.36, color=ORANGE, label="18 many-class datasets")
+    ax.barh(y + 0.18, 100 * t.loc[shown, "diff"], 0.36, color=BLUE, label="142 datasets")
+    ax.barh(y - 0.18, 100 * t.loc[shown, "manyclass_diff"], 0.36, color=ORANGE, label="18 many-class")
     ax.axvline(0, color=MUTED, lw=0.8)
     ax.set_yticks(y, [m.replace("QUANT + ", "+ ") for m in shown])
     ax.set_xlabel("accuracy change vs QUANT (points)")
     ax.grid(axis="x", color=GRID, lw=0.6)
+    ax.set_xlim(right=8.5)
     ax.legend(frameon=False, loc="lower right", fontsize=7)
     tidy(ax, "(a) Change in accuracy")
 
@@ -277,18 +286,24 @@ if {"benchmark", "shift", "varlen"} <= results.keys():
 
     vl = results["varlen"]
     ax = axes[2]
-    short = {"QUANT (padded, original)": "padded\n(QUANT)", "QUANT (stretched to equal length) + length":
-             "stretched\n+ length", "QUANT (native windows)": "native", "QUANT (native windows) + length":
-             "native\n+ length", "QUANT (padded + native windows)": "padded\n+ native"}
-    bars = [m for m in short if m in vl.index]
-    ax.bar(range(len(bars)), vl[bars].values, color=[BLUE, GREY] + [GREEN] * (len(bars) - 2), width=0.6)
-    ax.axhline(vl["MR-Hydra (bake-off)"], color=ORANGE, lw=1.2, ls="--")
-    ax.text(len(bars) - 0.65, vl["MR-Hydra (bake-off)"] + 0.003, "MR-Hydra", color=ORANGE, ha="right",
+    short = {"QUANT (padded, original)": "padded (QUANT)", "QUANT (stretched to equal length) + length":
+             "stretched + length", "QUANT (native windows)": "native", "QUANT (native windows) + length":
+             "native + length", "QUANT (padded + native windows)": "padded + native"}
+    shown = [m for m in short if m in vl.index][::-1]
+    y = np.arange(len(shown))
+    colors = [GREEN if "native" in m else (BLUE if "padded, original" in m else GREY) for m in shown]
+    ax.scatter(vl[shown].values, y, s=28, color=colors, zorder=3, edgecolor="white", linewidth=0.6)
+    for yi, m in zip(y, shown):
+        ax.text(vl[m] + 0.003, yi, f"{100 * vl[m]:.1f}%", va="center", fontsize=6.5, color=MUTED)
+    ax.axvline(vl["MR-Hydra (bake-off)"], color=ORANGE, lw=1.2, ls="--")
+    ax.text(vl["MR-Hydra (bake-off)"] - 0.002, len(shown) - 0.6, "MR-Hydra", color=ORANGE, ha="right",
             va="bottom", fontsize=7)
-    ax.set_xticks(range(len(bars)), [short[m] for m in bars], fontsize=6.5)
-    ax.set_ylim(0.7, max(vl.values) + 0.03)
-    ax.grid(axis="y", color=GRID, lw=0.6)
-    tidy(ax, "(c) 11 variable-length datasets")
+    ax.set_yticks(y, [short[m] for m in shown], fontsize=7)
+    ax.set_xlim(0.74, 0.815)
+    ax.set_ylim(-0.6, len(shown) - 0.1)
+    ax.set_xlabel("mean accuracy")
+    ax.grid(axis="x", color=GRID, lw=0.6)
+    tidy(ax, "(c) 11 variable-length sets")
     fig.tight_layout()
     out = ROOT / "Papers" / "figures" / "improvements.pdf"
     out.parent.mkdir(parents=True, exist_ok=True)

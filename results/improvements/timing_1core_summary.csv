@@ -1,0 +1,7 @@
+,minutes,x_quant
+QUANT,15.659,1.0
+QUANT + pooled quantiles (idea 1),21.46,1.37
+QUANT + conv quantiles (idea 2),62.302,3.979
+Hydra alone,49.957,3.19
+"QUANT + Hydra, equal weights (idea 3)",65.616,4.19
+"QUANT + Hydra, weighted (idea 3)",91.282,5.829
