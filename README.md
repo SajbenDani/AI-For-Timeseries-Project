@@ -1,6 +1,6 @@
 # Reproducing and Improving QUANT
 
-This repository reproduces **QUANT** (Dempster, Schmidt & Webb, *Data Mining and Knowledge Discovery*, 2024), a fast time series classifier that describes each series by the quantiles of fixed windows and classifies them with an ExtraTrees forest. It then tests five ways to improve it (see [report.md](report.md)). The original code is included unmodified as a git submodule in `codebase/quant`. Our scripts in `scripts/` run the same experiment (142 UCR datasets × 30 train/test resamples) and compare our numbers with the paper's. The report is `Papers/documentation.tex`. Everything runs on a normal CPU; no GPU is needed.
+This repository reproduces **QUANT** (Dempster, Schmidt & Webb, *Data Mining and Knowledge Discovery*, 2024), a fast time series classifier that describes each series by the quantiles of fixed windows and classifies them with an ExtraTrees forest. It then tests ten ideas for improving it, in two rounds (see [report.md](report.md)). The original code is included unmodified as a git submodule in `codebase/quant`. Our scripts in `scripts/` run the same experiment (142 UCR datasets × 30 train/test resamples) and compare our numbers with the paper's. The report is `Papers/documentation.tex`. Everything runs on a normal CPU; no GPU is needed.
 
 **Setup** (Python 3.11):
 
@@ -64,20 +64,27 @@ We picked five ideas from [ideas.md](ideas.md) and added each one *on top of* th
 python scripts/improvement_tests.py varlen pooled ensemble convq augment shift   # -> results/improvements/ (~10 h, resumable)
 python scripts/improvement_tests.py timing        # single-core cost (~3.5 h); run it alone on the machine
 python scripts/improvement_analysis.py            # -> results/improvements/summary.txt, Papers/figures/improvements.pdf
+# idea 10 checked on 3 fresh variable-length datasets (originals: data/raw/native5, from timeseriesclassification.com)
+python scripts/improvement_tests.py varlen --datasets AsphaltObstaclesUniEq AsphaltPavementTypeUniEq AsphaltRegularityUniEq \
+    --variants "QUANT (padded, original)" "QUANT (native windows)" "QUANT (padded + native windows)" --out results/improvements/varlen_fresh
 ```
 
 | Idea | Accuracy (QUANT: 85.36%) | Patterns at random positions (QUANT: 80.3%) | Runtime vs QUANT* | Verdict |
 |---|---|---|---|---|
-| 3. QUANT + Hydra ensemble | **87.39%** (+2.0; level with HIVE-COTE 2) | **85.3%** | ×5.8 (×4.2 equal weights) | Success |
+| 3. QUANT + Hydra ensemble | **87.39%** (+2.0; level with HIVE-COTE 2) | **85.3%** | ×5.8 (×4.1 equal weights‡) | Success |
 | 1. Position-free pooled quantiles | 85.75% (+0.4) | 82.1% | ×1.4 | Small success |
 | 2. Quantiles of random convolutions | 85.76% (+0.4) | 83.1% | ×4.0 | Small success |
-| 10. Variable length: padded + native windows | 77.53% vs 75.55% (11 datasets, +2.0) | n/a | ×9† (slow first implementation) | Success on these 11 |
+| 10. Variable length: padded + native windows | 77.53% vs 75.55% (11 datasets, +2.0); 92.52% vs 92.31% on 3 fresh datasets (+0.2) | n/a | ×9† (slow first implementation) | Success on the 11 (mostly gestures); small on fresh data |
 | 5. Shift/stretch augmentation | 84.64% (−0.7) | 82.3% | ×5.8† | Did not help |
 
-\*Features + training + prediction for one split of every dataset on one CPU core, as in the QUANT paper. Plain QUANT takes 15.7 min this way, and the ensemble 91 min (66 min with equal weights). †Measured on all 12 threads (plain QUANT: 5.2 min).
+\*Features + training + prediction for one split of every dataset on one CPU core, as in the QUANT paper. Plain QUANT takes 15.7 min this way, and the ensemble 91 min. †Measured on all 12 threads (plain QUANT: 5.2 min). ‡With round 2's free calibration of Hydra's scores; our first equal-weights run still cross-validated it (×5.0).
 
-**Next: efficient approaches.** [ideas.md](ideas.md) (ideas 14–18) lists five new ideas that should raise accuracy while keeping QUANT cheap. They are not implemented yet. The read-only checks behind them (data, QUANT's features and existing results; no training) are in:
+**Round 2: efficient approaches.** [ideas.md](ideas.md) (ideas 14–18) lists five ideas that should raise accuracy while keeping QUANT cheap. They are implemented (new views in `scripts/quant_extensions.py`, tests in `scripts/efficient_tests.py`) and tested; results are in [report.md](report.md). Best: asking Hydra only where QUANT is unsure gives 87.16% (+1.8 points) at 2.1× QUANT's one-core time (with a smaller Hydra: +1.3 points at 1.27×).
 
 ```bash
-python scripts/idea_checks.py                     # -> results/ideas/checks.txt, results/ideas/per_dataset.csv (~5 min)
+python scripts/idea_checks.py                     # read-only checks behind ideas 14-18 -> results/ideas/ (~5 min)
+python scripts/efficient_tests.py main warp shift # ideas 14-18 + stress tests -> results/efficient/ (resumable)
+python scripts/efficient_tests.py timing          # single-core cost; run it alone on the machine
+python scripts/efficient_analysis.py              # -> results/efficient/summary.txt, Papers/figures/efficient.pdf
+python scripts/paper_figures.py                   # -> Papers/figures/main_results.pdf (Fig. 2 of the paper)
 ```

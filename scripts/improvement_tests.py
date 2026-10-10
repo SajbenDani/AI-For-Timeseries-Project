@@ -1,6 +1,10 @@
 """Tests of five ideas for improving QUANT (ideas.md: 1, 2, 3, 5 and 10).
 
   python scripts/improvement_tests.py varlen     # idea 10: the 11 variable-length datasets without padding (30 resamples)
+  python scripts/improvement_tests.py varlen --datasets AsphaltObstaclesUniEq AsphaltPavementTypeUniEq \
+      AsphaltRegularityUniEq --variants "QUANT (padded, original)" "QUANT (native windows)" \
+      "QUANT (padded + native windows)" --out results/improvements/varlen_fresh
+                                                 # idea 10 on 3 fresh variable-length datasets (originals in data/raw/native5)
   python scripts/improvement_tests.py pooled     # idea 1:  QUANT + position-free pooled window quantiles (142 datasets)
   python scripts/improvement_tests.py convq      # idea 2:  QUANT + quantiles of random convolutions (142 datasets)
   python scripts/improvement_tests.py ensemble   # idea 3:  QUANT + Hydra, probabilities averaged (142 datasets)
@@ -91,13 +95,22 @@ def timed(function, *args):
 
 # == idea 10: variable-length QUANT ===================================================================
 
+FRESH = {"AsphaltObstaclesUniEq": "AsphaltObstacles", "AsphaltPavementTypeUniEq": "AsphaltPavementType",
+         "AsphaltRegularityUniEq": "AsphaltRegularity"}  # fresh check of idea 10: originals from
+# timeseriesclassification.com (data/raw/native5/); each padded series starts with exactly its original
+
+
 def native_series(name, labels):
     """The original, unpadded series of an "Eq" dataset, in the same pool order as the padded version."""
-    archive = zipfile.ZipFile(ROOT / "data" / "raw" / "Univariate2018_ts.zip")
-    native = name[:-2]  # e.g. AllGestureWiimoteXEq -> AllGestureWiimoteX
     series, native_labels = [], []
     for split in ("TRAIN", "TEST"):
-        lines = archive.read(f"Univariate_ts/{native}/{native}_{split}.ts").decode("utf-8", "ignore").splitlines()
+        if name in FRESH:
+            path = ROOT / "data" / "raw" / "native5" / FRESH[name] / f"{FRESH[name]}_{split}.ts"
+            lines = path.read_text(encoding="utf-8", errors="ignore").splitlines()
+        else:
+            native = name[:-2]  # e.g. AllGestureWiimoteXEq -> AllGestureWiimoteX
+            archive = zipfile.ZipFile(ROOT / "data" / "raw" / "Univariate2018_ts.zip")
+            lines = archive.read(f"Univariate_ts/{native}/{native}_{split}.ts").decode("utf-8", "ignore").splitlines()
         start = next(j for j, line in enumerate(lines) if line.strip().lower().startswith("@data")) + 1
         for line in filter(str.strip, lines[start:]):
             v, label = line.strip().rsplit(":", 1)
@@ -117,17 +130,18 @@ def test_varlen(args):
         series = native_series(name, d.labels)
         L = d.X.shape[1]  # padded length = longest series
         length = np.array([[len(s)] for s in series], dtype=np.float32)
-        stretched = np.stack([np.interp(np.linspace(0, len(s) - 1, L), np.arange(len(s)), s) for s in series])
+        stretched = lambda: np.stack([np.interp(np.linspace(0, len(s) - 1, L), np.arange(len(s)), s)  # noqa: E731
+                                      for s in series]).astype(np.float32)
         native, t_native = timed(varlen_quant, series, L)
         padded = quant_features(d.X)
-        variants = {
-            "QUANT (padded, original)": padded,
-            "QUANT (stretched to equal length) + length": np.hstack([quant_features(stretched.astype(np.float32)),
-                                                                     length]),
-            "QUANT (native windows)": native,
-            "QUANT (native windows) + length": np.hstack([native, length]),
-            "QUANT (padded + native windows)": np.hstack([padded, native]),  # the forest picks the useful view
+        variants = {  # built only if selected (--variants)
+            "QUANT (padded, original)": lambda: padded,
+            "QUANT (stretched to equal length) + length": lambda: np.hstack([quant_features(stretched()), length]),
+            "QUANT (native windows)": lambda: native,
+            "QUANT (native windows) + length": lambda: np.hstack([native, length]),
+            "QUANT (padded + native windows)": lambda: np.hstack([padded, native]),  # the forest picks the view
         }
+        variants = {m: make() for m, make in variants.items() if not args.variants or m in args.variants}
         rows = []
         for i in range(args.resamples or 30):
             train, test = d.split(i)
@@ -347,6 +361,7 @@ if __name__ == "__main__":
     p.add_argument("tests", nargs="+", choices=list(TESTS))
     p.add_argument("--datasets", nargs="*", help="only these datasets (default: the test's own selection)")
     p.add_argument("--resamples", type=int, help="override the number of resamples")
+    p.add_argument("--variants", nargs="*", help="varlen only: run just these variants (default: all)")
     p.add_argument("--out", type=Path, default=ROOT / "results" / "improvements")
     args = p.parse_args()
     for t in args.tests:

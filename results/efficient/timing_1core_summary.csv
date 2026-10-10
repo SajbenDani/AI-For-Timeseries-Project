@@ -1,0 +1,11 @@
+,minutes,x_quant
+QUANT,16.812,1.0
+QUANT + speed quantiles (14),22.334,1.328
+QUANT + cycle view (15),19.97,1.188
+QUANT + bispectrum view (16),19.466,1.158
+"QUANT, rank-uniform splits (17)",19.447,1.157
+Hydra alone,52.678,3.133
+Hydra-16 alone,12.277,0.73
+"QUANT + Hydra, equal weights, free calibration",69.491,4.133
+"QUANT + Hydra, equal weights, calibrated as in idea 3",84.584,5.031
+"QUANT + Hydra-16, equal weights, free calibration",29.089,1.73

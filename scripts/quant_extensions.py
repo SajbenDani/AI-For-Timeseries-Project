@@ -7,6 +7,9 @@ can be computed once for all series of a dataset.
   idea 2   conv_quantiles    quantiles of random-convolution outputs over the whole series (shape-aware, position-free)
   idea 5   AUGMENTATIONS     shifted and stretched copies of each series
   idea 10  varlen_quant      QUANT on series of different lengths, without padding
+  idea 14  speed_quantiles   window quantiles weighted by how much the series moves (ignores speed)
+  idea 15  cycle_view        QUANT on the typical cycle of a repeating series (ignores where the recording starts)
+  idea 16  bispectrum_view   a slice of the bispectrum: like the Fourier magnitudes, but it sees shape
 """
 
 import itertools
@@ -18,7 +21,7 @@ import torch
 import torch.nn.functional as F
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "codebase" / "quant" / "code"))
-from quant import Quant, make_intervals  # noqa: E402
+from quant import IntervalModel, Quant, make_intervals  # noqa: E402
 
 REPRESENTATIONS = Quant().representation_functions  # raw, smoothed 1st difference, 2nd difference, |FFT|
 LEVELS = torch.linspace(0, 1, 9)  # quantile levels for the pooled and convolution features
@@ -162,3 +165,132 @@ def varlen_quant(series, reference_length, depth=6, div=4, min_length=9):
         for row, i in zip(torch.cat(features, -1).numpy(), members):
             out[i] = row
     return np.stack(out)
+
+
+# == idea 14: speed-invariant quantiles ===============================================================
+
+def interpolate(q, xp, fp):
+    """np.interp for every row: q (n, k), xp (n, m) increasing, fp (n, m); values outside xp take the edge."""
+    i = torch.searchsorted(xp, q).clamp(1, xp.shape[-1] - 1)
+    x0, x1, f0, f1 = xp.gather(-1, i - 1), xp.gather(-1, i), fp.gather(-1, i - 1), fp.gather(-1, i)
+    return f0 + ((q - x0) / (x1 - x0).clamp_min(1e-12)).clamp(0, 1) * (f1 - f0)
+
+
+def speed_quantiles(X, depth=6, div=4):
+    """QUANT's windows and quantile counts on the raw series, but each value counts by how much the series moves
+    there, not by how long it stays there: the quantiles are those of the midpoints of all steps between
+    neighbouring points, each weighted by the size of its step. Playing a window faster or slower changes how long
+    each part lasts but not how far the series moves, so these quantiles stay the same (the weighted distribution
+    is the series' level-crossing count, Banach's indicatrix). The series is first smoothed as QUANT smooths its
+    first difference (moving average of width 5), so that noise does not dominate the weights, and every second
+    quantile is taken relative to the weighted window mean, as in QUANT. A window where the series stands still
+    falls back to plain quantiles. X: (n_series, length) -> (n_series, about 3 x length) features."""
+
+    def speed(X):
+        S = F.avg_pool1d(F.pad(X.unsqueeze(1), (2, 2), "replicate"), 5, 1)[:, 0]
+        step = S.diff()
+        mid = (S[:, 1:] + S[:, :-1]) / 2
+        weight = step.abs()
+        weight = weight + 1e-6 * weight.mean(-1, keepdim=True) + 1e-30
+        features = []
+        for a, b in make_intervals(mid.shape[-1], depth).tolist():
+            m, w = mid[:, a:b], weight[:, a:b]
+            if b - a == 1:
+                features.append(m)
+                continue
+            count = 1 + (b - a - 1) // div
+            m_sorted, order = m.sort(-1)
+            w_sorted = w.gather(-1, order)
+            total = w_sorted.sum(-1, keepdim=True)
+            centre = ((w_sorted.cumsum(-1) - w_sorted / 2) / total).contiguous()  # where each value's weight sits
+            levels = torch.tensor([0.5]) if count == 1 else torch.linspace(0, 1, count)
+            q = interpolate(levels.expand(len(m), count).contiguous(), centre, m_sorted)
+            if count > 1:
+                q[:, 1::2] -= (m * w).sum(-1, keepdim=True) / total
+            features.append(q)
+        return torch.cat(features, -1)
+
+    return batched(speed, X, 256)
+
+
+# == idea 15: cycle view ===============================================================================
+
+def find_period(X, min_cycles=3, min_strength=0.3):
+    """Length of one cycle of every series (in points, with sub-point precision) and how strongly it repeats: the
+    first autocorrelation peak that reaches 90% of the highest one, at a lag that fits at least `min_cycles` times
+    into the series. Only peaks after the autocorrelation has first turned negative count, as in pitch detection:
+    a repeating series swings below its mean half a cycle later, a drifting one (e.g. a random walk) does not.
+    Series without such a peak of at least `min_strength` get their whole length as period and strength 0."""
+    n, length = X.shape
+    size = 1 << int(np.ceil(np.log2(2 * length)))
+    acf = np.fft.irfft(np.abs(np.fft.rfft(X - X.mean(1, keepdims=True), size)) ** 2)[:, :length]
+    acf = acf / np.maximum(acf[:, :1], 1e-12)
+    period, strength = np.full(n, float(length)), np.zeros(n)
+    hi = length // min_cycles
+    if hi < 4:
+        return period, strength
+    lags = np.arange(3, hi + 1)
+    mid = acf[:, 3:hi + 1]  # lags 3 .. hi
+    after_dip = lags[None, :] > (acf < 0).argmax(1)[:, None]  # argmax = first negative lag (0 if never negative)
+    after_dip &= (acf < 0).any(1)[:, None]
+    heights = np.where((mid > acf[:, 2:hi]) & (mid >= acf[:, 4:hi + 2]) & after_dip, mid, -np.inf)
+    best = heights.max(1)
+    for j in np.flatnonzero(best >= min_strength):
+        lag = 3 + np.flatnonzero(heights[j] >= 0.9 * best[j])[0]
+        a, b, c = acf[j, lag - 1:lag + 2]
+        period[j] = lag + (np.clip(0.5 * (a - c) / (a - 2 * b + c), -0.5, 0.5) if a - 2 * b + c < 0 else 0.0)
+        strength[j] = b
+    return period, strength
+
+
+def fold(x, period, bins):
+    """Median and spread (interquartile range) over all whole cycles of one series, each cycle resampled to `bins`
+    points. A series without a cycle (period = its length) is one cycle: itself, resampled, with spread 0."""
+    length = len(x)
+    if period >= length:
+        return np.interp(np.linspace(0, length - 1, bins), np.arange(length), x), np.zeros(bins)
+    t = np.arange(int(length // period))[:, None] * period + np.arange(bins)[None, :] * (period / bins)
+    q25, q50, q75 = np.percentile(np.interp(t, np.arange(length), x), [25, 50, 75], axis=0)
+    return q50, q75 - q25
+
+
+def cycle_view(X, bins=64):
+    """Fold every series into its typical cycle: find the cycle length (find_period), take the median of all whole
+    cycles, each resampled to `bins` points, and rotate it so the cycle's fundamental (its first Fourier component)
+    has phase 0. Every typical cycle then starts at the same point of its shape, wherever the recording started,
+    and averaging the cycles removes noise. Features: QUANT's on the typical cycle, QUANT's raw-view quantiles of
+    the spread between cycles (rotated the same way), the cycle length as a fraction of the series and how strongly
+    the series repeats. Series that do not repeat are their own single cycle. X: (n, length) -> (n, ~850) features."""
+    X = np.asarray(X, dtype=np.float64)
+    n, length = X.shape
+    bins = min(bins, length)
+    period, strength = find_period(X)
+    cycle, spread = np.empty((n, bins), np.float32), np.empty((n, bins), np.float32)
+    for j in range(n):
+        c, s = fold(X[j], period[j], bins)
+        shift = int(round(np.angle(np.fft.rfft(c)[1]) * bins / (2 * np.pi)))
+        cycle[j], spread[j] = np.roll(c, shift), np.roll(s, shift)
+    C, S = torch.from_numpy(cycle).unsqueeze(1), torch.from_numpy(spread).unsqueeze(1)
+    return np.hstack([Quant().fit_transform(C, None).numpy(), IntervalModel(bins).fit_transform(S, None).numpy(),
+                      np.column_stack([period / length, strength]).astype(np.float32)])
+
+
+# == idea 16: shape-aware Fourier view (a slice of the bispectrum) =====================================
+
+def bispectrum_view(X, depth=6, div=4):
+    """QUANT's Fourier view keeps only the size of each frequency, which ignores where a pattern is but is also blind
+    to its shape (a series and its mirror image in time have the same magnitudes). The product
+    B(f) = X(f) X(f) conj(X(2f)) is unchanged when the pattern moves (the phase shifts cancel), but it records how
+    frequency f lines up with 2f, which is shape: its real part follows peaks vs troughs (skewness), its imaginary
+    part a fast rise vs a fast fall (time asymmetry). Both parts, shrunk by a signed cube root so they are on the
+    series' own scale, become two more views with QUANT's windows and quantiles.
+    X: (n_series, length) -> (n_series, about 1.5 x length) features."""
+
+    def bispectrum(X):
+        R = torch.fft.rfft(X)
+        f = torch.arange(1, (R.shape[-1] - 1) // 2 + 1)
+        B = R[:, f] ** 2 * R[:, 2 * f].conj()
+        views = [(v.sign() * v.abs().pow(1 / 3)).unsqueeze(1) for v in (B.real, B.imag)]
+        return torch.cat([IntervalModel(len(f), depth, div).fit_transform(v, None) for v in views], -1)
+
+    return batched(bispectrum, X, 512)

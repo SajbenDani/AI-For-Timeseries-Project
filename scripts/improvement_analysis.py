@@ -107,6 +107,32 @@ if v is not None:
     results["varlen"] = per[order].mean()
     say()
 
+# == 1b. idea 10 on fresh variable-length datasets ===================================================
+fresh_path = R / "varlen_fresh" / "varlen.csv"
+if fresh_path.exists():
+    fv = pd.read_csv(fresh_path)
+    say("== 1b. Idea 10 checked on 3 fresh variable-length datasets (the Asphalt sets; never used before, 30 "
+        "resamples). The padded + native version was designed after the first results, so this is its check ==")
+    per = fv.pivot_table(index="dataset", columns="method", values="accuracy", aggfunc="mean")
+    base = "QUANT (padded, original)"
+    q30 = REPRO.groupby("dataset").accuracy.mean()
+    say(f"sanity check, max |padded QUANT here - reproduction|: {(per[base] - q30[per.index]).abs().max():.1e}")
+    say(per.round(4).to_string())
+    by_split = fv.pivot_table(index=["dataset", "resample"], columns="method", values="accuracy")
+    for m in [c for c in per.columns if c != base]:
+        d = per[m] - per[base]
+        say(f"{m} vs padded: mean {100 * d.mean():+.2f} pts, better on {(d.round(4) > 0).sum()} of {len(d)} datasets")
+        for name in per.index:
+            s = by_split.loc[name]
+            delta = s[m] - s[base]
+            p = wilcoxon(s[m], s[base], zero_method="pratt").pvalue if (delta != 0).any() else 1.0
+            say(f"    {name:26s} {100 * delta.mean():+.2f} pts, better on {(delta > 0).sum()} / worse on "
+                f"{(delta < 0).sum()} of 30 splits, Wilcoxon over splits p={p:.2g}")
+        delta = by_split[m] - by_split[base]
+        say(f"    all 90 dataset-splits: {100 * delta.mean():+.2f} pts, better on {(delta > 0).sum()} / worse on "
+            f"{(delta < 0).sum()}, Wilcoxon p={wilcoxon(by_split[m], by_split[base], zero_method='pratt').pvalue:.2g}")
+    say()
+
 # == 2. ideas 1, 2, 3, 5 on all 142 datasets ==========================================================
 say("== 2. Ideas 1, 2, 3, 5 on the 142 datasets (first 10 resamples, seed = resample) ==")
 ens = load("ensemble")

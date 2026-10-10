@@ -1,0 +1,160 @@
+== 0. Reference: plain QUANT (our reproduction, first 10 resamples) ==
+142 datasets: 0.8536
+groups: many-class 18, gestures 10, repeating 36, elastic wins 23, skewed features 36
+datasets finished: 142 of 142; sanity check, max |QUANT in this run - reproduction|: 4.3e-07
+
+== 1. Ideas 14-17 on the 142 datasets (first 10 resamples, seed = resample) ==
+idea 14: QUANT + speed quantiles      0.8550 vs QUANT 0.8536: diff +0.14 pts  W/D/L 81/9/52  Wilcoxon p=0.0055
+    target group (elastic wins, 23): diff +0.51 pts  W/D/L 18/1/4  Wilcoxon p=0.0015
+    groups (pts): many-class +0.13, gestures +0.44, repeating +0.03, elastic wins +0.51, skewed features +0.08
+    largest gains: PigAirwayPressure +3.1, SemgHandMovementCh2 +1.9, ToeSegmentation2 +1.5, FloodModeling3Discrete +1.5, AllGestureWiimoteYEq +1.4
+    worst changes: PigCVP -3.0, Covid3MonthDiscrete -1.8, ScreenType -1.2, MoteStrain -1.1, ACSF1 -1.1
+    features x1.28 (cost on one core: section 4)
+    does the gain follow the idea's mechanism? Spearman(gain, elastic method's lead over QUANT (PF - QUANT)) = +0.10 (p = 0.25)
+idea 15: QUANT + cycle view           0.8536 vs QUANT 0.8536: diff +0.00 pts  W/D/L 61/16/65  Wilcoxon p=0.53
+    target group (repeating, 36): diff +0.02 pts  W/D/L 18/1/17  Wilcoxon p=0.99
+    groups (pts): many-class +0.36, gestures +0.49, repeating +0.02, elastic wins +0.09, skewed features +0.03
+    largest gains: ToeSegmentation2 +5.2, ToeSegmentation1 +2.4, PickupGestureWiimoteZEq +2.2, PigArtPressure +1.6, SonyAIBORobotSurface1 +1.6
+    worst changes: Herring -2.8, BirdChicken -2.0, DistalPhalanxOutlineAgeGroup -1.9, InsectWingbeatSound -1.6, Covid3MonthDiscrete -1.5
+    features x1.41 (cost on one core: section 4)
+    does the gain follow the idea's mechanism? Spearman(gain, how strongly the series repeat) = -0.07 (p = 0.43)
+idea 16: QUANT + bispectrum view      0.8547 vs QUANT 0.8536: diff +0.11 pts  W/D/L 65/20/57  Wilcoxon p=0.24
+    target group (many-class, 18): diff -0.02 pts  W/D/L 8/0/10  Wilcoxon p=0.79
+    groups (pts): many-class -0.02, gestures +1.04, repeating +0.05, elastic wins +0.42, skewed features +0.27
+    largest gains: AllGestureWiimoteZEq +3.4, GestureMidAirD2Eq +2.7, AllGestureWiimoteXEq +2.6, AllGestureWiimoteYEq +2.6, Herring +1.7
+    worst changes: DistalPhalanxOutlineAgeGroup -2.0, PigAirwayPressure -1.7, GestureMidAirD3Eq -1.4, DodgerLoopDayNmv -1.2, Covid3MonthDiscrete -1.1
+    features x1.15 (cost on one core: section 4)
+    does the gain follow the idea's mechanism? Spearman(gain, Hydra's lead over QUANT (position-free shapes)) = +0.04 (p = 0.65)
+idea 17: QUANT, rank-uniform splits   0.8527 vs QUANT 0.8536: diff -0.09 pts  W/D/L 56/10/76  Wilcoxon p=0.053
+    target group (skewed features, 36): diff +0.01 pts  W/D/L 20/0/16  Wilcoxon p=0.81
+    groups (pts): many-class +0.27, gestures +0.22, repeating -0.15, elastic wins -0.01, skewed features +0.01
+    largest gains: Lightning7 +2.6, Rock +1.6, ShakeGestureWiimoteZEq +1.2, GestureMidAirD1Eq +1.2, Ham +1.1
+    worst changes: DodgerLoopGameNmv -3.6, Lightning2 -1.6, Car -1.5, DiatomSizeReduction -1.5, ToeSegmentation1 -1.4
+    features x1.00 (cost on one core: section 4)
+    does the gain follow the idea's mechanism? Spearman(gain, share of skewed features) = +0.17 (p = 0.047)
+
+== 2. Idea 18: Hydra only where QUANT is unsure (142 datasets, first 10 resamples) ==
+one-core times from results/efficient/timing_1core.csv; QUANT alone 16.8 min
+Hydra alone 0.8574. QUANT + Hydra with every test series asked (equal weights, free calibration): 0.8725, 69.5 min: diff +1.89 pts  W/D/L 99/7/36  Wilcoxon p=1.2e-09
+    vs idea 3's equal weights with cross-validated calibration: 0.8725 vs 0.8725 (diff -0.01 pts  W/D/L 27/70/45  Wilcoxon p=0.021)
+per-series gate (Hydra asked when QUANT's top-two margin < threshold); size rule = Hydra only on datasets with >= 10 classes or <= 10 training series per class:
+            asked  hydra_datasets  accuracy  minutes  accuracy_size_rule  minutes_size_rule  gain_kept
+threshold                                                                                             
+0.00       0.0000          0.0000    0.8536  16.8123              0.8536            16.8123    -0.0000
+0.05       0.0537          0.8641    0.8625  40.5544              0.8602            22.1007     0.4731
+0.10       0.0989          0.9176    0.8668  42.4140              0.8629            22.6570     0.6987
+0.15       0.1399          0.9331    0.8696  43.3455              0.8646            23.0759     0.8500
+0.20       0.1772          0.9408    0.8710  44.3938              0.8653            23.4250     0.9203
+0.30       0.2429          0.9570    0.8723  45.7759              0.8659            23.9548     0.9899
+0.40       0.3112          0.9662    0.8727  47.1248              0.8660            24.4098     1.0107
+0.50       0.3736          0.9732    0.8728  48.3945              0.8662            24.8188     1.0206
+0.60       0.4423          0.9789    0.8729  49.8217              0.8663            25.2556     1.0211
+0.80       0.6101          0.9873    0.8726  53.7770              0.8662            26.4920     1.0082
+1.01       1.0000          1.0000    0.8725  69.4906              0.8662            29.1007     1.0000
+two-level gate (also skip Hydra for a dataset when fewer than min_asked of its test series are unsure), settings on the accuracy/cost front:
+                      asked  hydra_datasets  accuracy  minutes
+threshold min_asked                                           
+0.00      0.00       0.0000          0.0000    0.8536  16.8123
+0.05      0.20       0.0107          0.0359    0.8559  17.7179
+0.10      0.20       0.0506          0.1662    0.8602  19.6633
+0.15      0.20       0.0892          0.2599    0.8627  22.3613
+0.10      0.10       0.0762          0.3479    0.8632  22.9226
+0.20      0.20       0.1284          0.3437    0.8648  23.8798
+0.15      0.10       0.1193          0.4711    0.8668  25.3502
+0.30      0.20       0.1991          0.4683    0.8688  26.6307
+0.20      0.10       0.1607          0.5732    0.8694  29.9566
+0.40      0.20       0.2765          0.5901    0.8712  31.9229
+0.30      0.10       0.2308          0.6817    0.8717  35.7508
+0.50      0.20       0.3456          0.6754    0.8723  35.8132
+0.40      0.10       0.3013          0.7563    0.8724  39.5843
+0.60      0.20       0.4203          0.7521    0.8726  41.0521
+0.40      0.05       0.3087          0.8514    0.8726  43.8246
+0.50      0.10       0.3667          0.8183    0.8728  43.9274
+          0.05       0.3716          0.8859    0.8728  45.1526
+0.60      0.10       0.4362          0.8542    0.8729  46.3597
+per-series gate, settings chosen on the other half [(0.15, 0.0), (0.3, 0.0)] (threshold, min share unsure): 0.8704, 44.5 min on one core (x2.65 QUANT), Hydra trained on 95% of datasets, asked 19.0% of test series, keeps 89% of the full gain
+    vs QUANT: diff +1.68 pts  W/D/L 106/8/28  Wilcoxon p=1.6e-13; many-class +5.64 pts
+two-level gate, settings chosen on the other half [(0.4, 0.2), (0.3, 0.1)] (threshold, min share unsure): 0.8716, 35.9 min on one core (x2.14 QUANT), Hydra trained on 66% of datasets, asked 25.7% of test series, keeps 95% of the full gain
+    vs QUANT: diff +1.80 pts  W/D/L 83/39/20  Wilcoxon p=1.2e-11; many-class +6.13 pts
+fresh check: two-level setting (0.3, 0.1) chosen on the first 60 datasets; on the other 82: 0.8687 vs QUANT 0.8468 and full ensemble 0.8693, keeps 97% of the gain at x2.03 QUANT's time (full x4.32); vs QUANT: diff +2.19 pts  W/D/L 53/18/11  Wilcoxon p=2e-08
+Hydra-16 alone 0.8468. QUANT + Hydra-16 with every test series asked (equal weights, free calibration): 0.8667, 29.1 min: diff +1.31 pts  W/D/L 84/9/49  Wilcoxon p=2.2e-05
+per-series gate (Hydra asked when QUANT's top-two margin < threshold); size rule = Hydra only on datasets with >= 10 classes or <= 10 training series per class:
+            asked  hydra_datasets  accuracy  minutes  accuracy_size_rule  minutes_size_rule  gain_kept
+threshold                                                                                             
+0.00       0.0000          0.0000    0.8536  16.8123              0.8536            16.8123    -0.0000
+0.05       0.0537          0.8641    0.8611  22.3607              0.8592            18.0575     0.5741
+0.10       0.0989          0.9176    0.8643  22.7987              0.8611            18.1841     0.8134
+0.15       0.1399          0.9331    0.8663  23.0162              0.8623            18.2793     0.9655
+0.20       0.1772          0.9408    0.8672  23.2614              0.8628            18.3587     1.0364
+0.30       0.2429          0.9570    0.8675  23.5831              0.8630            18.4795     1.0588
+0.40       0.3112          0.9662    0.8675  23.8968              0.8629            18.5832     1.0573
+0.50       0.3736          0.9732    0.8675  24.1916              0.8631            18.6762     1.0622
+0.60       0.4423          0.9789    0.8673  24.5223              0.8630            18.7752     1.0467
+0.80       0.6101          0.9873    0.8669  25.4347              0.8629            19.0529     1.0138
+1.01       1.0000          1.0000    0.8667  29.0895              0.8629            19.6409     1.0000
+two-level gate (also skip Hydra for a dataset when fewer than min_asked of its test series are unsure), settings on the accuracy/cost front:
+                      asked  hydra_datasets  accuracy  minutes
+threshold min_asked                                           
+0.00      0.00       0.0000          0.0000    0.8536  16.8123
+0.05      0.20       0.0107          0.0359    0.8556  17.0192
+          0.10       0.0309          0.1817    0.8579  17.4515
+0.10      0.20       0.0506          0.1662    0.8589  17.4757
+0.15      0.20       0.0892          0.2599    0.8607  17.9595
+0.10      0.10       0.0762          0.3479    0.8611  18.0977
+0.20      0.20       0.1284          0.3437    0.8620  18.3233
+0.15      0.10       0.1193          0.4711    0.8638  18.6995
+0.30      0.20       0.1991          0.4683    0.8646  18.9746
+0.20      0.10       0.1607          0.5732    0.8658  19.5311
+0.40      0.20       0.2765          0.5901    0.8664  19.9807
+0.50      0.20       0.3456          0.6754    0.8672  21.0252
+0.40      0.10       0.3013          0.7563    0.8673  22.0080
+0.30      0.05       0.2395          0.8021    0.8674  22.6177
+          0.02       0.2423          0.8817    0.8675  22.8317
+0.40      0.05       0.3087          0.8514    0.8675  23.1034
+0.50      0.10       0.3667          0.8183    0.8676  23.1122
+per-series gate, settings chosen on the other half [(0.1, 0.0), (0.2, 0.0)] (threshold, min share unsure): 0.8651, 23.0 min on one core (x1.37 QUANT), Hydra trained on 93% of datasets, asked 13.7% of test series, keeps 88% of the full gain
+    vs QUANT: diff +1.15 pts  W/D/L 99/11/32  Wilcoxon p=3.6e-12; many-class +4.20 pts
+two-level gate, settings chosen on the other half [(0.2, 0.1), (0.2, 0.05)] (threshold, min share unsure): 0.8663, 21.3 min on one core (x1.27 QUANT), Hydra trained on 67% of datasets, asked 16.8% of test series, keeps 97% of the full gain
+    vs QUANT: diff +1.27 pts  W/D/L 84/34/24  Wilcoxon p=1.2e-10; many-class +4.73 pts
+fresh check: two-level setting (0.15, 0.05) chosen on the first 60 datasets; on the other 82: 0.8619 vs QUANT 0.8468 and full ensemble 0.8631, keeps 93% of the gain at x1.23 QUANT's time (full x1.80); vs QUANT: diff +1.51 pts  W/D/L 51/17/14  Wilcoxon p=7.9e-08
+bake-off, same 10 resamples: MR-Hydra 0.8706
+bake-off, same 10 resamples: HC2 0.8753
+
+== 3a. Speed stress test: time-warped series (idea 14; 30 datasets, first 5 resamples) ==
+datasets: 30
+level                       0.0     0.2     0.4     0.6
+method                                                 
+QUANT                    0.8600  0.8161  0.7926  0.7613
+QUANT + speed quantiles  0.8617  0.8243  0.8029  0.7831
+drop from level 0 to the strongest warp (pts): QUANT -9.9, QUANT + speed quantiles -7.9
+level 0.2: + speed quantiles vs QUANT: diff +0.81 pts  W/D/L 18/4/8  Wilcoxon p=0.046
+level 0.4: + speed quantiles vs QUANT: diff +1.04 pts  W/D/L 18/3/9  Wilcoxon p=0.037
+level 0.6: + speed quantiles vs QUANT: diff +2.18 pts  W/D/L 24/3/3  Wilcoxon p=6e-05
+
+== 3b. Misalignment stress test (ideas 15 and 16; 30 datasets, first 5 resamples) ==
+datasets: 30
+level                      0.00    0.10    0.25    0.50
+method                                                 
+Hydra                    0.8734  0.8637  0.8520  0.8490
+QUANT                    0.8600  0.8428  0.8158  0.8033
+QUANT + bispectrum view  0.8607  0.8448  0.8201  0.8066
+QUANT + cycle view       0.8607  0.8478  0.8270  0.8183
+drop from level 0 to 0.5 (pts): Hydra -2.4, QUANT -5.7, QUANT + bispectrum view -5.4, QUANT + cycle view -4.2
+level 0.5, QUANT + cycle view vs QUANT: diff +1.49 pts  W/D/L 20/3/7  Wilcoxon p=0.0027
+level 0.5, QUANT + bispectrum view vs QUANT: diff +0.33 pts  W/D/L 17/3/10  Wilcoxon p=0.17
+repeating datasets among them (4): level 0.5, cycle view vs QUANT diff +0.00 pts  W/D/L 2/0/2  Wilcoxon p=1
+
+== 4. Compute time on one CPU core (original split; features of all series + training + prediction) ==
+datasets: 142; QUANT's accuracy equals the reproduction's on 142 of them
+QUANT                                                      16.8 min   x1.00
+QUANT + speed quantiles (14)                               22.3 min   x1.33
+QUANT + cycle view (15)                                    20.0 min   x1.19
+QUANT + bispectrum view (16)                               19.5 min   x1.16
+QUANT, rank-uniform splits (17)                            19.4 min   x1.16
+Hydra alone                                                52.7 min   x3.13
+Hydra-16 alone                                             12.3 min   x0.73
+QUANT + Hydra, equal weights, free calibration             69.5 min   x4.13
+QUANT + Hydra, equal weights, calibrated as in idea 3      84.6 min   x5.03
+QUANT + Hydra-16, equal weights, free calibration          29.1 min   x1.73
+parts (min): quant_features 3.8, speed_features 1.3, cycle_features 0.8, bispectrum_features 0.6, hydra_features 48.8, hydra16_features 11.4, quant_fit_predict 13.0, speed_fit_predict 17.2, cycle_fit_predict 15.4, bispectrum_fit_predict 15.1, rank_fit_predict 15.7, hydra_fit_predict 3.9, hydra16_fit_predict 0.9, hydra_cv_calibration 15.1
+

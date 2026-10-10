@@ -26,6 +26,24 @@ native + length vs stretched + length: diff +0.12 pts  W/D/L 7/0/4  Wilcoxon p=0
 effect on the 142-dataset mean if QUANT (padded + native windows) replaced padded QUANT on these 11: 0.8551 -> 0.8567
 end to end, one split of the 11, all cores: padded 15 s; padded + native 138 s (native features 117 s vs QUANT's 8 s; training x1.9)
 
+== 1b. Idea 10 checked on 3 fresh variable-length datasets (the Asphalt sets; never used before, 30 resamples). The padded + native version was designed after the first results, so this is its check ==
+sanity check, max |padded QUANT here - reproduction|: 6.7e-08
+method                    QUANT (native windows)  QUANT (padded + native windows)  QUANT (padded, original)
+dataset                                                                                                    
+AsphaltObstaclesUniEq                     0.8302                           0.8501                    0.8438
+AsphaltPavementTypeUniEq                  0.9092                           0.9371                    0.9364
+AsphaltRegularityUniEq                    0.9789                           0.9884                    0.9890
+QUANT (native windows) vs padded: mean -1.70 pts, better on 0 of 3 datasets
+    AsphaltObstaclesUniEq      -1.36 pts, better on 7 / worse on 23 of 30 splits, Wilcoxon over splits p=0.00053
+    AsphaltPavementTypeUniEq   -2.72 pts, better on 0 / worse on 30 of 30 splits, Wilcoxon over splits p=1.7e-06
+    AsphaltRegularityUniEq     -1.02 pts, better on 2 / worse on 26 of 30 splits, Wilcoxon over splits p=4e-06
+    all 90 dataset-splits: -1.70 pts, better on 9 / worse on 79, Wilcoxon p=7.2e-14
+QUANT (padded + native windows) vs padded: mean +0.21 pts, better on 2 of 3 datasets
+    AsphaltObstaclesUniEq      +0.63 pts, better on 22 / worse on 7 of 30 splits, Wilcoxon over splits p=0.00098
+    AsphaltPavementTypeUniEq   +0.07 pts, better on 19 / worse on 10 of 30 splits, Wilcoxon over splits p=0.38
+    AsphaltRegularityUniEq     -0.06 pts, better on 7 / worse on 14 of 30 splits, Wilcoxon over splits p=0.12
+    all 90 dataset-splits: +0.21 pts, better on 48 / worse on 31, Wilcoxon p=0.013
+
 == 2. Ideas 1, 2, 3, 5 on the 142 datasets (first 10 resamples, seed = resample) ==
 sanity check, max |QUANT in the ensemble run - reproduction|: 4.3e-07
 QUANT + pooled quantiles         (142 datasets) 0.8575 vs QUANT 0.8536: diff +0.39 pts  W/D/L 84/19/39  Wilcoxon p=2.3e-06
