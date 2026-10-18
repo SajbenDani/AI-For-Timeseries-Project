@@ -96,7 +96,7 @@ def measure():
                      "unbalanced all": np.mean(np.concatenate(shares) < 0.1)})
         print(f"{name:32s} periodicity {p:.2f}  cycles {c:6.1f}  unbalanced {rows[-1]['unbalanced all']:.2f}", flush=True)
     per = pd.DataFrame(rows).set_index("dataset")
-    per.to_csv(OUT / "per_dataset.csv", float_format="%.4f")
+    per.to_csv(OUT / "per_dataset.csv", float_format="%.6f")
     return per
 
 

@@ -45,13 +45,6 @@ def paired(a, b):
     return f"diff {d.mean():+.4f}  W/D/L {(d > 0).sum()}/{(d == 0).sum()}/{(d < 0).sum()}  Wilcoxon p={p:.2g}"
 
 
-def train_labels(name):
-    path = ROOT / "data" / "ucr142" / name / f"{name}_TRAIN.ts"
-    lines_ = path.read_text(encoding="utf-8", errors="ignore").splitlines()
-    start = next(j for j, line in enumerate(lines_) if line.strip().lower().startswith("@data")) + 1
-    return pd.Series([line.strip().rsplit(":", 1)[1] for line in lines_[start:] if line.strip()])
-
-
 results = {}
 
 # == 1. padded variable-length datasets ===============================================================
@@ -184,7 +177,7 @@ if (W / "normalise.csv").exists():
 
 # == 6. class imbalance (bake-off runs of QUANT and MultiRocket+Hydra) ================================
 say("== 6. Class imbalance: balanced accuracy vs accuracy gap to MultiRocket+Hydra (bake-off runs) ==")
-imbalance = pd.Series({n: (c := train_labels(n).value_counts()).max() / c.min() for n in NAMES})
+imbalance = STATS.imbalance[NAMES].rename(None)  # largest / smallest class in the original training split
 extra = (bakeoff("QUANT", "balacc") - bakeoff("MR-Hydra", "balacc")) - (bakeoff("QUANT") - bakeoff("MR-Hydra"))
 r = spearmanr(imbalance[extra.index], extra)
 say(f"Spearman(imbalance ratio, extra balanced-accuracy gap): rho={r.statistic:+.2f} p={r.pvalue:.2g}")

@@ -10,4 +10,3 @@ Papers/*.pdf
 *.log
 *.out
 *.synctex.gz
-results/checks/remaining.txt

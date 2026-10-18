@@ -32,3 +32,4 @@ unzip -q -o indices_python.zip -d idx
 
 cd ../..
 "$PY" scripts/prepare_data.py
+"$PY" scripts/dataset_stats.py

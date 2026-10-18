@@ -37,7 +37,7 @@ The main lesson is that QUANT's reliance on *where* things happen in a series is
 ## What the experiments were based on
 
 1. **Our reproduction of QUANT.** We re-ran the paper's full experiment and got 85.51% vs the paper's 85.68%. The small gap comes from 4 datasets that were corrected after the paper was published. Plain QUANT's numbers below come from this run.
-2. **Our weakness tests** (report Section V). These found where QUANT loses accuracy:
+2. **Our weakness tests** (paper Section IV). These found where QUANT loses accuracy:
    - **When the same pattern appears at different times**, QUANT suffers. QUANT summarises fixed time windows (first half, second quarter, ...), so a pattern that moves lands in a different window. With patterns at random positions it lost 5.6 points, against 2.4 for Hydra.
    - **With many classes and few examples per class** it does badly: 5.6 points behind Hydra on 18 such datasets, and up to 27 points behind on the "Pig" heartbeat datasets.
    - **On variable-length series padded to equal length** (11 datasets), padding costs about 8 points on the most padded series.
