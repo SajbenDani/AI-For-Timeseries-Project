@@ -21,13 +21,14 @@ daniel.sajben@ucdconnect.ie}
 \IEEEauthorblockN{Tymur Sukhariev}
 \IEEEauthorblockA{\textit{University College Dublin}\\
 Dublin, Ireland \\
-Student ID: 26100566}
+Student ID: 26100566 \\
+tymur.sukhariev@ucdconnect.ie}
 }
 
 \maketitle
 
 \begin{abstract}
-QUANT is a time series classifier that describes each series by the quantiles of a fixed set of windows and passes them to an off-the-shelf tree ensemble. Its authors report state-of-the-art accuracy for interval methods on 142 UCR datasets in under 15 minutes on one CPU core. We re-ran the published code on the published data and got 85.51\% mean accuracy against the paper's 85.68\%; the gap comes from four datasets that were corrected after publication. Controlled tests then showed where QUANT is weak: its fixed windows make it sensitive to patterns that appear at different times, and it falls behind on datasets with many classes and few examples. We tested ten ideas to fix this. The best one lets a second, position-free method (Hydra) vote only when QUANT is unsure. It reaches 87.16\% (+1.8 points, $p<0.001$) at 2.1$\times$ QUANT's compute time: level with MultiRocket+Hydra at less than half its reported cost, and 0.4 points below HIVE-COTE~2, which needs weeks. Three new views of the series gave small but significant gains, and four ideas did not help. All the ideas we stress-tested made QUANT more robust to moved patterns, but robustness and accuracy turned out to be different things.
+QUANT is a time series classifier that describes each series by the quantiles of a fixed set of windows and passes them to an off-the-shelf tree ensemble. Its authors report state-of-the-art accuracy for interval methods on 142 UCR datasets in under 15 minutes on one CPU core. We re-ran the published code on the published data and got 85.51\% mean accuracy against the paper's 85.68\%; the gap comes from four datasets that were corrected after publication. Controlled tests then showed where QUANT is weak: its fixed windows make it sensitive to patterns that appear at different times, and it falls behind on datasets with many classes and few examples. We tested ten ideas to fix this. The best one lets a second, position-free method (Hydra) vote only when QUANT is unsure. It reaches 87.16\% (+1.8 points, $p<0.001$) at 2.1$\times$ QUANT's compute time: level with MultiRocket+Hydra at less than half its reported cost, and 0.4 points below HIVE-COTE~2, which needs weeks. Three new views of the series gave small but significant gains, and four ideas did not help. All the ideas we stress-tested made QUANT more robust to moved patterns, but robustness and accuracy turned out to be different things. Code, commands and results: \url{https://github.com/SajbenDani/AI-For-Timeseries-Project}.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -59,7 +60,7 @@ QUANT~\cite{quant} is a classification model: it learns from labelled example se
 \item \textbf{Quantiles.} In each window QUANT records about one evenly spaced quantile per four values (the median is the 50\% quantile, the maximum the 100\% one). Every second quantile is taken relative to the window mean, so the features describe both the level and the shape of the values.
 \item \textbf{Classifier.} A forest of 200 extremely randomised trees (ExtraTrees~\cite{extratrees}) learns which of these numbers separate the classes.
 \end{enumerate}
-For a heartbeat recording, one feature might be ``the 90\% quantile of the raw values in the second quarter'', which is high when a tall beat falls there. Long windows describe \emph{which} values occur, short ones \emph{where}. The transform itself learns nothing; all the learning happens in the forest, which also takes most of the time. A typical dataset gets about 3,000 features.
+For a heartbeat recording, one feature might be ``the 90\% quantile of the raw values in the second quarter'', which is high when a tall beat falls there. Long windows describe \emph{which} values occur, short ones \emph{where}. The transform itself learns nothing; all the learning happens in the forest, which also takes most of the time. A typical dataset gets about 3,000 features. QUANT was taken up quickly: the bake-off redux evaluated it~\cite{middlehurst2024bakeoff}, it is part of the aeon toolkit~\cite{aeon}, and it is the most accurate method on the large MONSTER datasets~\cite{monster}.
 
 \subsection{The Benchmark}
 We use the paper's 142 datasets from the ``bake off redux''~\cite{middlehurst2024bakeoff}: the 112 equal-length datasets of the 2018 UCR archive~\cite{ucr} and 30 newer ones, all univariate. They cover image outlines turned into series, sensors, motion and gestures, ECG and other medical signals, spectrographs, electricity use, traffic and astronomy. Training sets have 16 to 8,926 series (median 217), series have 15 to 4,767 points (median 331), and there are 2 to 60 classes. Each dataset comes with 30 fixed train/test splits (``resamples''): the original split plus 29 random ones with the same class balance. All methods use the same splits, so results can be compared dataset by dataset. Sixteen new datasets (``Eq'') were made equal-length, mostly by padding; our padding tests use the eleven whose originals come with the UCR archive, and Section~\ref{sec:varlen} uses three more as unseen data.
@@ -79,7 +80,7 @@ Our tests (Section~\ref{sec:weak}) found where QUANT loses accuracy:
 % =====================================================================
 \section{Related Methods}
 \label{sec:related}
-ROCKET~\cite{rocket}, MiniRocket~\cite{minirocket} and MultiRocket~\cite{multirocket} slide thousands of random convolution kernels (small pattern detectors) along each series, summarise every output over the whole series and train a linear (ridge) classifier. Since each summary covers all positions, it does not matter \emph{where} a pattern occurs. Hydra~\cite{hydra}, from QUANT's authors, counts which kernel in each group of kernels matches best at every time point, which again ignores position. MultiRocket+Hydra~\cite{hydra} feeds both feature sets into one ridge classifier and came second in the bake-off redux. The winner, HC2~\cite{hc2}, combines four very different classifiers and weights their votes by their estimated accuracy~\cite{cawpe}. rSTSF~\cite{rstsf} and DrCIF~\cite{hc2} are interval methods like QUANT. On one core, the QUANT paper lists about 1\,h\,15\,min for MultiRocket+Hydra and several weeks for HC2, against under 15 minutes for QUANT~\cite{quant}.
+ROCKET~\cite{rocket}, MiniRocket~\cite{minirocket} and MultiRocket~\cite{multirocket} slide thousands of random convolution kernels (small pattern detectors) along each series, summarise every output over the whole series and train a linear (ridge) classifier. Since each summary covers all positions, it does not matter \emph{where} a pattern occurs. Hydra~\cite{hydra}, from QUANT's authors, counts which kernel in each group of kernels matches best at every time point, which again ignores position. MultiRocket+Hydra~\cite{hydra} feeds both feature sets into one ridge classifier and came second in the bake-off redux. The winner, HC2~\cite{hc2}, combines four very different classifiers and weights their votes by their estimated accuracy~\cite{cawpe}. rSTSF~\cite{rstsf} and DrCIF~\cite{hc2} are interval methods like QUANT.
 
 % =====================================================================
 \section{Reproducing QUANT}
@@ -87,7 +88,7 @@ ROCKET~\cite{rocket}, MiniRocket~\cite{minirocket} and MultiRocket~\cite{multiro
 % Grading criteria 2 and 3.
 
 \subsection{Approach}
-We ran the authors' code~\cite{quantcode} unchanged (commit \texttt{f3907f7}) through a thin wrapper that also records timings, saves after every resample and fixes the forest's random seed. A dataset's accuracy is the mean over its 30 resamples. We compare with the paper's published per-resample results and with an independent QUANT run by the bake-off authors~\cite{middlehurst2024bakeoff}, who also provide the competitors' results. A Welch $t$-test over the resamples tells whether a dataset's gap exceeds resampling noise; across datasets we report the mean, wins/draws/losses (W/D/L) and a Wilcoxon signed-rank test, as the paper does~\cite{mcm}.
+We ran the authors' code~\cite{quantcode} unchanged (commit \texttt{f3907f7}) through a thin wrapper that also records timings, saves after every resample and fixes the forest's random seed (Python 3.11, PyTorch 2.14 on CPU, scikit-learn 1.9.1). A dataset's accuracy is the mean over its 30 resamples. We compare with the paper's published per-resample results and with an independent QUANT run by the bake-off authors~\cite{middlehurst2024bakeoff}, who also provide the competitors' results. A Welch $t$-test over the resamples tells whether a dataset's gap exceeds resampling noise; across datasets we report the mean, wins/draws/losses (W/D/L) and a Wilcoxon signed-rank test, as the paper does~\cite{mcm}.
 
 \subsection{Results}
 \textbf{Our reproduction of QUANT.} We re-ran the paper's full experiment and got 85.51\% vs the paper's 85.68\%. The small gap comes from 4 datasets that were corrected after the paper was published (Table~\ref{tab:acc}). On the 112 original datasets our mean is 86.71\%, the same as the paper's to four decimals; no dataset differs by more than resampling noise (all Welch $p>0.1$), and our per-resample accuracies track the paper's (median correlation 0.89). Covid3Month and the three FloodModeling sets were corrected after the QUANT preprint appeared, and we could only download the new versions, on which QUANT scores much lower (Covid3Month: 0.62 vs 0.81). The bake-off authors' own QUANT run on the corrected data matches ours, so the gap comes from the data, not from the method or our code.
@@ -122,11 +123,11 @@ Method & $n$ & $\Delta$ paper & $\Delta$ ours & W/D/L ours & $p$ ours \\
 \midrule
 HC2 & 142 & $-0.0222$ & $-0.0207$ & 42/7/93 & $<$0.001 \\
 MultiRocket+Hydra & 142 & $-0.0165$ & $-0.0163$ & 48/6/88 & $<$0.001 \\
-RDST & 142 & $-0.0083$ & $-0.0077$ & 62/4/76 & 0.133 \\
-WEASEL-D & 142 & $-0.0040$ & $-0.0022$ & 69/3/70 & 0.493 \\
-InceptionTime & 142 & $+0.0001$ & $-0.0014$ & 64/4/74 & 0.252 \\
-FreshPRINCE & 142 & $+0.0087$ & $+0.0087$ & 99/3/40 & $<$0.001 \\
-Proximity Forest & 142 & $+0.0267$ & $+0.0270$ & 97/6/39 & $<$0.001 \\
+RDST~\cite{rdst} & 142 & $-0.0083$ & $-0.0077$ & 62/4/76 & 0.133 \\
+WEASEL-D~\cite{weasel2} & 142 & $-0.0040$ & $-0.0022$ & 69/3/70 & 0.493 \\
+InceptionTime~\cite{inceptiontime} & 142 & $+0.0001$ & $-0.0014$ & 64/4/74 & 0.252 \\
+FreshPRINCE~\cite{freshprince} & 142 & $+0.0087$ & $+0.0087$ & 99/3/40 & $<$0.001 \\
+Proximity Forest~\cite{pf} & 142 & $+0.0267$ & $+0.0270$ & 97/6/39 & $<$0.001 \\
 \midrule
 rSTSF & 112 & $+0.0031$ & $+0.0031$ & 66/8/38 & 0.022 \\
 DrCIF & 112 & $+0.0035$ & $+0.0034$ & 60/8/44 & 0.157 \\
@@ -181,7 +182,7 @@ To decide what to fix, we changed one thing at a time and watched QUANT's accura
 \label{sec:setup}
 \textbf{Data and splits.} The same 142 datasets and official resamples, but only the first 10 resamples, to fit the runs on a laptop; plain QUANT scores 85.36\% on these (85.51\% on all 30). The forest's seed is the resample number, so our code reproduces Section~\ref{sec:repro}'s QUANT accuracies exactly. We never change QUANT: each idea \emph{adds} features, training copies or a second model.
 
-\textbf{Statistics.} Per dataset we average the 10 resamples; across datasets we report W/D/L (four decimals) and a Wilcoxon signed-rank test, with $p<0.05$ as a real effect. Inside the training data, idea 3 uses stratified cross-validation (up to 5 folds) and idea 18 the leave-one-out predictions its ridge classifier computes anyway.
+\textbf{Statistics.} Per dataset we average the 10 resamples; across datasets we report W/D/L (four decimals) and a Wilcoxon signed-rank test, with $p<0.05$ as a real effect. Every gain in Table~\ref{tab:ideas}'s ``Worked'' group stays significant after a Holm correction for its 14 comparisons; the test-time-averaging loss does not. Inside the training data, idea 3 uses stratified cross-validation (up to 5 folds) and idea 18 the leave-one-out predictions its ridge classifier computes anyway.
 
 \textbf{Stress tests.} On 30 datasets $\times$ 5 resamples: the random-position test of Section~\ref{sec:weak}, and a speed test in which every series is played faster at the start and slower at the end, or the reverse (time $t \mapsto t^g$, $|\log g| \le 0.6$).
 
@@ -215,7 +216,7 @@ QUANT (reference) & 85.36 & & & & 1$\times$ \\
 \multicolumn{6}{@{}l}{\textit{Did not help}} \\
 5: + augmentation & 84.64 & $-$0.72 & 46/9/87 & $<$.001 & 5.8$\times^\dagger$ \\
 5: + augm.\ + test-time avg. & 85.01 & $-$0.35 & 59/10/73 & .03 & 5.9$\times^\dagger$ \\
-10: native windows only$^*$ & 75.66 & +0.11 & 5/0/6 & .9 & \\
+10: native windows + length$^*$ & 75.66 & +0.11 & 5/0/6 & .9 & \\
 15: + cycle view & 85.36 & 0.00 & 61/16/65 & .53 & 1.2$\times$ \\
 16: + bispectrum view & 85.47 & +0.11 & 65/20/57 & .24 & 1.2$\times$ \\
 17: rank-uniform splits & 85.27 & $-$0.09 & 56/10/76 & .053 & 1.2$\times$ \\
@@ -262,7 +263,7 @@ Fig.~\ref{fig:main}b shows the points lost when the same patterns appear at rand
 \label{sec:failed}
 \textbf{Shift and stretch augmentation (idea 5).} \emph{Why:} if moved patterns are the problem, show the forest moved patterns~\cite{leguennec}. \emph{What:} four shifted or stretched ($\pm$10\%) copies of every training series, and averaging over the same copies of each test series. \emph{Result:} $-0.72$ points ($p<0.001$), or $-0.35$ with test-time averaging, at about 6$\times$ the cost. It helped where QUANT is weakest (PigAirwayPressure +33) but hurt where position \emph{is} the meaning (Beef $-17$: a shifted spectrum is a different spectrum). \emph{Lesson:} forcing QUANT to ignore position hurts on average.
 
-\textbf{Removing the padding (idea 10, first version).} \emph{Why:} padding wastes windows. \emph{Result:} +0.11 points ($p=0.9$), with big swings both ways (GesturePebble +3.5, GestureMidAir $-6.7$). \emph{Lesson:} the padding tells the forest how long, and so how fast, a gesture was.
+\textbf{Removing the padding (idea 10, first version).} \emph{Why:} padding wastes windows. \emph{Result:} with the series length as an extra feature +0.11 points ($p=0.9$), without it $-0.20$, with big swings both ways (GesturePebble +3.5, GestureMidAir $-6.7$). \emph{Lesson:} the padding tells the forest how long, and so how fast, a gesture was.
 
 \textbf{Cycle view (idea 15).} \emph{Why:} QUANT trails HC2 most on series that repeat ($-3.9$ against $-1.5$ points elsewhere, $p<0.001$), and astronomers fold periodic light curves into one cycle~\cite{rebbapragada}. \emph{What:} each series folded into its median cycle, rotated to a standard start. \emph{Result:} $\pm$0.00 (61/16/65): big gains on a few datasets (ToeSegmentation2 +5.2), losses on outlines (Herring $-2.8$). It is the most robust new view under random offsets ($-4.2$ against $-5.7$), thanks to the standard start rather than the folding.
 
@@ -271,7 +272,7 @@ Fig.~\ref{fig:main}b shows the points lost when the same patterns appear at rand
 \textbf{Rank-uniform splits (idea 17).} \emph{Why:} ExtraTrees draws split points uniformly between a feature's extremes, so for a third of QUANT's skewed features most random splits cut off only a few series. \emph{What:} rank every feature before training, a known trick for ordinary trees~\cite{galili}. \emph{Result:} $-0.09$ ($p=0.053$). \emph{Lesson:} picking the best of about 300 candidate splits already makes up for lopsided ones.
 
 \subsection{What We Learned}
-Four observations tie the results together. First, QUANT's habit of looking at fixed positions is not simply a flaw. On spectra and many sensors, where a value occurs \emph{is} the class, so forcing QUANT to ignore position hurt, while adding a position-free view next to its own helped. Second, a second opinion beat every change to QUANT itself, and it is only needed where QUANT is unsure. Third, fancier features must earn their cost: convolutions gave the same gain as pooled quantiles for three times the price. Fourth, gains appear where the targeted weakness is (many-class data, gestures, datasets where elastic methods win) and get diluted by the many datasets where QUANT is already fine. Our weakness tests predicted this: every position-related idea helped most on the many-class datasets.
+Four observations tie the results together. First, QUANT's habit of looking at fixed positions is not simply a flaw. On spectra and many sensors, where a value occurs \emph{is} the class, so forcing QUANT to ignore position hurt, while adding a position-free view next to its own helped. Second, a second opinion beat every change to QUANT itself, and it is only needed where QUANT is unsure. Third, fancier features must earn their cost: convolutions gave the same gain as pooled quantiles for three times the price. Fourth, gains appear where the targeted weakness is (many-class data, gestures, datasets where elastic methods win) and get diluted by the many datasets where QUANT is already fine, as our weakness tests predicted.
 
 % =====================================================================
 \section{Ideas We Could Not Try}
@@ -283,10 +284,6 @@ Four observations tie the results together. First, QUANT's habit of looking at f
 % =====================================================================
 \section{Conclusion}
 QUANT's published results hold: 85.51\% against the paper's 85.68\%, with the gap coming from four corrected datasets. Its main weakness is that it looks at fixed positions, which hurts when patterns move and when there are many classes with few examples. Our best fix keeps QUANT and asks Hydra only when QUANT is unsure: 87.16\% (+1.8 points) at 2.1$\times$ QUANT's time, level with MultiRocket+Hydra at less than half its reported cost and 0.4 points below HC2, which needs weeks. Position-free and speed-invariant views add a little at low cost; several intuitive ideas did not help, and we report them too.
-
-% =====================================================================
-\section*{Code Availability}
-Code, commands and results: \url{https://github.com/SajbenDani/AI-For-Timeseries-Project}. The README gives the setup, the data download and the command behind each number.
 
 % =====================================================================
 \clearpage
@@ -324,6 +321,11 @@ Code, commands and results: \url{https://github.com/SajbenDani/AI-For-Timeseries
 \bibitem{tabpfn} N. Hollmann, S. M\"uller, L. Purucker, A. Krishnakumar, M. K\"orfer, S. B. Hoo, R. T. Schirrmeister, and F. Hutter, ``Accurate predictions on small data with a tabular foundation model,'' \textit{Nature}, vol. 637, pp. 319--326, 2025.
 \bibitem{tabicl} J. Qu, D. Holzm\"uller, G. Varoquaux, and M. Le Morvan, ``TabICL: A tabular foundation model for in-context learning on large data,'' in \textit{Proc. 42nd Int. Conf. Machine Learning (ICML)}, 2025.
 \bibitem{rocketpfn} F. M. O'Rourke, A. Trisovic, and D. Bertsimas, ``RocketPFN: Accurate time series classification via in-context learning,'' arXiv:2606.21786, 2026.
+\bibitem{rdst} A. Guillaume, C. Vrain, and W. Elloumi, ``Random dilated shapelet transform: A new approach for time series shapelets,'' in \textit{Proc. Int. Conf. Pattern Recognition and Artificial Intelligence (ICPRAI)}, LNCS 13363, 2022, pp. 653--664.
+\bibitem{weasel2} P. Sch\"afer and U. Leser, ``WEASEL 2.0: A random dilated dictionary transform for fast, accurate and memory constrained time series classification,'' \textit{Machine Learning}, vol. 112, pp. 4763--4788, 2023.
+\bibitem{inceptiontime} H. Ismail Fawaz, B. Lucas, G. Forestier, C. Pelletier, D. F. Schmidt, J. Weber, G. I. Webb, L. Idoumghar, P.-A. Muller, and F. Petitjean, ``InceptionTime: Finding AlexNet for time series classification,'' \textit{Data Mining and Knowledge Discovery}, vol. 34, pp. 1936--1962, 2020.
+\bibitem{freshprince} M. Middlehurst and A. Bagnall, ``The FreshPRINCE: A simple transformation based pipeline time series classifier,'' in \textit{Proc. Int. Conf. Pattern Recognition and Artificial Intelligence (ICPRAI)}, LNCS 13364, 2022, pp. 150--161.
+\bibitem{aeon} M. Middlehurst, A. Ismail-Fawaz, A. Guillaume, C. Holder, D. Guijo-Rubio, G. Bulatova, L. Tsaprounis, L. Mentel, M. Walter, P. Sch\"afer, and A. Bagnall, ``aeon: A Python toolkit for learning from time series,'' \textit{Journal of Machine Learning Research}, vol. 25, no. 289, pp. 1--10, 2024.
 \bibitem{monster} A. Dempster, N. M. Foumani, C. W. Tan, L. Miller, A. Mishra, M. Salehi, C. Pelletier, D. F. Schmidt, and G. I. Webb, ``MONSTER: Monash scalable time series evaluation repository,'' \textit{Journal of Data-centric Machine Learning Research}, vol. 2, pp. 1--47, 2025.
 \end{thebibliography}
 

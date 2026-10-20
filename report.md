@@ -61,7 +61,7 @@ All accuracies are averages over 142 datasets × 10 splits unless noted. Plain Q
 | 2. Quantiles of convolutions | small-shape detectors, summarised by quantiles | 85.76% | +0.40 | 78/7/57 | 0.004 | ×4.0 | Success (small) |
 | 10. Variable-length QUANT: padded + native | keep the padded view, add windows that scale with each series | 77.53% vs 75.55%* | +1.97 | 10/0/1 | 0.005 | ×9† (our slow code; training ×1.9) | Success on these 11 |
 | 10, fresh-data check | the same version, unchanged, on 3 variable-length datasets never used before | 92.52% vs 92.31%‡ | +0.21 | 2/0/1 | too few datasets | | Small gain (clear on 1 of 3) |
-| 10a. ... native windows only | replace padding with windows that scale with each series | 75.66% vs 75.55%* | +0.11 | 5/0/6 | 0.9 | ×8† | Did not help |
+| 10a. ... native windows + length | replace padding with windows that scale with each series, plus the series length (without the length: 75.35%, −0.20, p = 0.97) | 75.66% vs 75.55%* | +0.11 | 5/0/6 | 0.9 | ×8† | Did not help |
 | 5. Shift/stretch augmentation | shifted and stretched training copies | 84.64% | −0.72 | 46/9/87 | 7e-5 | ×5.8† | Did not help |
 | 5b. ... + test-time averaging | the same, plus averaging over shifted test copies | 85.01% | −0.35 | 59/10/73 | 0.03 | ×5.9† | Did not help (but +1.1 on many-class data) |
 
@@ -115,7 +115,7 @@ All accuracies are averages over 142 datasets × 10 splits unless noted. Plain Q
 ### Idea 10: variable-length QUANT. Success on gesture data, next to the padded version; small on fresh data.
 
 - **What we did:** for the 11 datasets whose series really have different lengths, we let each window cover the same *fraction* of every series (its first half, its second quarter, ...) instead of padding all series to one length. A sanity check confirmed that on equal-length data this gives exactly QUANT's features.
-- **First version, replacing the padding:** no change on average (+0.1, p = 0.9), but big effects in both directions:
+- **First version, replacing the padding** (native windows plus the series length as a feature): no change on average (+0.1, p = 0.9; without the length −0.2, p = 0.97), but big effects in both directions:
   - **Better:** GesturePebble +3.5 to +3.9, AllGestureWiimoteY +4.6, ShakeGesture +3.0.
   - **Worse:** GestureMidAir −3.6 to −6.7.
   - **Likely reason:** the padding tells the forest how long, and so how *fast*, a gesture was. On some datasets speed matters and on others it doesn't. Simply stretching all series to one length gave the same average (75.54%).
@@ -134,7 +134,7 @@ All accuracies are averages over 142 datasets × 10 splits unless noted. Plain Q
   | **Mean** | 92.31% | 90.61% (−1.70) | 92.52% (+0.21) |
 
   The p-values are Wilcoxon tests over the 30 splits of each dataset; three datasets are too few for a test across datasets. Plain QUANT's numbers match the reproduction exactly.
-  - **What this means:** the gain is real on one dataset, but much smaller than the +2.0 on the original 11. Native windows alone are worse on all three, as on the 11.
+  - **What this means:** the gain is real on one dataset, but much smaller than the +2.0 on the original 11. Native windows alone are worse on all three (on the 11 they were −0.2 on average).
   - **It is not the amount of padding.** The Asphalt series are padded at least as heavily as the gestures: 59–91% of an average series is padding, against 52–75% for the gesture datasets. The gains of 2 points or more on the original 11 were all on gesture data (the Wiimote, Pebble and Shake sets), where the same movement is made at different speeds, though not every gesture dataset gained (GestureMidAir +0.2 to +0.9, PickupGesture −0.2). On the four datasets that are not gestures (PLAID and the three Asphalt sets) the gain is between −0.1 and +0.6.
   - **Verdict:** worth adding for gesture-like data. On other variable-length data it costs little accuracy (never more than 0.2 points on any of the 14 datasets) but should not be expected to add much. Section 1b of `results/improvements/summary.txt` has the full numbers.
 - **Cost:** in our code, the native windows take 117 s to compute for the 11 datasets, against 8 s for QUANT's features. That is because our simple implementation handles each distinct series length separately; a vectorised version should be much faster. Training takes 1.9× as long, because there are twice as many features.

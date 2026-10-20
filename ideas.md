@@ -211,7 +211,7 @@ A log-spectrum would add little. Taking the log doesn't change the order of valu
 ## 10. Native variable-length QUANT
 
 > **Status: done. Partial success: a clear gain on the 11 (mostly gesture) datasets it was designed on, only a small one on fresh data.** On the 11 variable-length datasets × 30 splits:
-> - **Native windows alone** (replacing the padding): 75.55% → 75.66% (+0.1 pts, p = 0.9). Large effects in both directions: GesturePebble +3.5 to +3.9, GestureMidAir −3.6 to −6.7. Stretching all series to one length gives the same average.
+> - **Native windows instead of padding**, with the series length as a feature: 75.55% → 75.66% (+0.1 pts, p = 0.9); without the length 75.35% (−0.2 pts, p = 0.97). Large effects in both directions: GesturePebble +3.5 to +3.9, GestureMidAir −3.6 to −6.7. Stretching all series to one length gives the same average.
 > - **Padded + native features together**, letting the forest choose: 77.53% (+2.0 pts), better on 10 of 11, p = 0.005. That closes 41% of the gap to MultiRocket+Hydra.
 >
 > - **Fresh-data check** (10 Oct): the combined version was added after seeing the first results, so we ran it unchanged on three variable-length datasets we had never used (the Asphalt road-surface sets, 30 splits). The gain shrinks to **+0.21 pts** (92.31% → 92.52%): +0.63 on AsphaltObstacles (better on 22 of 30 splits, p = 0.001), +0.07 and −0.06 on the other two. Native windows alone were worse on all three (−1.7 pts).
