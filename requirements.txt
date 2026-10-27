@@ -1,5 +1,6 @@
 --extra-index-url https://download.pytorch.org/whl/cpu
-torch==2.14.1+cpu
+torch==2.14.1+cpu; sys_platform != "darwin"
+torch==2.14.1; sys_platform == "darwin"
 numpy==2.4.6
 pandas==3.0.6
 scikit-learn==1.9.1
