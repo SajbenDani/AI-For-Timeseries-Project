@@ -28,6 +28,7 @@ The most promising ways to improve QUANT. Ideas 1–10 are ranked by expected im
 | 16 | *Efficient approach:* shape-aware Fourier view (a slice of the bispectrum) | QUANT's position-free view is blind to shape | Low | Medium | Yes (bispectra used only as 2-D images for CNNs) | **Done: did not help** (+0.11, p = 0.24; but +1.0 on gestures; ×1.16 runtime) |
 | 17 | *Efficient approach:* rank-uniform splits for ExtraTrees | A third of QUANT's features get lopsided random splits | Very low | Low | For ExtraTrees, yes (the transform is known for ordinary trees) | **Done: did not help** (−0.09 pts, p = 0.05; ×1.16 runtime) |
 | 18 | *Efficient approach:* second opinion only when needed (gated QUANT + Hydra) | The ensemble's 4–6× cost | Low-medium | Low | For TSC, yes | **Done: success** (87.16%, +1.8 pts: 95% of the ensemble's gain at ×2.1 QUANT's time; smaller Hydra: +1.3 at ×1.27) |
+| 19 | *Multivariate:* cross-channel views (magnitude, channel differences, main PCA direction) | QUANT treats each channel alone: blind to how channels move together and to sensor rotation | Low-medium | Medium | Yes | Not done |
 
 **Suggested order:**
 1. Start with **5 and 6**. They are cheap tests of the "position" diagnosis.
@@ -435,6 +436,23 @@ Almost everything QUANT computes depends on *when* things happen. The exceptions
 - Use the same 142 × 10 setup as the ensemble.
 - Set the thresholds on training data only (cross-validation), never on test results.
 - Plot accuracy against one-core time for several thresholds, next to QUANT (×1), the full ensemble (×4.1) and MultiRocket+Hydra (about 1 h 15 min).
+
+
+## 19. Cross-channel views for multivariate data
+
+**What.** On multivariate data, QUANT computes its features on each channel alone and joins them. Add views that mix channels, next to QUANT's own, with QUANT's usual windows and quantiles on top:
+- **Magnitude** √(x² + y² + z²) for each 3-axis sensor: unchanged when the sensor is rotated.
+- **Pairwise channel differences**: how channels move relative to each other (with many channels, 15 fixed random pairs).
+- **Main direction**: the series projected on its first PCA component, fitted on the training data.
+
+**Why it should help.**
+- Most UEA datasets are motion sensors (X/Y/Z axes), where the class depends on how the axes move *together*. QUANT never sees that.
+- The same movement recorded with the sensor at a different angle changes every channel. QUANT's features change with it; the magnitude does not.
+- It follows our "add a view, don't replace" rule.
+
+**How to test.**
+- Run QUANT, Hydra, idea 18 and QUANT + cross-channel views on about 18 small/medium UEA datasets × 5 resamples.
+- **Rotation stress test:** randomly rotate the sensor axes of every series. QUANT should lose accuracy, and the version with the cross-channel views much less.
 
 ---
 
