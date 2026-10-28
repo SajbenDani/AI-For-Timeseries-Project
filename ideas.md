@@ -16,7 +16,7 @@ The most promising ways to improve QUANT. Ideas 1–10 are ranked by expected im
 | 4 | QUANT features + tabular foundation model (TabPFN / TabICL) | Few examples, many classes | Medium | Medium (GPU helps) | Yes (only ROCKET-style features tried) | Not done (needs a GPU) |
 | 5 | Shift/warp augmentation of training data + test-time augmentation | Patterns at different positions / speeds | Low | Low | For QUANT, yes | **Done: did not help** on average (−0.7 pts; −0.35 with test-time averaging), but +1.1 pts on many-class data and +2.0 under random shifts |
 | 6 | Align series before windowing (cross-correlation / phase alignment) | Position; periodic signals | Low-medium | Medium | For QUANT, yes | Not done |
-| 7 | Phase-invariant representations (autocorrelation, AR coefficients) | Periodic signals with random phase | Low | Low | Partly (rSTSF uses AR) | Not done |
+| 7 | Phase-invariant representations (autocorrelation, AR coefficients) | Periodic signals with random phase | Low | Low | Partly (rSTSF uses AR) | **Done: did not help on average** (+0.25 pts, 70/13/59, p = 0.095), but large gains on the periodic Pig datasets (PigCVP +14.5, PigAirwayPressure +5.8, PigArtPressure +4.3); worst PLAIDEq −5.6 |
 | 8 | Oblique / rotation trees for correlated quantile features | Few examples; wasted splits | Medium | Medium (speed) | For QUANT, yes | Not done |
 | 9 | Prune features + sample big windows more often (authors' own idea) | Training cost on long series | Low-medium | Low | Partly | Not done |
 | 10 | Native variable-length QUANT (windows relative to each series' length) | Padding (costs ~8 points) | Medium | Low | Yes (aeon can't do it) | **Done: partial success** (padded + native: +2.0 pts on the 11 mostly-gesture datasets, but only +0.2 on 3 fresh datasets; native alone +0.1) |
@@ -153,6 +153,7 @@ The most promising ways to improve QUANT. Ideas 1–10 are ranked by expected im
 **How to test.** Use the shift test, the Pig datasets and the gesture datasets. Check it doesn't hurt the already-aligned datasets.
 
 ## 7. Phase-invariant representations
+> **Status: done. Did not help on average.** 85.36% → 85.61% (+0.25 pts), better on 70 / worse on 59, p = 0.095 (not significant). Large gains where the series repeat: PigCVP +14.5, PigAirwayPressure +5.8, PigArtPressure +4.3, ToeSegmentation1 +3.7. Worst: PLAIDEq −5.6, DodgerLoopDayNmv −4.2. Code: `scripts/autocorr_tests.py`; results: `results/autocorr/summary.txt`.
 
 **What.** QUANT computes quantiles on four views of each series (raw, 1st and 2nd difference, Fourier magnitude). Add views that ignore *when* things happen:
 - the **autocorrelation function** (how similar the series is to itself shifted by k steps),
