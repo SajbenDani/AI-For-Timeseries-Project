@@ -1,0 +1,22 @@
+Idea 12: QUANT + order-aware counts (idea 12)
+142 datasets x 10 resamples, same splits and seeds
+
+QUANT           85.36%
+QUANT + idea 12 85.40%
+change          +0.04 pts   W/D/L 68/16/58   Wilcoxon p=0.24
+
+Largest gains (pts):
+dataset
+Rock                     1.80
+GestureMidAirD2Eq        1.69
+Colposcopy               1.39
+GestureMidAirD3Eq        1.38
+ChlorineConcentration    1.33
+
+Largest losses (pts):
+dataset
+Covid3MonthDiscrete     -2.30
+DodgerLoopDayNmv        -1.95
+DodgerLoopGameNmv       -1.42
+SonyAIBORobotSurface1   -1.15
+Herring                 -1.09

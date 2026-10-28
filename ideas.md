@@ -21,7 +21,7 @@ The most promising ways to improve QUANT. Ideas 1–10 are ranked by expected im
 | 9 | Prune features + sample big windows more often (authors' own idea) | Training cost on long series | Low-medium | Low | Partly | Not done |
 | 10 | Native variable-length QUANT (windows relative to each series' length) | Padding (costs ~8 points) | Medium | Low | Yes (aeon can't do it) | **Done: partial success** (padded + native: +2.0 pts on the 11 mostly-gesture datasets, but only +0.2 on 3 fresh datasets; native alone +0.1) |
 | 11 | Multi-scale differences ("wavelet-like" views) | Change at medium speeds, located in time | Low | Low | For QUANT, yes | Not done |
-| 12 | Order-aware counts per window (mean crossings, peaks, slope) | Quantiles ignore the order of values inside a window | Low | Low | For QUANT, yes | Not done |
+| 12 | Order-aware counts per window (mean crossings, peaks, slope) | Quantiles ignore the order of values inside a window | Low | Low | For QUANT, yes | **Done: did not help** (+0.04 pts, 68/16/58, p = 0.24; all per-dataset changes within ±2.3 pts) |
 | 13 | Quick classifier check: Random Forest, LightGBM | Completes the "which classifier?" comparison | Low | Low (expect small gains) | No | Not done |
 | 14 | *Efficient approach:* speed-invariant quantiles (values weighted by how much the series moves) | The same movement made at different speeds (gestures, handwriting) | Low-medium | Medium | Yes | **Done: success (small)** (+0.14 pts, p = 0.006; +0.5 where elastic methods win; ×1.33 runtime) |
 | 15 | *Efficient approach:* cycle view: fold repeating series into one typical cycle | Position and rate in repeating signals (Pig, appliances) | Medium | Medium | Yes (folding is done by hand in astronomy) | **Done: did not help** (±0.00; but +1.5 pts under random shifts; ×1.19 runtime) |
@@ -259,6 +259,8 @@ A log-spectrum would add little. Taking the log doesn't change the order of valu
 **How to test.** Run 142 × 30 against QUANT, adding one scale at a time.
 
 ## 12. Order-aware counts in each window
+
+> **Status: done. Did not help.** 85.36% → 85.40% (+0.04 pts), better on 68 / worse on 58, p = 0.24. Four counts per window of the raw series (mean crossings, local peaks, longest run above the mean, slope). Largest gains: Rock +1.8, GestureMidAirD2Eq +1.7; largest losses: Covid3MonthDiscrete −2.3, DodgerLoopDayNmv −2.0. QUANT's quantiles at several window sizes already seem to capture enough of the order. Code: `scripts/order_counts_tests.py`; results: `results/order_counts/summary.txt`.
 
 **What.** For every window QUANT already uses, add a few cheap counts:
 - how often the series crosses its window mean,
