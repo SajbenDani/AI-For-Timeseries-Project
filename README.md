@@ -10,7 +10,7 @@ UCD *AI for Time Series* group project by Dániel Sajben (26107621) and Tymur Su
 
 Everything runs on a laptop CPU, with no GPU needed.
 
-- **Paper:** [Papers/documentation.tex](Papers/documentation.tex) (IEEE format; figures in [Papers/figures/](Papers/figures/)).
+- **Paper:** [Papers/documentation.pdf](Papers/documentation.pdf) (IEEE format; LaTeX source [Papers/documentation.tex](Papers/documentation.tex), figures in [Papers/figures/](Papers/figures/)).
 - **Full write-up of every experiment:** [report.md](report.md). **All ideas, with evidence and verdicts:** [ideas.md](ideas.md).
 
 ## Main results

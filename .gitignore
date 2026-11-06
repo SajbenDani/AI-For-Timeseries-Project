@@ -5,6 +5,8 @@ __pycache__/
 *.pyc
 # course material / third-party PDFs are not redistributed
 Papers/*.pdf
+# ...except our own compiled report
+!Papers/documentation.pdf
 # LaTeX build files
 *.aux
 *.log

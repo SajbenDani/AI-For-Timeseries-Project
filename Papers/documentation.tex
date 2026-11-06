@@ -287,13 +287,25 @@ QUANT's published results hold: 85.51\% against the paper's 85.68\%, with the ga
 
 % =====================================================================
 \clearpage
+\raggedbottom
 \section*{Work Plan and Contributions}
 
 \subsection*{Work Plan}
+Before starting, we met in person and planned the project together. The plan had three steps: reproduce QUANT, find out where it is weak, and only then try to improve it. We wanted each idea to fix a weakness we had measured, not one we had guessed.
+
+The reproduction came first. We ran the authors' code on all 142 datasets and 30 resamples and compared our numbers with the paper's, dataset by dataset. The weakness analysis that followed decided what we worked on next, and it had two parts. We first went through QUANT's published results next to those of the best methods, grouped by type of data, number of classes and training set size. Gesture recordings, datasets with many classes but few examples, and padded datasets stood out. We then ran controlled tests that change one thing at a time, using Hydra as a reference because it does not care where in a series a pattern sits. We moved patterns to random positions, cut training sets down to a few examples per class, compared lightly and heavily padded series, removed test series that also appear in the training set, and normalised the series. The clearest finding: QUANT depends on where things happen in a series.
+
+Our ideas grew out of these results. Every promising one went into an \texttt{ideas.md} file, with the weakness it targets and the papers behind it, and we read those papers to judge whether an idea could work. To fit our availability we split the research into two parts, and we met every week to go through new results and decide what to do next. We also set ourselves some rules, mostly so we would not fool ourselves. Every test uses the same splits and seeds as the reproduction and a paired statistical test, failures are reported like successes, and any choice made after seeing results is checked again on data it has not seen.
 
 \subsection*{Work Division}
+\textbf{We both agree that the work was divided fairly and equally, 50\% each.} Both of us did research, coding and evaluation, and we planned the final report together. The research and the conclusions were shared, while the coding and the experiments were divided by time, which suited our timetables. D\'aniel had more free time early in the semester, so he started with the reproduction, the weakness analysis and the first two rounds of ideas. He left out ideas our hardware could not handle, such as pairing QUANT with a tabular foundation model, which needs a GPU. Tymur had more time later on. He built on D\'aniel's results, picked up ideas that were still open and extended our tests to multivariate data. He also brought ideas from later lectures into the project and added idea 19 to \texttt{ideas.md}. We went through every result together, since we both wanted to learn from the whole project and not only from our own half. Our \texttt{ideas.md} lists every idea we discussed, including the ones we never implemented.
 
 \subsection*{Individual Contributions}
+\textbf{D\'aniel Sajben} built the reproduction pipeline and the weakness tests and started \texttt{ideas.md}. In two rounds he implemented and evaluated ten ideas (1, 2, 3, 5 and 10, then 14--18). Idea 18 worked best: asking Hydra only when QUANT is unsure gave 87.16\% at 2.1$\times$ QUANT's compute time. Position-free and speed-invariant features added a little, and four ideas did not help. He wrote the first draft of this report and set up the repository so that every number can be checked or rerun.
+
+\textbf{Tymur Sukhariev} took our tests to multivariate data. He set up 19 datasets from the UEA archive~\cite{uea} and ran QUANT, Hydra and our gated ensemble (idea 18) on them, with up to 5 resamples each. The gate works there too: 75.59\% against QUANT's 74.18\% (+1.4 points, $p=0.033$). On the 142 univariate datasets he implemented and evaluated idea 7, autocorrelation and AR features, which gave +0.25 points (not significant, though +14.5 on the repeating PigCVP recordings), and idea 12, counts per window such as how often a series crosses its mean, which made no difference. He also proposed idea 19, views that combine the channels of multivariate data, which we have not tested yet, and made our setup run on macOS.
+
+\textbf{We both agree on an equal split: D\'aniel Sajben 50\%, Tymur Sukhariev 50\%.}
 
 % =====================================================================
 \clearpage
@@ -327,6 +339,7 @@ QUANT's published results hold: 85.51\% against the paper's 85.68\%, with the ga
 \bibitem{freshprince} M. Middlehurst and A. Bagnall, ``The FreshPRINCE: A simple transformation based pipeline time series classifier,'' in \textit{Proc. Int. Conf. Pattern Recognition and Artificial Intelligence (ICPRAI)}, LNCS 13364, 2022, pp. 150--161.
 \bibitem{aeon} M. Middlehurst, A. Ismail-Fawaz, A. Guillaume, C. Holder, D. Guijo-Rubio, G. Bulatova, L. Tsaprounis, L. Mentel, M. Walter, P. Sch\"afer, and A. Bagnall, ``aeon: A Python toolkit for learning from time series,'' \textit{Journal of Machine Learning Research}, vol. 25, no. 289, pp. 1--10, 2024.
 \bibitem{monster} A. Dempster, N. M. Foumani, C. W. Tan, L. Miller, A. Mishra, M. Salehi, C. Pelletier, D. F. Schmidt, and G. I. Webb, ``MONSTER: Monash scalable time series evaluation repository,'' \textit{Journal of Data-centric Machine Learning Research}, vol. 2, pp. 1--47, 2025.
+\bibitem{uea} A. Bagnall, H. A. Dau, J. Lines, M. Flynn, J. Large, A. Bostrom, P. Southam, and E. Keogh, ``The UEA multivariate time series classification archive, 2018,'' arXiv:1811.00075, 2018.
 \end{thebibliography}
 
 \end{document}
