@@ -20,7 +20,7 @@ The most promising ways to improve QUANT. Ideas 1–10 are ranked by expected im
 | 8 | Oblique / rotation trees for correlated quantile features | Few examples; wasted splits | Medium | Medium (speed) | For QUANT, yes | Not done |
 | 9 | Prune features + sample big windows more often (authors' own idea) | Training cost on long series | Low-medium | Low | Partly | Not done |
 | 10 | Native variable-length QUANT (windows relative to each series' length) | Padding (costs ~8 points) | Medium | Low | Yes (aeon can't do it) | **Done: partial success** (padded + native: +2.0 pts on the 11 mostly-gesture datasets, but only +0.2 on 3 fresh datasets; native alone +0.1) |
-| 11 | Multi-scale differences ("wavelet-like" views) | Change at medium speeds, located in time | Low | Low | For QUANT, yes | Not done |
+| 11 | Multi-scale differences ("wavelet-like" views) | Change at medium speeds, located in time | Low | Low | For QUANT, yes | **Done: did not help** (+0.08 pts, 76/11/55, p = 0.19; all per-dataset changes within ±3.3 pts) |
 | 12 | Order-aware counts per window (mean crossings, peaks, slope) | Quantiles ignore the order of values inside a window | Low | Low | For QUANT, yes | **Done: did not help** (+0.04 pts, 68/16/58, p = 0.24; all per-dataset changes within ±2.3 pts) |
 | 13 | Quick classifier check: Random Forest, LightGBM | Completes the "which classifier?" comparison | Low | Low (expect small gains) | No | **Done: did not help** (Random Forest −1.27 pts, 14/8/120, p = 2e-18; LightGBM −2.70 pts, 26/3/113, p = 1e-14, up to −50 pts on the many-class Pig datasets). ExtraTrees stays the best choice |
 | 14 | *Efficient approach:* speed-invariant quantiles (values weighted by how much the series moves) | The same movement made at different speeds (gestures, handwriting) | Low-medium | Medium | Yes | **Done: success (small)** (+0.14 pts, p = 0.006; +0.5 where elastic methods win; ×1.33 runtime) |
@@ -242,6 +242,8 @@ A log-spectrum would add little. Taking the log doesn't change the order of valu
 - Sanity check: on equal-length data it must give exactly QUANT's features.
 
 ## 11. Multi-scale differences ("wavelet-like" views)
+
+> **Status: done. Did not help.** Three extra views: for scales 2, 4 and 8, the average of the next s points minus the average of the previous s points at every position (an undecimated Haar wavelet), each described by QUANT's windows and quantiles. 85.36% → 85.44% (+0.08 pts), better on 76 / worse on 55, p = 0.19. Largest gains: Lightning7 +3.3, GestureMidAirD3Eq +3.2; largest losses: ToeSegmentation1 −2.2, BirdChicken −2.0. QUANT's differences and Fourier view already seem to cover this. Code: `scripts/multiscale_tests.py`; results: `results/multiscale/summary.txt`.
 
 **What.** QUANT's first difference shows step-to-step change, smoothed with one fixed moving average of width 5. Add a small stack of views that show change at several speeds: the difference between moving averages of widths 2, 4, 8 and 16 (this is what Haar wavelets compute), each kept at full length. QUANT then takes its usual window quantiles on each.
 
