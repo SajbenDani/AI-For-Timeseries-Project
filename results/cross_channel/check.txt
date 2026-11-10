@@ -1,0 +1,38 @@
+Sanity check of the cross-channel views (idea 19)
+
+1. Rotation: every series of the 3-axis sensor datasets rotated at random (seed 0).
+   Relative change (%) of: raw channels, QUANT's features, the rotation-proof signals (magnitude + main
+   direction of each sensor) and QUANT's features of those signals. Expected: large, large, ~0, ~0.
+
+                     raw channels  QUANT features  rotation-proof signals  their QUANT features
+dataset                                                                                        
+BasicMotions           135.658005       57.507999                     0.0                   0.0
+Cricket                138.244003       44.825001                     0.0                   0.0
+Epilepsy               144.136993       68.593002                     0.0                   0.0
+Handwriting            140.944000       42.591999                     0.0                   0.0
+RacketSports           139.123993       64.115997                     0.0                   0.0
+UWaveGestureLibrary    140.440002       36.396999                     0.0                   0.0
+
+2. Every dataset: new signals and features, any NaN/inf, time.
+
+                           channels  sensors  new signals  QUANT features  new features  NaN/inf  seconds
+dataset                                                                                                  
+ArticularyWordRecognition         9        0           16           13239         23536        0     0.26
+AtrialFibrillation                2        0            2           11308         11308        0     0.03
+BasicMotions                      6        2           20            6252         20840        0     0.05
+Cricket                           6        2           20           64446        214820        0     0.88
+Epilepsy                          3        1            6            6024         12048        0     0.11
+ERing                             4        0            7            2788          4879        0     0.05
+EthanolConcentration              3        0            4           46647         62196        0     0.77
+FingerMovements                  28        0           16           16324          9328        0     0.09
+HandMovementDirection            10        0           16           37180         59488        0     0.34
+Handwriting                       3        1            6            4716          9432        0     0.17
+Libras                            2        0            2             980           980        0     0.01
+LSST                              6        0           16            2610          6960        0     0.31
+NATOPS                           24        0           16           14952          9968        0     0.08
+PenDigits                         2        0            2             100           100        0     0.02
+RacketSports                      6        2           20            1722          5740        0     0.04
+SelfRegulationSCP1                6        0           16           47406        126416        0     1.58
+SelfRegulationSCP2                7        0           16           71036        162368        0     1.42
+StandWalkJump                     4        0            7           88420        154735        0     0.21
+UWaveGestureLibrary               3        1            6            8871         17742        0     0.17

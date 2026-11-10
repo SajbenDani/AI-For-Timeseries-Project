@@ -1,0 +1,2251 @@
+dataset,resample,tilt,method,accuracy,threshold,asked
+BasicMotions,0,30,QUANT,1.0,,
+BasicMotions,0,30,Hydra,0.975,,
+BasicMotions,0,30,QUANT + cross-channel views,1.0,,
+BasicMotions,0,30,"QUANT + Hydra, gated",1.0,0.0,0.0
+BasicMotions,0,30,"QUANT + Hydra, gated",1.0,0.05,0.0
+BasicMotions,0,30,"QUANT + Hydra, gated",1.0,0.1,0.0
+BasicMotions,0,30,"QUANT + Hydra, gated",1.0,0.15,0.0
+BasicMotions,0,30,"QUANT + Hydra, gated",1.0,0.2,0.0
+BasicMotions,0,30,"QUANT + Hydra, gated",1.0,0.3,0.0
+BasicMotions,0,30,"QUANT + Hydra, gated",1.0,0.4,0.0
+BasicMotions,0,30,"QUANT + Hydra, gated",1.0,0.5,0.0
+BasicMotions,0,30,"QUANT + Hydra, gated",1.0,0.6,0.025
+BasicMotions,0,30,"QUANT + Hydra, gated",0.975,0.8,0.175
+BasicMotions,0,30,"QUANT + Hydra, gated",0.975,1.01,1.0
+BasicMotions,0,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.0,0.0
+BasicMotions,0,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.05,0.0
+BasicMotions,0,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.0
+BasicMotions,0,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.0
+BasicMotions,0,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.0
+BasicMotions,0,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.0
+BasicMotions,0,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.0
+BasicMotions,0,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.0
+BasicMotions,0,30,"QUANT + cross-channel views + Hydra, gated",0.975,0.6,0.025
+BasicMotions,0,30,"QUANT + cross-channel views + Hydra, gated",0.975,0.8,0.175
+BasicMotions,0,30,"QUANT + cross-channel views + Hydra, gated",0.975,1.01,1.0
+BasicMotions,1,30,QUANT,1.0,,
+BasicMotions,1,30,Hydra,0.975,,
+BasicMotions,1,30,QUANT + cross-channel views,1.0,,
+BasicMotions,1,30,"QUANT + Hydra, gated",1.0,0.0,0.0
+BasicMotions,1,30,"QUANT + Hydra, gated",1.0,0.05,0.0
+BasicMotions,1,30,"QUANT + Hydra, gated",1.0,0.1,0.0
+BasicMotions,1,30,"QUANT + Hydra, gated",1.0,0.15,0.0
+BasicMotions,1,30,"QUANT + Hydra, gated",1.0,0.2,0.0
+BasicMotions,1,30,"QUANT + Hydra, gated",1.0,0.3,0.0
+BasicMotions,1,30,"QUANT + Hydra, gated",1.0,0.4,0.0
+BasicMotions,1,30,"QUANT + Hydra, gated",0.975,0.5,0.025
+BasicMotions,1,30,"QUANT + Hydra, gated",0.975,0.6,0.025
+BasicMotions,1,30,"QUANT + Hydra, gated",0.975,0.8,0.375
+BasicMotions,1,30,"QUANT + Hydra, gated",0.975,1.01,1.0
+BasicMotions,1,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.0,0.0
+BasicMotions,1,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.05,0.0
+BasicMotions,1,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.0
+BasicMotions,1,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.0
+BasicMotions,1,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.0
+BasicMotions,1,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.0
+BasicMotions,1,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.0
+BasicMotions,1,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.0
+BasicMotions,1,30,"QUANT + cross-channel views + Hydra, gated",0.975,0.6,0.05
+BasicMotions,1,30,"QUANT + cross-channel views + Hydra, gated",0.975,0.8,0.225
+BasicMotions,1,30,"QUANT + cross-channel views + Hydra, gated",0.975,1.01,1.0
+BasicMotions,2,30,QUANT,1.0,,
+BasicMotions,2,30,Hydra,1.0,,
+BasicMotions,2,30,QUANT + cross-channel views,1.0,,
+BasicMotions,2,30,"QUANT + Hydra, gated",1.0,0.0,0.0
+BasicMotions,2,30,"QUANT + Hydra, gated",1.0,0.05,0.0
+BasicMotions,2,30,"QUANT + Hydra, gated",1.0,0.1,0.0
+BasicMotions,2,30,"QUANT + Hydra, gated",1.0,0.15,0.0
+BasicMotions,2,30,"QUANT + Hydra, gated",1.0,0.2,0.0
+BasicMotions,2,30,"QUANT + Hydra, gated",1.0,0.3,0.0
+BasicMotions,2,30,"QUANT + Hydra, gated",1.0,0.4,0.0
+BasicMotions,2,30,"QUANT + Hydra, gated",1.0,0.5,0.0
+BasicMotions,2,30,"QUANT + Hydra, gated",1.0,0.6,0.05
+BasicMotions,2,30,"QUANT + Hydra, gated",1.0,0.8,0.225
+BasicMotions,2,30,"QUANT + Hydra, gated",1.0,1.01,1.0
+BasicMotions,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.0,0.0
+BasicMotions,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.05,0.0
+BasicMotions,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.0
+BasicMotions,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.0
+BasicMotions,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.0
+BasicMotions,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.0
+BasicMotions,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.0
+BasicMotions,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.0
+BasicMotions,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.6,0.0
+BasicMotions,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.8,0.2
+BasicMotions,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,1.01,1.0
+BasicMotions,3,30,QUANT,1.0,,
+BasicMotions,3,30,Hydra,0.975,,
+BasicMotions,3,30,QUANT + cross-channel views,1.0,,
+BasicMotions,3,30,"QUANT + Hydra, gated",1.0,0.0,0.0
+BasicMotions,3,30,"QUANT + Hydra, gated",1.0,0.05,0.0
+BasicMotions,3,30,"QUANT + Hydra, gated",1.0,0.1,0.0
+BasicMotions,3,30,"QUANT + Hydra, gated",1.0,0.15,0.0
+BasicMotions,3,30,"QUANT + Hydra, gated",1.0,0.2,0.0
+BasicMotions,3,30,"QUANT + Hydra, gated",1.0,0.3,0.0
+BasicMotions,3,30,"QUANT + Hydra, gated",1.0,0.4,0.0
+BasicMotions,3,30,"QUANT + Hydra, gated",1.0,0.5,0.0
+BasicMotions,3,30,"QUANT + Hydra, gated",1.0,0.6,0.025
+BasicMotions,3,30,"QUANT + Hydra, gated",1.0,0.8,0.125
+BasicMotions,3,30,"QUANT + Hydra, gated",1.0,1.01,1.0
+BasicMotions,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.0,0.0
+BasicMotions,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.05,0.0
+BasicMotions,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.0
+BasicMotions,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.0
+BasicMotions,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.0
+BasicMotions,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.0
+BasicMotions,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.0
+BasicMotions,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.0
+BasicMotions,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.6,0.025
+BasicMotions,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.8,0.15
+BasicMotions,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,1.01,1.0
+BasicMotions,4,30,QUANT,1.0,,
+BasicMotions,4,30,Hydra,1.0,,
+BasicMotions,4,30,QUANT + cross-channel views,1.0,,
+BasicMotions,4,30,"QUANT + Hydra, gated",1.0,0.0,0.0
+BasicMotions,4,30,"QUANT + Hydra, gated",1.0,0.05,0.0
+BasicMotions,4,30,"QUANT + Hydra, gated",1.0,0.1,0.0
+BasicMotions,4,30,"QUANT + Hydra, gated",1.0,0.15,0.0
+BasicMotions,4,30,"QUANT + Hydra, gated",1.0,0.2,0.0
+BasicMotions,4,30,"QUANT + Hydra, gated",1.0,0.3,0.0
+BasicMotions,4,30,"QUANT + Hydra, gated",1.0,0.4,0.0
+BasicMotions,4,30,"QUANT + Hydra, gated",1.0,0.5,0.0
+BasicMotions,4,30,"QUANT + Hydra, gated",1.0,0.6,0.05
+BasicMotions,4,30,"QUANT + Hydra, gated",1.0,0.8,0.225
+BasicMotions,4,30,"QUANT + Hydra, gated",1.0,1.01,1.0
+BasicMotions,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.0,0.0
+BasicMotions,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.05,0.0
+BasicMotions,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.0
+BasicMotions,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.0
+BasicMotions,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.0
+BasicMotions,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.0
+BasicMotions,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.0
+BasicMotions,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.0
+BasicMotions,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.6,0.025
+BasicMotions,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.8,0.25
+BasicMotions,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,1.01,1.0
+BasicMotions,0,90,QUANT,1.0,,
+BasicMotions,0,90,Hydra,0.95,,
+BasicMotions,0,90,QUANT + cross-channel views,1.0,,
+BasicMotions,0,90,"QUANT + Hydra, gated",1.0,0.0,0.0
+BasicMotions,0,90,"QUANT + Hydra, gated",1.0,0.05,0.0
+BasicMotions,0,90,"QUANT + Hydra, gated",1.0,0.1,0.0
+BasicMotions,0,90,"QUANT + Hydra, gated",1.0,0.15,0.0
+BasicMotions,0,90,"QUANT + Hydra, gated",1.0,0.2,0.0
+BasicMotions,0,90,"QUANT + Hydra, gated",1.0,0.3,0.0
+BasicMotions,0,90,"QUANT + Hydra, gated",0.95,0.4,0.05
+BasicMotions,0,90,"QUANT + Hydra, gated",0.95,0.5,0.1
+BasicMotions,0,90,"QUANT + Hydra, gated",0.95,0.6,0.175
+BasicMotions,0,90,"QUANT + Hydra, gated",0.95,0.8,0.475
+BasicMotions,0,90,"QUANT + Hydra, gated",0.95,1.01,1.0
+BasicMotions,0,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.0,0.0
+BasicMotions,0,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.05,0.0
+BasicMotions,0,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.0
+BasicMotions,0,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.0
+BasicMotions,0,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.0
+BasicMotions,0,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.0
+BasicMotions,0,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.0
+BasicMotions,0,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.0
+BasicMotions,0,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.6,0.0
+BasicMotions,0,90,"QUANT + cross-channel views + Hydra, gated",0.975,0.8,0.15
+BasicMotions,0,90,"QUANT + cross-channel views + Hydra, gated",0.95,1.01,1.0
+BasicMotions,1,90,QUANT,0.975,,
+BasicMotions,1,90,Hydra,0.925,,
+BasicMotions,1,90,QUANT + cross-channel views,1.0,,
+BasicMotions,1,90,"QUANT + Hydra, gated",0.975,0.0,0.0
+BasicMotions,1,90,"QUANT + Hydra, gated",0.975,0.05,0.0
+BasicMotions,1,90,"QUANT + Hydra, gated",0.975,0.1,0.025
+BasicMotions,1,90,"QUANT + Hydra, gated",0.975,0.15,0.025
+BasicMotions,1,90,"QUANT + Hydra, gated",0.975,0.2,0.05
+BasicMotions,1,90,"QUANT + Hydra, gated",1.0,0.3,0.1
+BasicMotions,1,90,"QUANT + Hydra, gated",1.0,0.4,0.125
+BasicMotions,1,90,"QUANT + Hydra, gated",1.0,0.5,0.125
+BasicMotions,1,90,"QUANT + Hydra, gated",1.0,0.6,0.225
+BasicMotions,1,90,"QUANT + Hydra, gated",0.95,0.8,0.575
+BasicMotions,1,90,"QUANT + Hydra, gated",0.95,1.01,1.0
+BasicMotions,1,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.0,0.0
+BasicMotions,1,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.05,0.0
+BasicMotions,1,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.0
+BasicMotions,1,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.0
+BasicMotions,1,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.0
+BasicMotions,1,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.0
+BasicMotions,1,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.0
+BasicMotions,1,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.025
+BasicMotions,1,90,"QUANT + cross-channel views + Hydra, gated",0.975,0.6,0.1
+BasicMotions,1,90,"QUANT + cross-channel views + Hydra, gated",0.95,0.8,0.4
+BasicMotions,1,90,"QUANT + cross-channel views + Hydra, gated",0.95,1.01,1.0
+BasicMotions,2,90,QUANT,1.0,,
+BasicMotions,2,90,Hydra,1.0,,
+BasicMotions,2,90,QUANT + cross-channel views,1.0,,
+BasicMotions,2,90,"QUANT + Hydra, gated",1.0,0.0,0.0
+BasicMotions,2,90,"QUANT + Hydra, gated",1.0,0.05,0.0
+BasicMotions,2,90,"QUANT + Hydra, gated",1.0,0.1,0.0
+BasicMotions,2,90,"QUANT + Hydra, gated",1.0,0.15,0.025
+BasicMotions,2,90,"QUANT + Hydra, gated",1.0,0.2,0.025
+BasicMotions,2,90,"QUANT + Hydra, gated",1.0,0.3,0.05
+BasicMotions,2,90,"QUANT + Hydra, gated",1.0,0.4,0.1
+BasicMotions,2,90,"QUANT + Hydra, gated",1.0,0.5,0.15
+BasicMotions,2,90,"QUANT + Hydra, gated",1.0,0.6,0.175
+BasicMotions,2,90,"QUANT + Hydra, gated",1.0,0.8,0.6
+BasicMotions,2,90,"QUANT + Hydra, gated",1.0,1.01,1.0
+BasicMotions,2,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.0,0.0
+BasicMotions,2,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.05,0.0
+BasicMotions,2,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.0
+BasicMotions,2,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.0
+BasicMotions,2,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.0
+BasicMotions,2,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.0
+BasicMotions,2,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.0
+BasicMotions,2,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.025
+BasicMotions,2,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.6,0.025
+BasicMotions,2,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.8,0.375
+BasicMotions,2,90,"QUANT + cross-channel views + Hydra, gated",1.0,1.01,1.0
+BasicMotions,3,90,QUANT,0.925,,
+BasicMotions,3,90,Hydra,0.95,,
+BasicMotions,3,90,QUANT + cross-channel views,1.0,,
+BasicMotions,3,90,"QUANT + Hydra, gated",0.925,0.0,0.0
+BasicMotions,3,90,"QUANT + Hydra, gated",0.925,0.05,0.0
+BasicMotions,3,90,"QUANT + Hydra, gated",0.95,0.1,0.025
+BasicMotions,3,90,"QUANT + Hydra, gated",0.95,0.15,0.075
+BasicMotions,3,90,"QUANT + Hydra, gated",0.95,0.2,0.075
+BasicMotions,3,90,"QUANT + Hydra, gated",0.95,0.3,0.175
+BasicMotions,3,90,"QUANT + Hydra, gated",0.95,0.4,0.2
+BasicMotions,3,90,"QUANT + Hydra, gated",0.95,0.5,0.2
+BasicMotions,3,90,"QUANT + Hydra, gated",0.95,0.6,0.3
+BasicMotions,3,90,"QUANT + Hydra, gated",0.95,0.8,0.475
+BasicMotions,3,90,"QUANT + Hydra, gated",0.95,1.01,1.0
+BasicMotions,3,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.0,0.0
+BasicMotions,3,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.05,0.0
+BasicMotions,3,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.0
+BasicMotions,3,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.0
+BasicMotions,3,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.0
+BasicMotions,3,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.0
+BasicMotions,3,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.0
+BasicMotions,3,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.0
+BasicMotions,3,90,"QUANT + cross-channel views + Hydra, gated",0.975,0.6,0.1
+BasicMotions,3,90,"QUANT + cross-channel views + Hydra, gated",0.95,0.8,0.325
+BasicMotions,3,90,"QUANT + cross-channel views + Hydra, gated",0.95,1.01,1.0
+BasicMotions,4,90,QUANT,0.975,,
+BasicMotions,4,90,Hydra,0.975,,
+BasicMotions,4,90,QUANT + cross-channel views,1.0,,
+BasicMotions,4,90,"QUANT + Hydra, gated",0.975,0.0,0.0
+BasicMotions,4,90,"QUANT + Hydra, gated",0.975,0.05,0.0
+BasicMotions,4,90,"QUANT + Hydra, gated",0.975,0.1,0.025
+BasicMotions,4,90,"QUANT + Hydra, gated",0.975,0.15,0.025
+BasicMotions,4,90,"QUANT + Hydra, gated",0.975,0.2,0.025
+BasicMotions,4,90,"QUANT + Hydra, gated",0.975,0.3,0.05
+BasicMotions,4,90,"QUANT + Hydra, gated",1.0,0.4,0.075
+BasicMotions,4,90,"QUANT + Hydra, gated",1.0,0.5,0.125
+BasicMotions,4,90,"QUANT + Hydra, gated",0.975,0.6,0.25
+BasicMotions,4,90,"QUANT + Hydra, gated",0.975,0.8,0.475
+BasicMotions,4,90,"QUANT + Hydra, gated",0.975,1.01,1.0
+BasicMotions,4,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.0,0.0
+BasicMotions,4,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.05,0.0
+BasicMotions,4,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.0
+BasicMotions,4,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.0
+BasicMotions,4,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.0
+BasicMotions,4,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.0
+BasicMotions,4,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.0
+BasicMotions,4,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.0
+BasicMotions,4,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.6,0.075
+BasicMotions,4,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.8,0.325
+BasicMotions,4,90,"QUANT + cross-channel views + Hydra, gated",0.975,1.01,1.0
+BasicMotions,0,180,QUANT,1.0,,
+BasicMotions,0,180,Hydra,0.925,,
+BasicMotions,0,180,QUANT + cross-channel views,1.0,,
+BasicMotions,0,180,"QUANT + Hydra, gated",1.0,0.0,0.0
+BasicMotions,0,180,"QUANT + Hydra, gated",1.0,0.05,0.0
+BasicMotions,0,180,"QUANT + Hydra, gated",1.0,0.1,0.0
+BasicMotions,0,180,"QUANT + Hydra, gated",1.0,0.15,0.0
+BasicMotions,0,180,"QUANT + Hydra, gated",1.0,0.2,0.0
+BasicMotions,0,180,"QUANT + Hydra, gated",1.0,0.3,0.0
+BasicMotions,0,180,"QUANT + Hydra, gated",1.0,0.4,0.0
+BasicMotions,0,180,"QUANT + Hydra, gated",1.0,0.5,0.025
+BasicMotions,0,180,"QUANT + Hydra, gated",1.0,0.6,0.2
+BasicMotions,0,180,"QUANT + Hydra, gated",0.925,0.8,0.725
+BasicMotions,0,180,"QUANT + Hydra, gated",0.925,1.01,1.0
+BasicMotions,0,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.0,0.0
+BasicMotions,0,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.05,0.0
+BasicMotions,0,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.0
+BasicMotions,0,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.0
+BasicMotions,0,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.0
+BasicMotions,0,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.0
+BasicMotions,0,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.0
+BasicMotions,0,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.0
+BasicMotions,0,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.6,0.0
+BasicMotions,0,180,"QUANT + cross-channel views + Hydra, gated",0.975,0.8,0.15
+BasicMotions,0,180,"QUANT + cross-channel views + Hydra, gated",0.925,1.01,1.0
+BasicMotions,1,180,QUANT,1.0,,
+BasicMotions,1,180,Hydra,0.9,,
+BasicMotions,1,180,QUANT + cross-channel views,1.0,,
+BasicMotions,1,180,"QUANT + Hydra, gated",1.0,0.0,0.0
+BasicMotions,1,180,"QUANT + Hydra, gated",1.0,0.05,0.0
+BasicMotions,1,180,"QUANT + Hydra, gated",1.0,0.1,0.0
+BasicMotions,1,180,"QUANT + Hydra, gated",1.0,0.15,0.0
+BasicMotions,1,180,"QUANT + Hydra, gated",1.0,0.2,0.0
+BasicMotions,1,180,"QUANT + Hydra, gated",1.0,0.3,0.0
+BasicMotions,1,180,"QUANT + Hydra, gated",1.0,0.4,0.025
+BasicMotions,1,180,"QUANT + Hydra, gated",1.0,0.5,0.125
+BasicMotions,1,180,"QUANT + Hydra, gated",0.95,0.6,0.3
+BasicMotions,1,180,"QUANT + Hydra, gated",0.925,0.8,0.675
+BasicMotions,1,180,"QUANT + Hydra, gated",0.9,1.01,1.0
+BasicMotions,1,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.0,0.0
+BasicMotions,1,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.05,0.0
+BasicMotions,1,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.0
+BasicMotions,1,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.0
+BasicMotions,1,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.0
+BasicMotions,1,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.0
+BasicMotions,1,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.0
+BasicMotions,1,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.0
+BasicMotions,1,180,"QUANT + cross-channel views + Hydra, gated",0.975,0.6,0.05
+BasicMotions,1,180,"QUANT + cross-channel views + Hydra, gated",0.975,0.8,0.2
+BasicMotions,1,180,"QUANT + cross-channel views + Hydra, gated",0.9,1.01,1.0
+BasicMotions,2,180,QUANT,1.0,,
+BasicMotions,2,180,Hydra,1.0,,
+BasicMotions,2,180,QUANT + cross-channel views,1.0,,
+BasicMotions,2,180,"QUANT + Hydra, gated",1.0,0.0,0.0
+BasicMotions,2,180,"QUANT + Hydra, gated",1.0,0.05,0.0
+BasicMotions,2,180,"QUANT + Hydra, gated",1.0,0.1,0.0
+BasicMotions,2,180,"QUANT + Hydra, gated",1.0,0.15,0.0
+BasicMotions,2,180,"QUANT + Hydra, gated",1.0,0.2,0.0
+BasicMotions,2,180,"QUANT + Hydra, gated",1.0,0.3,0.025
+BasicMotions,2,180,"QUANT + Hydra, gated",1.0,0.4,0.025
+BasicMotions,2,180,"QUANT + Hydra, gated",1.0,0.5,0.1
+BasicMotions,2,180,"QUANT + Hydra, gated",1.0,0.6,0.325
+BasicMotions,2,180,"QUANT + Hydra, gated",1.0,0.8,0.75
+BasicMotions,2,180,"QUANT + Hydra, gated",1.0,1.01,1.0
+BasicMotions,2,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.0,0.0
+BasicMotions,2,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.05,0.0
+BasicMotions,2,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.0
+BasicMotions,2,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.0
+BasicMotions,2,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.0
+BasicMotions,2,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.0
+BasicMotions,2,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.0
+BasicMotions,2,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.0
+BasicMotions,2,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.6,0.05
+BasicMotions,2,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.8,0.225
+BasicMotions,2,180,"QUANT + cross-channel views + Hydra, gated",1.0,1.01,1.0
+BasicMotions,3,180,QUANT,1.0,,
+BasicMotions,3,180,Hydra,0.975,,
+BasicMotions,3,180,QUANT + cross-channel views,1.0,,
+BasicMotions,3,180,"QUANT + Hydra, gated",1.0,0.0,0.0
+BasicMotions,3,180,"QUANT + Hydra, gated",1.0,0.05,0.0
+BasicMotions,3,180,"QUANT + Hydra, gated",1.0,0.1,0.0
+BasicMotions,3,180,"QUANT + Hydra, gated",1.0,0.15,0.0
+BasicMotions,3,180,"QUANT + Hydra, gated",1.0,0.2,0.0
+BasicMotions,3,180,"QUANT + Hydra, gated",0.975,0.3,0.025
+BasicMotions,3,180,"QUANT + Hydra, gated",0.975,0.4,0.075
+BasicMotions,3,180,"QUANT + Hydra, gated",0.975,0.5,0.175
+BasicMotions,3,180,"QUANT + Hydra, gated",0.975,0.6,0.3
+BasicMotions,3,180,"QUANT + Hydra, gated",0.975,0.8,0.725
+BasicMotions,3,180,"QUANT + Hydra, gated",0.975,1.01,1.0
+BasicMotions,3,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.0,0.0
+BasicMotions,3,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.05,0.0
+BasicMotions,3,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.0
+BasicMotions,3,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.0
+BasicMotions,3,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.0
+BasicMotions,3,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.0
+BasicMotions,3,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.0
+BasicMotions,3,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.0
+BasicMotions,3,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.6,0.025
+BasicMotions,3,180,"QUANT + cross-channel views + Hydra, gated",0.975,0.8,0.225
+BasicMotions,3,180,"QUANT + cross-channel views + Hydra, gated",0.975,1.01,1.0
+BasicMotions,4,180,QUANT,0.975,,
+BasicMotions,4,180,Hydra,1.0,,
+BasicMotions,4,180,QUANT + cross-channel views,1.0,,
+BasicMotions,4,180,"QUANT + Hydra, gated",0.975,0.0,0.0
+BasicMotions,4,180,"QUANT + Hydra, gated",1.0,0.05,0.025
+BasicMotions,4,180,"QUANT + Hydra, gated",1.0,0.1,0.025
+BasicMotions,4,180,"QUANT + Hydra, gated",1.0,0.15,0.05
+BasicMotions,4,180,"QUANT + Hydra, gated",1.0,0.2,0.05
+BasicMotions,4,180,"QUANT + Hydra, gated",1.0,0.3,0.1
+BasicMotions,4,180,"QUANT + Hydra, gated",1.0,0.4,0.15
+BasicMotions,4,180,"QUANT + Hydra, gated",1.0,0.5,0.2
+BasicMotions,4,180,"QUANT + Hydra, gated",1.0,0.6,0.275
+BasicMotions,4,180,"QUANT + Hydra, gated",1.0,0.8,0.6
+BasicMotions,4,180,"QUANT + Hydra, gated",1.0,1.01,1.0
+BasicMotions,4,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.0,0.0
+BasicMotions,4,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.05,0.0
+BasicMotions,4,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.0
+BasicMotions,4,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.0
+BasicMotions,4,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.0
+BasicMotions,4,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.0
+BasicMotions,4,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.0
+BasicMotions,4,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.0
+BasicMotions,4,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.6,0.025
+BasicMotions,4,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.8,0.225
+BasicMotions,4,180,"QUANT + cross-channel views + Hydra, gated",1.0,1.01,1.0
+Cricket,0,30,QUANT,0.9583333333333334,,
+Cricket,0,30,Hydra,0.9722222222222222,,
+Cricket,0,30,QUANT + cross-channel views,0.9583333333333334,,
+Cricket,0,30,"QUANT + Hydra, gated",0.9583333333333334,0.0,0.0
+Cricket,0,30,"QUANT + Hydra, gated",0.9583333333333334,0.05,0.027777777777777776
+Cricket,0,30,"QUANT + Hydra, gated",0.9722222222222222,0.1,0.041666666666666664
+Cricket,0,30,"QUANT + Hydra, gated",0.9722222222222222,0.15,0.05555555555555555
+Cricket,0,30,"QUANT + Hydra, gated",0.9722222222222222,0.2,0.05555555555555555
+Cricket,0,30,"QUANT + Hydra, gated",0.9722222222222222,0.3,0.05555555555555555
+Cricket,0,30,"QUANT + Hydra, gated",0.9722222222222222,0.4,0.125
+Cricket,0,30,"QUANT + Hydra, gated",0.9722222222222222,0.5,0.18055555555555555
+Cricket,0,30,"QUANT + Hydra, gated",0.9722222222222222,0.6,0.2361111111111111
+Cricket,0,30,"QUANT + Hydra, gated",0.9722222222222222,0.8,0.5833333333333334
+Cricket,0,30,"QUANT + Hydra, gated",0.9722222222222222,1.01,1.0
+Cricket,0,30,"QUANT + cross-channel views + Hydra, gated",0.9583333333333334,0.0,0.0
+Cricket,0,30,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.05,0.027777777777777776
+Cricket,0,30,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.1,0.041666666666666664
+Cricket,0,30,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.15,0.05555555555555555
+Cricket,0,30,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.2,0.06944444444444445
+Cricket,0,30,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.3,0.06944444444444445
+Cricket,0,30,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.4,0.1388888888888889
+Cricket,0,30,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.5,0.1527777777777778
+Cricket,0,30,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.6,0.20833333333333334
+Cricket,0,30,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.8,0.5138888888888888
+Cricket,0,30,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,1.01,1.0
+Cricket,1,30,QUANT,1.0,,
+Cricket,1,30,Hydra,1.0,,
+Cricket,1,30,QUANT + cross-channel views,1.0,,
+Cricket,1,30,"QUANT + Hydra, gated",1.0,0.0,0.0
+Cricket,1,30,"QUANT + Hydra, gated",1.0,0.05,0.013888888888888888
+Cricket,1,30,"QUANT + Hydra, gated",1.0,0.1,0.013888888888888888
+Cricket,1,30,"QUANT + Hydra, gated",1.0,0.15,0.027777777777777776
+Cricket,1,30,"QUANT + Hydra, gated",1.0,0.2,0.05555555555555555
+Cricket,1,30,"QUANT + Hydra, gated",1.0,0.3,0.06944444444444445
+Cricket,1,30,"QUANT + Hydra, gated",1.0,0.4,0.1111111111111111
+Cricket,1,30,"QUANT + Hydra, gated",1.0,0.5,0.1527777777777778
+Cricket,1,30,"QUANT + Hydra, gated",1.0,0.6,0.25
+Cricket,1,30,"QUANT + Hydra, gated",1.0,0.8,0.5416666666666666
+Cricket,1,30,"QUANT + Hydra, gated",1.0,1.01,1.0
+Cricket,1,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.0,0.0
+Cricket,1,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.05,0.0
+Cricket,1,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.0
+Cricket,1,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.0
+Cricket,1,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.0
+Cricket,1,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.013888888888888888
+Cricket,1,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.08333333333333333
+Cricket,1,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.125
+Cricket,1,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.6,0.2916666666666667
+Cricket,1,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.8,0.4861111111111111
+Cricket,1,30,"QUANT + cross-channel views + Hydra, gated",1.0,1.01,1.0
+Cricket,2,30,QUANT,0.9861111111111112,,
+Cricket,2,30,Hydra,1.0,,
+Cricket,2,30,QUANT + cross-channel views,1.0,,
+Cricket,2,30,"QUANT + Hydra, gated",0.9861111111111112,0.0,0.0
+Cricket,2,30,"QUANT + Hydra, gated",1.0,0.05,0.013888888888888888
+Cricket,2,30,"QUANT + Hydra, gated",1.0,0.1,0.027777777777777776
+Cricket,2,30,"QUANT + Hydra, gated",1.0,0.15,0.027777777777777776
+Cricket,2,30,"QUANT + Hydra, gated",1.0,0.2,0.027777777777777776
+Cricket,2,30,"QUANT + Hydra, gated",1.0,0.3,0.041666666666666664
+Cricket,2,30,"QUANT + Hydra, gated",1.0,0.4,0.08333333333333333
+Cricket,2,30,"QUANT + Hydra, gated",1.0,0.5,0.1111111111111111
+Cricket,2,30,"QUANT + Hydra, gated",1.0,0.6,0.1388888888888889
+Cricket,2,30,"QUANT + Hydra, gated",1.0,0.8,0.4305555555555556
+Cricket,2,30,"QUANT + Hydra, gated",1.0,1.01,1.0
+Cricket,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.0,0.0
+Cricket,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.05,0.013888888888888888
+Cricket,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.013888888888888888
+Cricket,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.013888888888888888
+Cricket,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.013888888888888888
+Cricket,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.027777777777777776
+Cricket,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.06944444444444445
+Cricket,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.1388888888888889
+Cricket,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.6,0.2222222222222222
+Cricket,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.8,0.4583333333333333
+Cricket,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,1.01,1.0
+Cricket,3,30,QUANT,0.9861111111111112,,
+Cricket,3,30,Hydra,1.0,,
+Cricket,3,30,QUANT + cross-channel views,1.0,,
+Cricket,3,30,"QUANT + Hydra, gated",0.9861111111111112,0.0,0.0
+Cricket,3,30,"QUANT + Hydra, gated",0.9861111111111112,0.05,0.013888888888888888
+Cricket,3,30,"QUANT + Hydra, gated",1.0,0.1,0.027777777777777776
+Cricket,3,30,"QUANT + Hydra, gated",1.0,0.15,0.027777777777777776
+Cricket,3,30,"QUANT + Hydra, gated",1.0,0.2,0.041666666666666664
+Cricket,3,30,"QUANT + Hydra, gated",1.0,0.3,0.06944444444444445
+Cricket,3,30,"QUANT + Hydra, gated",1.0,0.4,0.08333333333333333
+Cricket,3,30,"QUANT + Hydra, gated",1.0,0.5,0.1388888888888889
+Cricket,3,30,"QUANT + Hydra, gated",1.0,0.6,0.2222222222222222
+Cricket,3,30,"QUANT + Hydra, gated",1.0,0.8,0.4583333333333333
+Cricket,3,30,"QUANT + Hydra, gated",1.0,1.01,1.0
+Cricket,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.0,0.0
+Cricket,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.05,0.0
+Cricket,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.0
+Cricket,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.0
+Cricket,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.0
+Cricket,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.041666666666666664
+Cricket,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.06944444444444445
+Cricket,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.16666666666666666
+Cricket,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.6,0.19444444444444445
+Cricket,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.8,0.4305555555555556
+Cricket,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,1.01,1.0
+Cricket,4,30,QUANT,1.0,,
+Cricket,4,30,Hydra,1.0,,
+Cricket,4,30,QUANT + cross-channel views,1.0,,
+Cricket,4,30,"QUANT + Hydra, gated",1.0,0.0,0.0
+Cricket,4,30,"QUANT + Hydra, gated",1.0,0.05,0.013888888888888888
+Cricket,4,30,"QUANT + Hydra, gated",1.0,0.1,0.027777777777777776
+Cricket,4,30,"QUANT + Hydra, gated",1.0,0.15,0.027777777777777776
+Cricket,4,30,"QUANT + Hydra, gated",1.0,0.2,0.027777777777777776
+Cricket,4,30,"QUANT + Hydra, gated",1.0,0.3,0.041666666666666664
+Cricket,4,30,"QUANT + Hydra, gated",1.0,0.4,0.06944444444444445
+Cricket,4,30,"QUANT + Hydra, gated",1.0,0.5,0.1388888888888889
+Cricket,4,30,"QUANT + Hydra, gated",1.0,0.6,0.25
+Cricket,4,30,"QUANT + Hydra, gated",1.0,0.8,0.5277777777777778
+Cricket,4,30,"QUANT + Hydra, gated",1.0,1.01,1.0
+Cricket,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.0,0.0
+Cricket,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.05,0.0
+Cricket,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.0
+Cricket,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.013888888888888888
+Cricket,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.013888888888888888
+Cricket,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.041666666666666664
+Cricket,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.041666666666666664
+Cricket,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.09722222222222222
+Cricket,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.6,0.19444444444444445
+Cricket,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.8,0.4305555555555556
+Cricket,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,1.01,1.0
+Cricket,0,90,QUANT,0.8888888888888888,,
+Cricket,0,90,Hydra,0.9583333333333334,,
+Cricket,0,90,QUANT + cross-channel views,0.9861111111111112,,
+Cricket,0,90,"QUANT + Hydra, gated",0.8888888888888888,0.0,0.0
+Cricket,0,90,"QUANT + Hydra, gated",0.9166666666666666,0.05,0.041666666666666664
+Cricket,0,90,"QUANT + Hydra, gated",0.9305555555555556,0.1,0.05555555555555555
+Cricket,0,90,"QUANT + Hydra, gated",0.9305555555555556,0.15,0.09722222222222222
+Cricket,0,90,"QUANT + Hydra, gated",0.9444444444444444,0.2,0.1388888888888889
+Cricket,0,90,"QUANT + Hydra, gated",0.9444444444444444,0.3,0.20833333333333334
+Cricket,0,90,"QUANT + Hydra, gated",0.9583333333333334,0.4,0.3611111111111111
+Cricket,0,90,"QUANT + Hydra, gated",0.9583333333333334,0.5,0.5277777777777778
+Cricket,0,90,"QUANT + Hydra, gated",0.9583333333333334,0.6,0.6666666666666666
+Cricket,0,90,"QUANT + Hydra, gated",0.9583333333333334,0.8,0.875
+Cricket,0,90,"QUANT + Hydra, gated",0.9583333333333334,1.01,1.0
+Cricket,0,90,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.0,0.0
+Cricket,0,90,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.05,0.0
+Cricket,0,90,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.1,0.0
+Cricket,0,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.027777777777777776
+Cricket,0,90,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.2,0.08333333333333333
+Cricket,0,90,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.3,0.1388888888888889
+Cricket,0,90,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.4,0.18055555555555555
+Cricket,0,90,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.5,0.2777777777777778
+Cricket,0,90,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.6,0.375
+Cricket,0,90,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.8,0.6111111111111112
+Cricket,0,90,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,1.01,1.0
+Cricket,1,90,QUANT,0.875,,
+Cricket,1,90,Hydra,0.9583333333333334,,
+Cricket,1,90,QUANT + cross-channel views,0.9861111111111112,,
+Cricket,1,90,"QUANT + Hydra, gated",0.875,0.0,0.0
+Cricket,1,90,"QUANT + Hydra, gated",0.9166666666666666,0.05,0.05555555555555555
+Cricket,1,90,"QUANT + Hydra, gated",0.9583333333333334,0.1,0.1111111111111111
+Cricket,1,90,"QUANT + Hydra, gated",0.9583333333333334,0.15,0.125
+Cricket,1,90,"QUANT + Hydra, gated",0.9583333333333334,0.2,0.1527777777777778
+Cricket,1,90,"QUANT + Hydra, gated",0.9722222222222222,0.3,0.2638888888888889
+Cricket,1,90,"QUANT + Hydra, gated",0.9722222222222222,0.4,0.3333333333333333
+Cricket,1,90,"QUANT + Hydra, gated",0.9722222222222222,0.5,0.4305555555555556
+Cricket,1,90,"QUANT + Hydra, gated",0.9722222222222222,0.6,0.5972222222222222
+Cricket,1,90,"QUANT + Hydra, gated",0.9722222222222222,0.8,0.875
+Cricket,1,90,"QUANT + Hydra, gated",0.9722222222222222,1.01,1.0
+Cricket,1,90,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.0,0.0
+Cricket,1,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.05,0.027777777777777776
+Cricket,1,90,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.1,0.05555555555555555
+Cricket,1,90,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.15,0.05555555555555555
+Cricket,1,90,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.2,0.08333333333333333
+Cricket,1,90,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.3,0.08333333333333333
+Cricket,1,90,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.4,0.1388888888888889
+Cricket,1,90,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.5,0.2222222222222222
+Cricket,1,90,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.6,0.3472222222222222
+Cricket,1,90,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.8,0.6805555555555556
+Cricket,1,90,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,1.01,1.0
+Cricket,2,90,QUANT,0.9305555555555556,,
+Cricket,2,90,Hydra,0.9861111111111112,,
+Cricket,2,90,QUANT + cross-channel views,1.0,,
+Cricket,2,90,"QUANT + Hydra, gated",0.9305555555555556,0.0,0.0
+Cricket,2,90,"QUANT + Hydra, gated",0.9583333333333334,0.05,0.08333333333333333
+Cricket,2,90,"QUANT + Hydra, gated",0.9722222222222222,0.1,0.125
+Cricket,2,90,"QUANT + Hydra, gated",0.9722222222222222,0.15,0.1388888888888889
+Cricket,2,90,"QUANT + Hydra, gated",0.9583333333333334,0.2,0.18055555555555555
+Cricket,2,90,"QUANT + Hydra, gated",0.9583333333333334,0.3,0.2361111111111111
+Cricket,2,90,"QUANT + Hydra, gated",0.9722222222222222,0.4,0.3472222222222222
+Cricket,2,90,"QUANT + Hydra, gated",0.9722222222222222,0.5,0.4305555555555556
+Cricket,2,90,"QUANT + Hydra, gated",0.9722222222222222,0.6,0.5833333333333334
+Cricket,2,90,"QUANT + Hydra, gated",0.9722222222222222,0.8,0.8611111111111112
+Cricket,2,90,"QUANT + Hydra, gated",0.9722222222222222,1.01,1.0
+Cricket,2,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.0,0.0
+Cricket,2,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.05,0.027777777777777776
+Cricket,2,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.027777777777777776
+Cricket,2,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.027777777777777776
+Cricket,2,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.05555555555555555
+Cricket,2,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.06944444444444445
+Cricket,2,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.16666666666666666
+Cricket,2,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.18055555555555555
+Cricket,2,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.6,0.2916666666666667
+Cricket,2,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.8,0.5
+Cricket,2,90,"QUANT + cross-channel views + Hydra, gated",1.0,1.01,1.0
+Cricket,3,90,QUANT,0.9583333333333334,,
+Cricket,3,90,Hydra,0.9722222222222222,,
+Cricket,3,90,QUANT + cross-channel views,0.9722222222222222,,
+Cricket,3,90,"QUANT + Hydra, gated",0.9583333333333334,0.0,0.0
+Cricket,3,90,"QUANT + Hydra, gated",0.9722222222222222,0.05,0.013888888888888888
+Cricket,3,90,"QUANT + Hydra, gated",0.9861111111111112,0.1,0.08333333333333333
+Cricket,3,90,"QUANT + Hydra, gated",1.0,0.15,0.1388888888888889
+Cricket,3,90,"QUANT + Hydra, gated",1.0,0.2,0.16666666666666666
+Cricket,3,90,"QUANT + Hydra, gated",1.0,0.3,0.3194444444444444
+Cricket,3,90,"QUANT + Hydra, gated",1.0,0.4,0.4027777777777778
+Cricket,3,90,"QUANT + Hydra, gated",1.0,0.5,0.5
+Cricket,3,90,"QUANT + Hydra, gated",1.0,0.6,0.5972222222222222
+Cricket,3,90,"QUANT + Hydra, gated",1.0,0.8,0.9027777777777778
+Cricket,3,90,"QUANT + Hydra, gated",1.0,1.01,1.0
+Cricket,3,90,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.0,0.0
+Cricket,3,90,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.05,0.0
+Cricket,3,90,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.1,0.0
+Cricket,3,90,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.15,0.05555555555555555
+Cricket,3,90,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.2,0.06944444444444445
+Cricket,3,90,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.3,0.08333333333333333
+Cricket,3,90,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.4,0.1111111111111111
+Cricket,3,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.18055555555555555
+Cricket,3,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.6,0.2638888888888889
+Cricket,3,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.8,0.5972222222222222
+Cricket,3,90,"QUANT + cross-channel views + Hydra, gated",1.0,1.01,1.0
+Cricket,4,90,QUANT,0.9305555555555556,,
+Cricket,4,90,Hydra,0.9861111111111112,,
+Cricket,4,90,QUANT + cross-channel views,0.9722222222222222,,
+Cricket,4,90,"QUANT + Hydra, gated",0.9305555555555556,0.0,0.0
+Cricket,4,90,"QUANT + Hydra, gated",0.9444444444444444,0.05,0.05555555555555555
+Cricket,4,90,"QUANT + Hydra, gated",0.9583333333333334,0.1,0.08333333333333333
+Cricket,4,90,"QUANT + Hydra, gated",0.9583333333333334,0.15,0.1388888888888889
+Cricket,4,90,"QUANT + Hydra, gated",0.9722222222222222,0.2,0.1527777777777778
+Cricket,4,90,"QUANT + Hydra, gated",0.9861111111111112,0.3,0.25
+Cricket,4,90,"QUANT + Hydra, gated",0.9861111111111112,0.4,0.3333333333333333
+Cricket,4,90,"QUANT + Hydra, gated",0.9861111111111112,0.5,0.4722222222222222
+Cricket,4,90,"QUANT + Hydra, gated",0.9861111111111112,0.6,0.6666666666666666
+Cricket,4,90,"QUANT + Hydra, gated",0.9861111111111112,0.8,0.9166666666666666
+Cricket,4,90,"QUANT + Hydra, gated",0.9861111111111112,1.01,1.0
+Cricket,4,90,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.0,0.0
+Cricket,4,90,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.05,0.0
+Cricket,4,90,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.1,0.0
+Cricket,4,90,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.15,0.027777777777777776
+Cricket,4,90,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.2,0.06944444444444445
+Cricket,4,90,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.3,0.125
+Cricket,4,90,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.4,0.18055555555555555
+Cricket,4,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.20833333333333334
+Cricket,4,90,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.6,0.3472222222222222
+Cricket,4,90,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.8,0.5833333333333334
+Cricket,4,90,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,1.01,1.0
+Cricket,0,180,QUANT,0.8472222222222222,,
+Cricket,0,180,Hydra,0.8888888888888888,,
+Cricket,0,180,QUANT + cross-channel views,0.9722222222222222,,
+Cricket,0,180,"QUANT + Hydra, gated",0.8472222222222222,0.0,0.0
+Cricket,0,180,"QUANT + Hydra, gated",0.8888888888888888,0.05,0.08333333333333333
+Cricket,0,180,"QUANT + Hydra, gated",0.875,0.1,0.1388888888888889
+Cricket,0,180,"QUANT + Hydra, gated",0.9027777777777778,0.15,0.19444444444444445
+Cricket,0,180,"QUANT + Hydra, gated",0.9166666666666666,0.2,0.2638888888888889
+Cricket,0,180,"QUANT + Hydra, gated",0.9305555555555556,0.3,0.3472222222222222
+Cricket,0,180,"QUANT + Hydra, gated",0.9166666666666666,0.4,0.4305555555555556
+Cricket,0,180,"QUANT + Hydra, gated",0.9166666666666666,0.5,0.4722222222222222
+Cricket,0,180,"QUANT + Hydra, gated",0.9166666666666666,0.6,0.6388888888888888
+Cricket,0,180,"QUANT + Hydra, gated",0.9166666666666666,0.8,0.9444444444444444
+Cricket,0,180,"QUANT + Hydra, gated",0.9166666666666666,1.01,1.0
+Cricket,0,180,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.0,0.0
+Cricket,0,180,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.05,0.013888888888888888
+Cricket,0,180,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.1,0.027777777777777776
+Cricket,0,180,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.15,0.041666666666666664
+Cricket,0,180,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.2,0.08333333333333333
+Cricket,0,180,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.3,0.125
+Cricket,0,180,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.4,0.18055555555555555
+Cricket,0,180,"QUANT + cross-channel views + Hydra, gated",0.9583333333333334,0.5,0.2916666666666667
+Cricket,0,180,"QUANT + cross-channel views + Hydra, gated",0.9583333333333334,0.6,0.3611111111111111
+Cricket,0,180,"QUANT + cross-channel views + Hydra, gated",0.9583333333333334,0.8,0.5555555555555556
+Cricket,0,180,"QUANT + cross-channel views + Hydra, gated",0.9583333333333334,1.01,1.0
+Cricket,1,180,QUANT,0.875,,
+Cricket,1,180,Hydra,0.9305555555555556,,
+Cricket,1,180,QUANT + cross-channel views,0.9861111111111112,,
+Cricket,1,180,"QUANT + Hydra, gated",0.875,0.0,0.0
+Cricket,1,180,"QUANT + Hydra, gated",0.8888888888888888,0.05,0.06944444444444445
+Cricket,1,180,"QUANT + Hydra, gated",0.9027777777777778,0.1,0.1111111111111111
+Cricket,1,180,"QUANT + Hydra, gated",0.9166666666666666,0.15,0.1527777777777778
+Cricket,1,180,"QUANT + Hydra, gated",0.9166666666666666,0.2,0.20833333333333334
+Cricket,1,180,"QUANT + Hydra, gated",0.9722222222222222,0.3,0.3611111111111111
+Cricket,1,180,"QUANT + Hydra, gated",0.9583333333333334,0.4,0.4722222222222222
+Cricket,1,180,"QUANT + Hydra, gated",0.9583333333333334,0.5,0.625
+Cricket,1,180,"QUANT + Hydra, gated",0.9583333333333334,0.6,0.6805555555555556
+Cricket,1,180,"QUANT + Hydra, gated",0.9583333333333334,0.8,0.9166666666666666
+Cricket,1,180,"QUANT + Hydra, gated",0.9583333333333334,1.01,1.0
+Cricket,1,180,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.0,0.0
+Cricket,1,180,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.05,0.0
+Cricket,1,180,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.1,0.0
+Cricket,1,180,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.15,0.041666666666666664
+Cricket,1,180,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.2,0.05555555555555555
+Cricket,1,180,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.3,0.08333333333333333
+Cricket,1,180,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.4,0.1388888888888889
+Cricket,1,180,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.5,0.25
+Cricket,1,180,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.6,0.3611111111111111
+Cricket,1,180,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.8,0.7638888888888888
+Cricket,1,180,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,1.01,1.0
+Cricket,2,180,QUANT,0.8333333333333334,,
+Cricket,2,180,Hydra,0.9444444444444444,,
+Cricket,2,180,QUANT + cross-channel views,0.9861111111111112,,
+Cricket,2,180,"QUANT + Hydra, gated",0.8333333333333334,0.0,0.0
+Cricket,2,180,"QUANT + Hydra, gated",0.8611111111111112,0.05,0.041666666666666664
+Cricket,2,180,"QUANT + Hydra, gated",0.875,0.1,0.06944444444444445
+Cricket,2,180,"QUANT + Hydra, gated",0.875,0.15,0.09722222222222222
+Cricket,2,180,"QUANT + Hydra, gated",0.9027777777777778,0.2,0.1527777777777778
+Cricket,2,180,"QUANT + Hydra, gated",0.9583333333333334,0.3,0.2638888888888889
+Cricket,2,180,"QUANT + Hydra, gated",0.9722222222222222,0.4,0.3472222222222222
+Cricket,2,180,"QUANT + Hydra, gated",0.9722222222222222,0.5,0.5277777777777778
+Cricket,2,180,"QUANT + Hydra, gated",0.9722222222222222,0.6,0.6666666666666666
+Cricket,2,180,"QUANT + Hydra, gated",0.9722222222222222,0.8,0.8888888888888888
+Cricket,2,180,"QUANT + Hydra, gated",0.9722222222222222,1.01,1.0
+Cricket,2,180,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.0,0.0
+Cricket,2,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.05,0.027777777777777776
+Cricket,2,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.027777777777777776
+Cricket,2,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.027777777777777776
+Cricket,2,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.05555555555555555
+Cricket,2,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.09722222222222222
+Cricket,2,180,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.4,0.16666666666666666
+Cricket,2,180,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.5,0.2361111111111111
+Cricket,2,180,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.6,0.3194444444444444
+Cricket,2,180,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.8,0.6527777777777778
+Cricket,2,180,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,1.01,1.0
+Cricket,3,180,QUANT,0.8888888888888888,,
+Cricket,3,180,Hydra,0.9027777777777778,,
+Cricket,3,180,QUANT + cross-channel views,0.9722222222222222,,
+Cricket,3,180,"QUANT + Hydra, gated",0.8888888888888888,0.0,0.0
+Cricket,3,180,"QUANT + Hydra, gated",0.9027777777777778,0.05,0.125
+Cricket,3,180,"QUANT + Hydra, gated",0.9166666666666666,0.1,0.1388888888888889
+Cricket,3,180,"QUANT + Hydra, gated",0.9305555555555556,0.15,0.18055555555555555
+Cricket,3,180,"QUANT + Hydra, gated",0.9305555555555556,0.2,0.25
+Cricket,3,180,"QUANT + Hydra, gated",0.9444444444444444,0.3,0.4027777777777778
+Cricket,3,180,"QUANT + Hydra, gated",0.9305555555555556,0.4,0.5138888888888888
+Cricket,3,180,"QUANT + Hydra, gated",0.9305555555555556,0.5,0.625
+Cricket,3,180,"QUANT + Hydra, gated",0.9305555555555556,0.6,0.7916666666666666
+Cricket,3,180,"QUANT + Hydra, gated",0.9305555555555556,0.8,0.9583333333333334
+Cricket,3,180,"QUANT + Hydra, gated",0.9305555555555556,1.01,1.0
+Cricket,3,180,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.0,0.0
+Cricket,3,180,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.05,0.027777777777777776
+Cricket,3,180,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.1,0.027777777777777776
+Cricket,3,180,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.15,0.041666666666666664
+Cricket,3,180,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.2,0.05555555555555555
+Cricket,3,180,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.3,0.08333333333333333
+Cricket,3,180,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.4,0.1111111111111111
+Cricket,3,180,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.5,0.18055555555555555
+Cricket,3,180,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.6,0.3333333333333333
+Cricket,3,180,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.8,0.625
+Cricket,3,180,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,1.01,1.0
+Cricket,4,180,QUANT,0.9166666666666666,,
+Cricket,4,180,Hydra,0.8472222222222222,,
+Cricket,4,180,QUANT + cross-channel views,0.9722222222222222,,
+Cricket,4,180,"QUANT + Hydra, gated",0.9166666666666666,0.0,0.0
+Cricket,4,180,"QUANT + Hydra, gated",0.9305555555555556,0.05,0.041666666666666664
+Cricket,4,180,"QUANT + Hydra, gated",0.9444444444444444,0.1,0.08333333333333333
+Cricket,4,180,"QUANT + Hydra, gated",0.9027777777777778,0.15,0.1527777777777778
+Cricket,4,180,"QUANT + Hydra, gated",0.9166666666666666,0.2,0.19444444444444445
+Cricket,4,180,"QUANT + Hydra, gated",0.9027777777777778,0.3,0.375
+Cricket,4,180,"QUANT + Hydra, gated",0.9027777777777778,0.4,0.4305555555555556
+Cricket,4,180,"QUANT + Hydra, gated",0.9027777777777778,0.5,0.5555555555555556
+Cricket,4,180,"QUANT + Hydra, gated",0.9027777777777778,0.6,0.7222222222222222
+Cricket,4,180,"QUANT + Hydra, gated",0.9027777777777778,0.8,0.9166666666666666
+Cricket,4,180,"QUANT + Hydra, gated",0.9027777777777778,1.01,1.0
+Cricket,4,180,"QUANT + cross-channel views + Hydra, gated",0.9722222222222222,0.0,0.0
+Cricket,4,180,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.05,0.013888888888888888
+Cricket,4,180,"QUANT + cross-channel views + Hydra, gated",0.9861111111111112,0.1,0.013888888888888888
+Cricket,4,180,"QUANT + cross-channel views + Hydra, gated",0.9583333333333334,0.15,0.05555555555555555
+Cricket,4,180,"QUANT + cross-channel views + Hydra, gated",0.9583333333333334,0.2,0.06944444444444445
+Cricket,4,180,"QUANT + cross-channel views + Hydra, gated",0.9583333333333334,0.3,0.1388888888888889
+Cricket,4,180,"QUANT + cross-channel views + Hydra, gated",0.9583333333333334,0.4,0.18055555555555555
+Cricket,4,180,"QUANT + cross-channel views + Hydra, gated",0.9583333333333334,0.5,0.25
+Cricket,4,180,"QUANT + cross-channel views + Hydra, gated",0.9444444444444444,0.6,0.3194444444444444
+Cricket,4,180,"QUANT + cross-channel views + Hydra, gated",0.9444444444444444,0.8,0.5972222222222222
+Cricket,4,180,"QUANT + cross-channel views + Hydra, gated",0.9444444444444444,1.01,1.0
+Epilepsy,0,30,QUANT,1.0,,
+Epilepsy,0,30,Hydra,1.0,,
+Epilepsy,0,30,QUANT + cross-channel views,1.0,,
+Epilepsy,0,30,"QUANT + Hydra, gated",1.0,0.0,0.0
+Epilepsy,0,30,"QUANT + Hydra, gated",1.0,0.05,0.0
+Epilepsy,0,30,"QUANT + Hydra, gated",1.0,0.1,0.0
+Epilepsy,0,30,"QUANT + Hydra, gated",1.0,0.15,0.014492753623188406
+Epilepsy,0,30,"QUANT + Hydra, gated",1.0,0.2,0.021739130434782608
+Epilepsy,0,30,"QUANT + Hydra, gated",1.0,0.3,0.021739130434782608
+Epilepsy,0,30,"QUANT + Hydra, gated",1.0,0.4,0.043478260869565216
+Epilepsy,0,30,"QUANT + Hydra, gated",1.0,0.5,0.043478260869565216
+Epilepsy,0,30,"QUANT + Hydra, gated",1.0,0.6,0.10144927536231885
+Epilepsy,0,30,"QUANT + Hydra, gated",1.0,0.8,0.21739130434782608
+Epilepsy,0,30,"QUANT + Hydra, gated",1.0,1.01,1.0
+Epilepsy,0,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.0,0.0
+Epilepsy,0,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.05,0.0
+Epilepsy,0,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.0
+Epilepsy,0,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.007246376811594203
+Epilepsy,0,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.014492753623188406
+Epilepsy,0,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.028985507246376812
+Epilepsy,0,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.036231884057971016
+Epilepsy,0,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.057971014492753624
+Epilepsy,0,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.6,0.10144927536231885
+Epilepsy,0,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.8,0.2536231884057971
+Epilepsy,0,30,"QUANT + cross-channel views + Hydra, gated",1.0,1.01,1.0
+Epilepsy,1,30,QUANT,0.9855072463768116,,
+Epilepsy,1,30,Hydra,0.9855072463768116,,
+Epilepsy,1,30,QUANT + cross-channel views,0.9637681159420289,,
+Epilepsy,1,30,"QUANT + Hydra, gated",0.9855072463768116,0.0,0.0
+Epilepsy,1,30,"QUANT + Hydra, gated",0.9782608695652174,0.05,0.007246376811594203
+Epilepsy,1,30,"QUANT + Hydra, gated",0.9782608695652174,0.1,0.007246376811594203
+Epilepsy,1,30,"QUANT + Hydra, gated",0.9782608695652174,0.15,0.007246376811594203
+Epilepsy,1,30,"QUANT + Hydra, gated",0.9782608695652174,0.2,0.014492753623188406
+Epilepsy,1,30,"QUANT + Hydra, gated",0.9855072463768116,0.3,0.036231884057971016
+Epilepsy,1,30,"QUANT + Hydra, gated",0.9855072463768116,0.4,0.06521739130434782
+Epilepsy,1,30,"QUANT + Hydra, gated",0.9855072463768116,0.5,0.07971014492753623
+Epilepsy,1,30,"QUANT + Hydra, gated",0.9855072463768116,0.6,0.12318840579710146
+Epilepsy,1,30,"QUANT + Hydra, gated",0.9855072463768116,0.8,0.2826086956521739
+Epilepsy,1,30,"QUANT + Hydra, gated",0.9855072463768116,1.01,1.0
+Epilepsy,1,30,"QUANT + cross-channel views + Hydra, gated",0.9637681159420289,0.0,0.0
+Epilepsy,1,30,"QUANT + cross-channel views + Hydra, gated",0.9710144927536232,0.05,0.014492753623188406
+Epilepsy,1,30,"QUANT + cross-channel views + Hydra, gated",0.9782608695652174,0.1,0.021739130434782608
+Epilepsy,1,30,"QUANT + cross-channel views + Hydra, gated",0.9782608695652174,0.15,0.021739130434782608
+Epilepsy,1,30,"QUANT + cross-channel views + Hydra, gated",0.9855072463768116,0.2,0.028985507246376812
+Epilepsy,1,30,"QUANT + cross-channel views + Hydra, gated",0.9855072463768116,0.3,0.036231884057971016
+Epilepsy,1,30,"QUANT + cross-channel views + Hydra, gated",0.9855072463768116,0.4,0.07246376811594203
+Epilepsy,1,30,"QUANT + cross-channel views + Hydra, gated",0.9855072463768116,0.5,0.10869565217391304
+Epilepsy,1,30,"QUANT + cross-channel views + Hydra, gated",0.9855072463768116,0.6,0.13043478260869565
+Epilepsy,1,30,"QUANT + cross-channel views + Hydra, gated",0.9855072463768116,0.8,0.2826086956521739
+Epilepsy,1,30,"QUANT + cross-channel views + Hydra, gated",0.9855072463768116,1.01,1.0
+Epilepsy,2,30,QUANT,0.9927536231884058,,
+Epilepsy,2,30,Hydra,0.9927536231884058,,
+Epilepsy,2,30,QUANT + cross-channel views,1.0,,
+Epilepsy,2,30,"QUANT + Hydra, gated",0.9927536231884058,0.0,0.0
+Epilepsy,2,30,"QUANT + Hydra, gated",0.9855072463768116,0.05,0.014492753623188406
+Epilepsy,2,30,"QUANT + Hydra, gated",0.9855072463768116,0.1,0.028985507246376812
+Epilepsy,2,30,"QUANT + Hydra, gated",0.9855072463768116,0.15,0.028985507246376812
+Epilepsy,2,30,"QUANT + Hydra, gated",0.9927536231884058,0.2,0.043478260869565216
+Epilepsy,2,30,"QUANT + Hydra, gated",0.9927536231884058,0.3,0.043478260869565216
+Epilepsy,2,30,"QUANT + Hydra, gated",0.9927536231884058,0.4,0.043478260869565216
+Epilepsy,2,30,"QUANT + Hydra, gated",0.9927536231884058,0.5,0.07246376811594203
+Epilepsy,2,30,"QUANT + Hydra, gated",0.9927536231884058,0.6,0.10869565217391304
+Epilepsy,2,30,"QUANT + Hydra, gated",0.9927536231884058,0.8,0.2318840579710145
+Epilepsy,2,30,"QUANT + Hydra, gated",0.9927536231884058,1.01,1.0
+Epilepsy,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.0,0.0
+Epilepsy,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.05,0.014492753623188406
+Epilepsy,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.014492753623188406
+Epilepsy,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.014492753623188406
+Epilepsy,2,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.014492753623188406
+Epilepsy,2,30,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.3,0.028985507246376812
+Epilepsy,2,30,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.4,0.050724637681159424
+Epilepsy,2,30,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.5,0.07246376811594203
+Epilepsy,2,30,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.6,0.10144927536231885
+Epilepsy,2,30,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.8,0.2463768115942029
+Epilepsy,2,30,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,1.01,1.0
+Epilepsy,3,30,QUANT,0.9927536231884058,,
+Epilepsy,3,30,Hydra,1.0,,
+Epilepsy,3,30,QUANT + cross-channel views,0.9855072463768116,,
+Epilepsy,3,30,"QUANT + Hydra, gated",0.9927536231884058,0.0,0.0
+Epilepsy,3,30,"QUANT + Hydra, gated",0.9927536231884058,0.05,0.007246376811594203
+Epilepsy,3,30,"QUANT + Hydra, gated",0.9927536231884058,0.1,0.007246376811594203
+Epilepsy,3,30,"QUANT + Hydra, gated",0.9927536231884058,0.15,0.007246376811594203
+Epilepsy,3,30,"QUANT + Hydra, gated",0.9927536231884058,0.2,0.014492753623188406
+Epilepsy,3,30,"QUANT + Hydra, gated",1.0,0.3,0.028985507246376812
+Epilepsy,3,30,"QUANT + Hydra, gated",1.0,0.4,0.043478260869565216
+Epilepsy,3,30,"QUANT + Hydra, gated",1.0,0.5,0.08695652173913043
+Epilepsy,3,30,"QUANT + Hydra, gated",1.0,0.6,0.11594202898550725
+Epilepsy,3,30,"QUANT + Hydra, gated",1.0,0.8,0.34782608695652173
+Epilepsy,3,30,"QUANT + Hydra, gated",1.0,1.01,1.0
+Epilepsy,3,30,"QUANT + cross-channel views + Hydra, gated",0.9855072463768116,0.0,0.0
+Epilepsy,3,30,"QUANT + cross-channel views + Hydra, gated",0.9855072463768116,0.05,0.0
+Epilepsy,3,30,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.1,0.014492753623188406
+Epilepsy,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.021739130434782608
+Epilepsy,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.028985507246376812
+Epilepsy,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.036231884057971016
+Epilepsy,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.057971014492753624
+Epilepsy,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.09420289855072464
+Epilepsy,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.6,0.13768115942028986
+Epilepsy,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.8,0.4057971014492754
+Epilepsy,3,30,"QUANT + cross-channel views + Hydra, gated",1.0,1.01,1.0
+Epilepsy,4,30,QUANT,0.9782608695652174,,
+Epilepsy,4,30,Hydra,1.0,,
+Epilepsy,4,30,QUANT + cross-channel views,1.0,,
+Epilepsy,4,30,"QUANT + Hydra, gated",0.9782608695652174,0.0,0.0
+Epilepsy,4,30,"QUANT + Hydra, gated",0.9927536231884058,0.05,0.014492753623188406
+Epilepsy,4,30,"QUANT + Hydra, gated",0.9927536231884058,0.1,0.014492753623188406
+Epilepsy,4,30,"QUANT + Hydra, gated",1.0,0.15,0.021739130434782608
+Epilepsy,4,30,"QUANT + Hydra, gated",1.0,0.2,0.021739130434782608
+Epilepsy,4,30,"QUANT + Hydra, gated",1.0,0.3,0.021739130434782608
+Epilepsy,4,30,"QUANT + Hydra, gated",1.0,0.4,0.043478260869565216
+Epilepsy,4,30,"QUANT + Hydra, gated",1.0,0.5,0.07246376811594203
+Epilepsy,4,30,"QUANT + Hydra, gated",1.0,0.6,0.14492753623188406
+Epilepsy,4,30,"QUANT + Hydra, gated",1.0,0.8,0.2608695652173913
+Epilepsy,4,30,"QUANT + Hydra, gated",1.0,1.01,1.0
+Epilepsy,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.0,0.0
+Epilepsy,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.05,0.007246376811594203
+Epilepsy,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.007246376811594203
+Epilepsy,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.014492753623188406
+Epilepsy,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.014492753623188406
+Epilepsy,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.028985507246376812
+Epilepsy,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.043478260869565216
+Epilepsy,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.07246376811594203
+Epilepsy,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.6,0.11594202898550725
+Epilepsy,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,0.8,0.2826086956521739
+Epilepsy,4,30,"QUANT + cross-channel views + Hydra, gated",1.0,1.01,1.0
+Epilepsy,0,90,QUANT,0.927536231884058,,
+Epilepsy,0,90,Hydra,0.9710144927536232,,
+Epilepsy,0,90,QUANT + cross-channel views,0.9927536231884058,,
+Epilepsy,0,90,"QUANT + Hydra, gated",0.927536231884058,0.0,0.0
+Epilepsy,0,90,"QUANT + Hydra, gated",0.927536231884058,0.05,0.028985507246376812
+Epilepsy,0,90,"QUANT + Hydra, gated",0.9565217391304348,0.1,0.06521739130434782
+Epilepsy,0,90,"QUANT + Hydra, gated",0.9565217391304348,0.15,0.07971014492753623
+Epilepsy,0,90,"QUANT + Hydra, gated",0.9637681159420289,0.2,0.08695652173913043
+Epilepsy,0,90,"QUANT + Hydra, gated",0.9637681159420289,0.3,0.10869565217391304
+Epilepsy,0,90,"QUANT + Hydra, gated",0.9637681159420289,0.4,0.14492753623188406
+Epilepsy,0,90,"QUANT + Hydra, gated",0.9710144927536232,0.5,0.18840579710144928
+Epilepsy,0,90,"QUANT + Hydra, gated",0.9782608695652174,0.6,0.26811594202898553
+Epilepsy,0,90,"QUANT + Hydra, gated",0.9710144927536232,0.8,0.42028985507246375
+Epilepsy,0,90,"QUANT + Hydra, gated",0.9710144927536232,1.01,1.0
+Epilepsy,0,90,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.0,0.0
+Epilepsy,0,90,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.05,0.007246376811594203
+Epilepsy,0,90,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.1,0.021739130434782608
+Epilepsy,0,90,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.15,0.021739130434782608
+Epilepsy,0,90,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.2,0.028985507246376812
+Epilepsy,0,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.057971014492753624
+Epilepsy,0,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.08695652173913043
+Epilepsy,0,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.10869565217391304
+Epilepsy,0,90,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.6,0.14492753623188406
+Epilepsy,0,90,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.8,0.3115942028985507
+Epilepsy,0,90,"QUANT + cross-channel views + Hydra, gated",0.9855072463768116,1.01,1.0
+Epilepsy,1,90,QUANT,0.8985507246376812,,
+Epilepsy,1,90,Hydra,0.9420289855072463,,
+Epilepsy,1,90,QUANT + cross-channel views,0.9347826086956522,,
+Epilepsy,1,90,"QUANT + Hydra, gated",0.8985507246376812,0.0,0.0
+Epilepsy,1,90,"QUANT + Hydra, gated",0.9202898550724637,0.05,0.028985507246376812
+Epilepsy,1,90,"QUANT + Hydra, gated",0.927536231884058,0.1,0.050724637681159424
+Epilepsy,1,90,"QUANT + Hydra, gated",0.927536231884058,0.15,0.06521739130434782
+Epilepsy,1,90,"QUANT + Hydra, gated",0.927536231884058,0.2,0.08695652173913043
+Epilepsy,1,90,"QUANT + Hydra, gated",0.9347826086956522,0.3,0.13768115942028986
+Epilepsy,1,90,"QUANT + Hydra, gated",0.9492753623188406,0.4,0.17391304347826086
+Epilepsy,1,90,"QUANT + Hydra, gated",0.9492753623188406,0.5,0.18840579710144928
+Epilepsy,1,90,"QUANT + Hydra, gated",0.9565217391304348,0.6,0.2318840579710145
+Epilepsy,1,90,"QUANT + Hydra, gated",0.9565217391304348,0.8,0.45652173913043476
+Epilepsy,1,90,"QUANT + Hydra, gated",0.9565217391304348,1.01,1.0
+Epilepsy,1,90,"QUANT + cross-channel views + Hydra, gated",0.9347826086956522,0.0,0.0
+Epilepsy,1,90,"QUANT + cross-channel views + Hydra, gated",0.9420289855072463,0.05,0.007246376811594203
+Epilepsy,1,90,"QUANT + cross-channel views + Hydra, gated",0.9565217391304348,0.1,0.028985507246376812
+Epilepsy,1,90,"QUANT + cross-channel views + Hydra, gated",0.9637681159420289,0.15,0.043478260869565216
+Epilepsy,1,90,"QUANT + cross-channel views + Hydra, gated",0.9637681159420289,0.2,0.06521739130434782
+Epilepsy,1,90,"QUANT + cross-channel views + Hydra, gated",0.9637681159420289,0.3,0.08695652173913043
+Epilepsy,1,90,"QUANT + cross-channel views + Hydra, gated",0.9637681159420289,0.4,0.10144927536231885
+Epilepsy,1,90,"QUANT + cross-channel views + Hydra, gated",0.9637681159420289,0.5,0.13768115942028986
+Epilepsy,1,90,"QUANT + cross-channel views + Hydra, gated",0.9565217391304348,0.6,0.16666666666666666
+Epilepsy,1,90,"QUANT + cross-channel views + Hydra, gated",0.9565217391304348,0.8,0.34782608695652173
+Epilepsy,1,90,"QUANT + cross-channel views + Hydra, gated",0.9565217391304348,1.01,1.0
+Epilepsy,2,90,QUANT,0.9710144927536232,,
+Epilepsy,2,90,Hydra,0.9855072463768116,,
+Epilepsy,2,90,QUANT + cross-channel views,0.9782608695652174,,
+Epilepsy,2,90,"QUANT + Hydra, gated",0.9710144927536232,0.0,0.0
+Epilepsy,2,90,"QUANT + Hydra, gated",0.9710144927536232,0.05,0.0
+Epilepsy,2,90,"QUANT + Hydra, gated",0.9782608695652174,0.1,0.021739130434782608
+Epilepsy,2,90,"QUANT + Hydra, gated",0.9855072463768116,0.15,0.043478260869565216
+Epilepsy,2,90,"QUANT + Hydra, gated",0.9855072463768116,0.2,0.06521739130434782
+Epilepsy,2,90,"QUANT + Hydra, gated",0.9927536231884058,0.3,0.07246376811594203
+Epilepsy,2,90,"QUANT + Hydra, gated",0.9927536231884058,0.4,0.10869565217391304
+Epilepsy,2,90,"QUANT + Hydra, gated",0.9927536231884058,0.5,0.18840579710144928
+Epilepsy,2,90,"QUANT + Hydra, gated",0.9855072463768116,0.6,0.2463768115942029
+Epilepsy,2,90,"QUANT + Hydra, gated",0.9855072463768116,0.8,0.463768115942029
+Epilepsy,2,90,"QUANT + Hydra, gated",0.9855072463768116,1.01,1.0
+Epilepsy,2,90,"QUANT + cross-channel views + Hydra, gated",0.9782608695652174,0.0,0.0
+Epilepsy,2,90,"QUANT + cross-channel views + Hydra, gated",0.9855072463768116,0.05,0.007246376811594203
+Epilepsy,2,90,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.1,0.021739130434782608
+Epilepsy,2,90,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.15,0.028985507246376812
+Epilepsy,2,90,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.2,0.036231884057971016
+Epilepsy,2,90,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.3,0.050724637681159424
+Epilepsy,2,90,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.4,0.06521739130434782
+Epilepsy,2,90,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.5,0.09420289855072464
+Epilepsy,2,90,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.6,0.13043478260869565
+Epilepsy,2,90,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.8,0.3188405797101449
+Epilepsy,2,90,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,1.01,1.0
+Epilepsy,3,90,QUANT,0.9637681159420289,,
+Epilepsy,3,90,Hydra,0.9855072463768116,,
+Epilepsy,3,90,QUANT + cross-channel views,0.9782608695652174,,
+Epilepsy,3,90,"QUANT + Hydra, gated",0.9637681159420289,0.0,0.0
+Epilepsy,3,90,"QUANT + Hydra, gated",0.9710144927536232,0.05,0.014492753623188406
+Epilepsy,3,90,"QUANT + Hydra, gated",0.9710144927536232,0.1,0.028985507246376812
+Epilepsy,3,90,"QUANT + Hydra, gated",0.9710144927536232,0.15,0.036231884057971016
+Epilepsy,3,90,"QUANT + Hydra, gated",0.9855072463768116,0.2,0.07246376811594203
+Epilepsy,3,90,"QUANT + Hydra, gated",0.9855072463768116,0.3,0.07971014492753623
+Epilepsy,3,90,"QUANT + Hydra, gated",0.9855072463768116,0.4,0.14492753623188406
+Epilepsy,3,90,"QUANT + Hydra, gated",0.9927536231884058,0.5,0.21014492753623187
+Epilepsy,3,90,"QUANT + Hydra, gated",0.9927536231884058,0.6,0.2898550724637681
+Epilepsy,3,90,"QUANT + Hydra, gated",0.9855072463768116,0.8,0.5
+Epilepsy,3,90,"QUANT + Hydra, gated",0.9855072463768116,1.01,1.0
+Epilepsy,3,90,"QUANT + cross-channel views + Hydra, gated",0.9782608695652174,0.0,0.0
+Epilepsy,3,90,"QUANT + cross-channel views + Hydra, gated",0.9782608695652174,0.05,0.007246376811594203
+Epilepsy,3,90,"QUANT + cross-channel views + Hydra, gated",0.9782608695652174,0.1,0.014492753623188406
+Epilepsy,3,90,"QUANT + cross-channel views + Hydra, gated",0.9782608695652174,0.15,0.014492753623188406
+Epilepsy,3,90,"QUANT + cross-channel views + Hydra, gated",0.9855072463768116,0.2,0.028985507246376812
+Epilepsy,3,90,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.3,0.043478260869565216
+Epilepsy,3,90,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.4,0.06521739130434782
+Epilepsy,3,90,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.5,0.10144927536231885
+Epilepsy,3,90,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.6,0.15217391304347827
+Epilepsy,3,90,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.8,0.41304347826086957
+Epilepsy,3,90,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,1.01,1.0
+Epilepsy,4,90,QUANT,0.9710144927536232,,
+Epilepsy,4,90,Hydra,0.9855072463768116,,
+Epilepsy,4,90,QUANT + cross-channel views,0.9855072463768116,,
+Epilepsy,4,90,"QUANT + Hydra, gated",0.9710144927536232,0.0,0.0
+Epilepsy,4,90,"QUANT + Hydra, gated",0.9710144927536232,0.05,0.021739130434782608
+Epilepsy,4,90,"QUANT + Hydra, gated",0.9710144927536232,0.1,0.028985507246376812
+Epilepsy,4,90,"QUANT + Hydra, gated",0.9710144927536232,0.15,0.028985507246376812
+Epilepsy,4,90,"QUANT + Hydra, gated",0.9710144927536232,0.2,0.028985507246376812
+Epilepsy,4,90,"QUANT + Hydra, gated",0.9710144927536232,0.3,0.07971014492753623
+Epilepsy,4,90,"QUANT + Hydra, gated",0.9637681159420289,0.4,0.12318840579710146
+Epilepsy,4,90,"QUANT + Hydra, gated",0.9710144927536232,0.5,0.17391304347826086
+Epilepsy,4,90,"QUANT + Hydra, gated",0.9710144927536232,0.6,0.2826086956521739
+Epilepsy,4,90,"QUANT + Hydra, gated",0.9710144927536232,0.8,0.5217391304347826
+Epilepsy,4,90,"QUANT + Hydra, gated",0.9710144927536232,1.01,1.0
+Epilepsy,4,90,"QUANT + cross-channel views + Hydra, gated",0.9855072463768116,0.0,0.0
+Epilepsy,4,90,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.05,0.007246376811594203
+Epilepsy,4,90,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.1,0.007246376811594203
+Epilepsy,4,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.021739130434782608
+Epilepsy,4,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.028985507246376812
+Epilepsy,4,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.057971014492753624
+Epilepsy,4,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.07971014492753623
+Epilepsy,4,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.10144927536231885
+Epilepsy,4,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.6,0.15942028985507245
+Epilepsy,4,90,"QUANT + cross-channel views + Hydra, gated",1.0,0.8,0.37681159420289856
+Epilepsy,4,90,"QUANT + cross-channel views + Hydra, gated",1.0,1.01,1.0
+Epilepsy,0,180,QUANT,0.9347826086956522,,
+Epilepsy,0,180,Hydra,0.9637681159420289,,
+Epilepsy,0,180,QUANT + cross-channel views,0.9855072463768116,,
+Epilepsy,0,180,"QUANT + Hydra, gated",0.9347826086956522,0.0,0.0
+Epilepsy,0,180,"QUANT + Hydra, gated",0.9420289855072463,0.05,0.021739130434782608
+Epilepsy,0,180,"QUANT + Hydra, gated",0.9565217391304348,0.1,0.036231884057971016
+Epilepsy,0,180,"QUANT + Hydra, gated",0.9637681159420289,0.15,0.050724637681159424
+Epilepsy,0,180,"QUANT + Hydra, gated",0.9710144927536232,0.2,0.06521739130434782
+Epilepsy,0,180,"QUANT + Hydra, gated",0.9710144927536232,0.3,0.07971014492753623
+Epilepsy,0,180,"QUANT + Hydra, gated",0.9782608695652174,0.4,0.14492753623188406
+Epilepsy,0,180,"QUANT + Hydra, gated",0.9710144927536232,0.5,0.18840579710144928
+Epilepsy,0,180,"QUANT + Hydra, gated",0.9710144927536232,0.6,0.2608695652173913
+Epilepsy,0,180,"QUANT + Hydra, gated",0.9782608695652174,0.8,0.5217391304347826
+Epilepsy,0,180,"QUANT + Hydra, gated",0.9782608695652174,1.01,1.0
+Epilepsy,0,180,"QUANT + cross-channel views + Hydra, gated",0.9855072463768116,0.0,0.0
+Epilepsy,0,180,"QUANT + cross-channel views + Hydra, gated",0.9855072463768116,0.05,0.0
+Epilepsy,0,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.014492753623188406
+Epilepsy,0,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.028985507246376812
+Epilepsy,0,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.028985507246376812
+Epilepsy,0,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.057971014492753624
+Epilepsy,0,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.08695652173913043
+Epilepsy,0,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.10869565217391304
+Epilepsy,0,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.6,0.14492753623188406
+Epilepsy,0,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.8,0.3188405797101449
+Epilepsy,0,180,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,1.01,1.0
+Epilepsy,1,180,QUANT,0.9492753623188406,,
+Epilepsy,1,180,Hydra,0.9420289855072463,,
+Epilepsy,1,180,QUANT + cross-channel views,0.9492753623188406,,
+Epilepsy,1,180,"QUANT + Hydra, gated",0.9492753623188406,0.0,0.0
+Epilepsy,1,180,"QUANT + Hydra, gated",0.9492753623188406,0.05,0.021739130434782608
+Epilepsy,1,180,"QUANT + Hydra, gated",0.9492753623188406,0.1,0.036231884057971016
+Epilepsy,1,180,"QUANT + Hydra, gated",0.9492753623188406,0.15,0.043478260869565216
+Epilepsy,1,180,"QUANT + Hydra, gated",0.9565217391304348,0.2,0.07246376811594203
+Epilepsy,1,180,"QUANT + Hydra, gated",0.9565217391304348,0.3,0.10144927536231885
+Epilepsy,1,180,"QUANT + Hydra, gated",0.9420289855072463,0.4,0.15942028985507245
+Epilepsy,1,180,"QUANT + Hydra, gated",0.9420289855072463,0.5,0.21014492753623187
+Epilepsy,1,180,"QUANT + Hydra, gated",0.9420289855072463,0.6,0.2898550724637681
+Epilepsy,1,180,"QUANT + Hydra, gated",0.9420289855072463,0.8,0.4855072463768116
+Epilepsy,1,180,"QUANT + Hydra, gated",0.9420289855072463,1.01,1.0
+Epilepsy,1,180,"QUANT + cross-channel views + Hydra, gated",0.9492753623188406,0.0,0.0
+Epilepsy,1,180,"QUANT + cross-channel views + Hydra, gated",0.9492753623188406,0.05,0.007246376811594203
+Epilepsy,1,180,"QUANT + cross-channel views + Hydra, gated",0.9492753623188406,0.1,0.007246376811594203
+Epilepsy,1,180,"QUANT + cross-channel views + Hydra, gated",0.9492753623188406,0.15,0.014492753623188406
+Epilepsy,1,180,"QUANT + cross-channel views + Hydra, gated",0.9492753623188406,0.2,0.021739130434782608
+Epilepsy,1,180,"QUANT + cross-channel views + Hydra, gated",0.9637681159420289,0.3,0.050724637681159424
+Epilepsy,1,180,"QUANT + cross-channel views + Hydra, gated",0.9637681159420289,0.4,0.10144927536231885
+Epilepsy,1,180,"QUANT + cross-channel views + Hydra, gated",0.9637681159420289,0.5,0.14492753623188406
+Epilepsy,1,180,"QUANT + cross-channel views + Hydra, gated",0.9637681159420289,0.6,0.17391304347826086
+Epilepsy,1,180,"QUANT + cross-channel views + Hydra, gated",0.9492753623188406,0.8,0.3333333333333333
+Epilepsy,1,180,"QUANT + cross-channel views + Hydra, gated",0.9492753623188406,1.01,1.0
+Epilepsy,2,180,QUANT,0.9420289855072463,,
+Epilepsy,2,180,Hydra,0.9637681159420289,,
+Epilepsy,2,180,QUANT + cross-channel views,0.9710144927536232,,
+Epilepsy,2,180,"QUANT + Hydra, gated",0.9420289855072463,0.0,0.0
+Epilepsy,2,180,"QUANT + Hydra, gated",0.9492753623188406,0.05,0.007246376811594203
+Epilepsy,2,180,"QUANT + Hydra, gated",0.9492753623188406,0.1,0.014492753623188406
+Epilepsy,2,180,"QUANT + Hydra, gated",0.9565217391304348,0.15,0.028985507246376812
+Epilepsy,2,180,"QUANT + Hydra, gated",0.9565217391304348,0.2,0.043478260869565216
+Epilepsy,2,180,"QUANT + Hydra, gated",0.9637681159420289,0.3,0.050724637681159424
+Epilepsy,2,180,"QUANT + Hydra, gated",0.9782608695652174,0.4,0.09420289855072464
+Epilepsy,2,180,"QUANT + Hydra, gated",0.9855072463768116,0.5,0.13768115942028986
+Epilepsy,2,180,"QUANT + Hydra, gated",0.9782608695652174,0.6,0.21014492753623187
+Epilepsy,2,180,"QUANT + Hydra, gated",0.9710144927536232,0.8,0.45652173913043476
+Epilepsy,2,180,"QUANT + Hydra, gated",0.9710144927536232,1.01,1.0
+Epilepsy,2,180,"QUANT + cross-channel views + Hydra, gated",0.9710144927536232,0.0,0.0
+Epilepsy,2,180,"QUANT + cross-channel views + Hydra, gated",0.9782608695652174,0.05,0.014492753623188406
+Epilepsy,2,180,"QUANT + cross-channel views + Hydra, gated",0.9782608695652174,0.1,0.021739130434782608
+Epilepsy,2,180,"QUANT + cross-channel views + Hydra, gated",0.9855072463768116,0.15,0.036231884057971016
+Epilepsy,2,180,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.2,0.043478260869565216
+Epilepsy,2,180,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.3,0.057971014492753624
+Epilepsy,2,180,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.4,0.08695652173913043
+Epilepsy,2,180,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.5,0.10869565217391304
+Epilepsy,2,180,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.6,0.15217391304347827
+Epilepsy,2,180,"QUANT + cross-channel views + Hydra, gated",0.9855072463768116,0.8,0.32608695652173914
+Epilepsy,2,180,"QUANT + cross-channel views + Hydra, gated",0.9782608695652174,1.01,1.0
+Epilepsy,3,180,QUANT,0.9420289855072463,,
+Epilepsy,3,180,Hydra,0.9782608695652174,,
+Epilepsy,3,180,QUANT + cross-channel views,0.9782608695652174,,
+Epilepsy,3,180,"QUANT + Hydra, gated",0.9420289855072463,0.0,0.0
+Epilepsy,3,180,"QUANT + Hydra, gated",0.9565217391304348,0.05,0.021739130434782608
+Epilepsy,3,180,"QUANT + Hydra, gated",0.9637681159420289,0.1,0.028985507246376812
+Epilepsy,3,180,"QUANT + Hydra, gated",0.9710144927536232,0.15,0.043478260869565216
+Epilepsy,3,180,"QUANT + Hydra, gated",0.9782608695652174,0.2,0.07246376811594203
+Epilepsy,3,180,"QUANT + Hydra, gated",0.9782608695652174,0.3,0.08695652173913043
+Epilepsy,3,180,"QUANT + Hydra, gated",0.9782608695652174,0.4,0.10869565217391304
+Epilepsy,3,180,"QUANT + Hydra, gated",0.9782608695652174,0.5,0.18840579710144928
+Epilepsy,3,180,"QUANT + Hydra, gated",0.9855072463768116,0.6,0.3115942028985507
+Epilepsy,3,180,"QUANT + Hydra, gated",0.9927536231884058,0.8,0.5289855072463768
+Epilepsy,3,180,"QUANT + Hydra, gated",0.9927536231884058,1.01,1.0
+Epilepsy,3,180,"QUANT + cross-channel views + Hydra, gated",0.9782608695652174,0.0,0.0
+Epilepsy,3,180,"QUANT + cross-channel views + Hydra, gated",0.9782608695652174,0.05,0.007246376811594203
+Epilepsy,3,180,"QUANT + cross-channel views + Hydra, gated",0.9855072463768116,0.1,0.021739130434782608
+Epilepsy,3,180,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.15,0.028985507246376812
+Epilepsy,3,180,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.2,0.028985507246376812
+Epilepsy,3,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.043478260869565216
+Epilepsy,3,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.06521739130434782
+Epilepsy,3,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.13043478260869565
+Epilepsy,3,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.6,0.2028985507246377
+Epilepsy,3,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.8,0.4420289855072464
+Epilepsy,3,180,"QUANT + cross-channel views + Hydra, gated",1.0,1.01,1.0
+Epilepsy,4,180,QUANT,0.9637681159420289,,
+Epilepsy,4,180,Hydra,0.9637681159420289,,
+Epilepsy,4,180,QUANT + cross-channel views,0.9927536231884058,,
+Epilepsy,4,180,"QUANT + Hydra, gated",0.9637681159420289,0.0,0.0
+Epilepsy,4,180,"QUANT + Hydra, gated",0.9637681159420289,0.05,0.007246376811594203
+Epilepsy,4,180,"QUANT + Hydra, gated",0.9637681159420289,0.1,0.014492753623188406
+Epilepsy,4,180,"QUANT + Hydra, gated",0.9710144927536232,0.15,0.036231884057971016
+Epilepsy,4,180,"QUANT + Hydra, gated",0.9710144927536232,0.2,0.050724637681159424
+Epilepsy,4,180,"QUANT + Hydra, gated",0.9710144927536232,0.3,0.07971014492753623
+Epilepsy,4,180,"QUANT + Hydra, gated",0.9710144927536232,0.4,0.13043478260869565
+Epilepsy,4,180,"QUANT + Hydra, gated",0.9637681159420289,0.5,0.15942028985507245
+Epilepsy,4,180,"QUANT + Hydra, gated",0.9637681159420289,0.6,0.2463768115942029
+Epilepsy,4,180,"QUANT + Hydra, gated",0.9637681159420289,0.8,0.5507246376811594
+Epilepsy,4,180,"QUANT + Hydra, gated",0.9637681159420289,1.01,1.0
+Epilepsy,4,180,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.0,0.0
+Epilepsy,4,180,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.05,0.0
+Epilepsy,4,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.1,0.028985507246376812
+Epilepsy,4,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.15,0.028985507246376812
+Epilepsy,4,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.2,0.036231884057971016
+Epilepsy,4,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.3,0.050724637681159424
+Epilepsy,4,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.4,0.057971014492753624
+Epilepsy,4,180,"QUANT + cross-channel views + Hydra, gated",1.0,0.5,0.07971014492753623
+Epilepsy,4,180,"QUANT + cross-channel views + Hydra, gated",0.9927536231884058,0.6,0.18115942028985507
+Epilepsy,4,180,"QUANT + cross-channel views + Hydra, gated",0.9855072463768116,0.8,0.391304347826087
+Epilepsy,4,180,"QUANT + cross-channel views + Hydra, gated",0.9855072463768116,1.01,1.0
+Handwriting,0,30,QUANT,0.3023529411764706,,
+Handwriting,0,30,Hydra,0.4176470588235294,,
+Handwriting,0,30,QUANT + cross-channel views,0.3035294117647059,,
+Handwriting,0,30,"QUANT + Hydra, gated",0.3023529411764706,0.0,0.0
+Handwriting,0,30,"QUANT + Hydra, gated",0.3952941176470588,0.05,0.5882352941176471
+Handwriting,0,30,"QUANT + Hydra, gated",0.4164705882352941,0.1,0.7858823529411765
+Handwriting,0,30,"QUANT + Hydra, gated",0.4176470588235294,0.15,0.8847058823529412
+Handwriting,0,30,"QUANT + Hydra, gated",0.4176470588235294,0.2,0.9341176470588235
+Handwriting,0,30,"QUANT + Hydra, gated",0.4176470588235294,0.3,0.9823529411764705
+Handwriting,0,30,"QUANT + Hydra, gated",0.4176470588235294,0.4,0.9941176470588236
+Handwriting,0,30,"QUANT + Hydra, gated",0.4176470588235294,0.5,0.9988235294117647
+Handwriting,0,30,"QUANT + Hydra, gated",0.4176470588235294,0.6,1.0
+Handwriting,0,30,"QUANT + Hydra, gated",0.4176470588235294,0.8,1.0
+Handwriting,0,30,"QUANT + Hydra, gated",0.4176470588235294,1.01,1.0
+Handwriting,0,30,"QUANT + cross-channel views + Hydra, gated",0.3035294117647059,0.0,0.0
+Handwriting,0,30,"QUANT + cross-channel views + Hydra, gated",0.4011764705882353,0.05,0.5952941176470589
+Handwriting,0,30,"QUANT + cross-channel views + Hydra, gated",0.4258823529411765,0.1,0.8047058823529412
+Handwriting,0,30,"QUANT + cross-channel views + Hydra, gated",0.42705882352941177,0.15,0.8823529411764706
+Handwriting,0,30,"QUANT + cross-channel views + Hydra, gated",0.42705882352941177,0.2,0.928235294117647
+Handwriting,0,30,"QUANT + cross-channel views + Hydra, gated",0.42705882352941177,0.3,0.9741176470588235
+Handwriting,0,30,"QUANT + cross-channel views + Hydra, gated",0.42705882352941177,0.4,0.9894117647058823
+Handwriting,0,30,"QUANT + cross-channel views + Hydra, gated",0.42705882352941177,0.5,0.9952941176470588
+Handwriting,0,30,"QUANT + cross-channel views + Hydra, gated",0.42705882352941177,0.6,1.0
+Handwriting,0,30,"QUANT + cross-channel views + Hydra, gated",0.42705882352941177,0.8,1.0
+Handwriting,0,30,"QUANT + cross-channel views + Hydra, gated",0.42705882352941177,1.01,1.0
+Handwriting,1,30,QUANT,0.31882352941176473,,
+Handwriting,1,30,Hydra,0.4258823529411765,,
+Handwriting,1,30,QUANT + cross-channel views,0.3305882352941176,,
+Handwriting,1,30,"QUANT + Hydra, gated",0.31882352941176473,0.0,0.0
+Handwriting,1,30,"QUANT + Hydra, gated",0.4117647058823529,0.05,0.58
+Handwriting,1,30,"QUANT + Hydra, gated",0.4164705882352941,0.1,0.7917647058823529
+Handwriting,1,30,"QUANT + Hydra, gated",0.4164705882352941,0.15,0.8741176470588236
+Handwriting,1,30,"QUANT + Hydra, gated",0.4176470588235294,0.2,0.92
+Handwriting,1,30,"QUANT + Hydra, gated",0.4164705882352941,0.3,0.9694117647058823
+Handwriting,1,30,"QUANT + Hydra, gated",0.4164705882352941,0.4,0.9976470588235294
+Handwriting,1,30,"QUANT + Hydra, gated",0.4164705882352941,0.5,1.0
+Handwriting,1,30,"QUANT + Hydra, gated",0.4164705882352941,0.6,1.0
+Handwriting,1,30,"QUANT + Hydra, gated",0.4164705882352941,0.8,1.0
+Handwriting,1,30,"QUANT + Hydra, gated",0.4164705882352941,1.01,1.0
+Handwriting,1,30,"QUANT + cross-channel views + Hydra, gated",0.3305882352941176,0.0,0.0
+Handwriting,1,30,"QUANT + cross-channel views + Hydra, gated",0.42,0.05,0.6152941176470588
+Handwriting,1,30,"QUANT + cross-channel views + Hydra, gated",0.42823529411764705,0.1,0.8011764705882353
+Handwriting,1,30,"QUANT + cross-channel views + Hydra, gated",0.4329411764705882,0.15,0.8788235294117647
+Handwriting,1,30,"QUANT + cross-channel views + Hydra, gated",0.4329411764705882,0.2,0.9270588235294117
+Handwriting,1,30,"QUANT + cross-channel views + Hydra, gated",0.4329411764705882,0.3,0.9658823529411765
+Handwriting,1,30,"QUANT + cross-channel views + Hydra, gated",0.4329411764705882,0.4,0.9882352941176471
+Handwriting,1,30,"QUANT + cross-channel views + Hydra, gated",0.4329411764705882,0.5,0.9988235294117647
+Handwriting,1,30,"QUANT + cross-channel views + Hydra, gated",0.4329411764705882,0.6,1.0
+Handwriting,1,30,"QUANT + cross-channel views + Hydra, gated",0.4329411764705882,0.8,1.0
+Handwriting,1,30,"QUANT + cross-channel views + Hydra, gated",0.4329411764705882,1.01,1.0
+Handwriting,2,30,QUANT,0.3070588235294118,,
+Handwriting,2,30,Hydra,0.4447058823529412,,
+Handwriting,2,30,QUANT + cross-channel views,0.3247058823529412,,
+Handwriting,2,30,"QUANT + Hydra, gated",0.3070588235294118,0.0,0.0
+Handwriting,2,30,"QUANT + Hydra, gated",0.42,0.05,0.611764705882353
+Handwriting,2,30,"QUANT + Hydra, gated",0.4376470588235294,0.1,0.8023529411764706
+Handwriting,2,30,"QUANT + Hydra, gated",0.4435294117647059,0.15,0.8847058823529412
+Handwriting,2,30,"QUANT + Hydra, gated",0.44588235294117645,0.2,0.9305882352941176
+Handwriting,2,30,"QUANT + Hydra, gated",0.44588235294117645,0.3,0.9764705882352941
+Handwriting,2,30,"QUANT + Hydra, gated",0.44588235294117645,0.4,0.9929411764705882
+Handwriting,2,30,"QUANT + Hydra, gated",0.44588235294117645,0.5,0.9988235294117647
+Handwriting,2,30,"QUANT + Hydra, gated",0.44588235294117645,0.6,1.0
+Handwriting,2,30,"QUANT + Hydra, gated",0.44588235294117645,0.8,1.0
+Handwriting,2,30,"QUANT + Hydra, gated",0.44588235294117645,1.01,1.0
+Handwriting,2,30,"QUANT + cross-channel views + Hydra, gated",0.3247058823529412,0.0,0.0
+Handwriting,2,30,"QUANT + cross-channel views + Hydra, gated",0.42823529411764705,0.05,0.5964705882352941
+Handwriting,2,30,"QUANT + cross-channel views + Hydra, gated",0.4435294117647059,0.1,0.8
+Handwriting,2,30,"QUANT + cross-channel views + Hydra, gated",0.4505882352941176,0.15,0.8835294117647059
+Handwriting,2,30,"QUANT + cross-channel views + Hydra, gated",0.45294117647058824,0.2,0.9247058823529412
+Handwriting,2,30,"QUANT + cross-channel views + Hydra, gated",0.45294117647058824,0.3,0.9670588235294117
+Handwriting,2,30,"QUANT + cross-channel views + Hydra, gated",0.45294117647058824,0.4,0.9894117647058823
+Handwriting,2,30,"QUANT + cross-channel views + Hydra, gated",0.45294117647058824,0.5,0.9964705882352941
+Handwriting,2,30,"QUANT + cross-channel views + Hydra, gated",0.45294117647058824,0.6,0.9988235294117647
+Handwriting,2,30,"QUANT + cross-channel views + Hydra, gated",0.45294117647058824,0.8,1.0
+Handwriting,2,30,"QUANT + cross-channel views + Hydra, gated",0.45294117647058824,1.01,1.0
+Handwriting,3,30,QUANT,0.28941176470588237,,
+Handwriting,3,30,Hydra,0.3870588235294118,,
+Handwriting,3,30,QUANT + cross-channel views,0.31529411764705884,,
+Handwriting,3,30,"QUANT + Hydra, gated",0.28941176470588237,0.0,0.0
+Handwriting,3,30,"QUANT + Hydra, gated",0.36705882352941177,0.05,0.5952941176470589
+Handwriting,3,30,"QUANT + Hydra, gated",0.3870588235294118,0.1,0.8
+Handwriting,3,30,"QUANT + Hydra, gated",0.39176470588235296,0.15,0.8729411764705882
+Handwriting,3,30,"QUANT + Hydra, gated",0.39176470588235296,0.2,0.9223529411764706
+Handwriting,3,30,"QUANT + Hydra, gated",0.3941176470588235,0.3,0.9682352941176471
+Handwriting,3,30,"QUANT + Hydra, gated",0.39294117647058824,0.4,0.9894117647058823
+Handwriting,3,30,"QUANT + Hydra, gated",0.39294117647058824,0.5,0.9976470588235294
+Handwriting,3,30,"QUANT + Hydra, gated",0.39294117647058824,0.6,1.0
+Handwriting,3,30,"QUANT + Hydra, gated",0.39294117647058824,0.8,1.0
+Handwriting,3,30,"QUANT + Hydra, gated",0.39294117647058824,1.01,1.0
+Handwriting,3,30,"QUANT + cross-channel views + Hydra, gated",0.31529411764705884,0.0,0.0
+Handwriting,3,30,"QUANT + cross-channel views + Hydra, gated",0.37529411764705883,0.05,0.5764705882352941
+Handwriting,3,30,"QUANT + cross-channel views + Hydra, gated",0.38823529411764707,0.1,0.7705882352941177
+Handwriting,3,30,"QUANT + cross-channel views + Hydra, gated",0.38941176470588235,0.15,0.8647058823529412
+Handwriting,3,30,"QUANT + cross-channel views + Hydra, gated",0.38941176470588235,0.2,0.9094117647058824
+Handwriting,3,30,"QUANT + cross-channel views + Hydra, gated",0.39294117647058824,0.3,0.9611764705882353
+Handwriting,3,30,"QUANT + cross-channel views + Hydra, gated",0.39294117647058824,0.4,0.9847058823529412
+Handwriting,3,30,"QUANT + cross-channel views + Hydra, gated",0.39294117647058824,0.5,0.9976470588235294
+Handwriting,3,30,"QUANT + cross-channel views + Hydra, gated",0.39294117647058824,0.6,0.9988235294117647
+Handwriting,3,30,"QUANT + cross-channel views + Hydra, gated",0.39294117647058824,0.8,1.0
+Handwriting,3,30,"QUANT + cross-channel views + Hydra, gated",0.39294117647058824,1.01,1.0
+Handwriting,4,30,QUANT,0.2847058823529412,,
+Handwriting,4,30,Hydra,0.38823529411764707,,
+Handwriting,4,30,QUANT + cross-channel views,0.3211764705882353,,
+Handwriting,4,30,"QUANT + Hydra, gated",0.2847058823529412,0.0,0.0
+Handwriting,4,30,"QUANT + Hydra, gated",0.36470588235294116,0.05,0.5929411764705882
+Handwriting,4,30,"QUANT + Hydra, gated",0.38823529411764707,0.1,0.8
+Handwriting,4,30,"QUANT + Hydra, gated",0.39294117647058824,0.15,0.8847058823529412
+Handwriting,4,30,"QUANT + Hydra, gated",0.3941176470588235,0.2,0.9435294117647058
+Handwriting,4,30,"QUANT + Hydra, gated",0.3941176470588235,0.3,0.9894117647058823
+Handwriting,4,30,"QUANT + Hydra, gated",0.3941176470588235,0.4,0.9976470588235294
+Handwriting,4,30,"QUANT + Hydra, gated",0.3941176470588235,0.5,0.9988235294117647
+Handwriting,4,30,"QUANT + Hydra, gated",0.3941176470588235,0.6,1.0
+Handwriting,4,30,"QUANT + Hydra, gated",0.3941176470588235,0.8,1.0
+Handwriting,4,30,"QUANT + Hydra, gated",0.3941176470588235,1.01,1.0
+Handwriting,4,30,"QUANT + cross-channel views + Hydra, gated",0.3211764705882353,0.0,0.0
+Handwriting,4,30,"QUANT + cross-channel views + Hydra, gated",0.3870588235294118,0.05,0.6211764705882353
+Handwriting,4,30,"QUANT + cross-channel views + Hydra, gated",0.3988235294117647,0.1,0.808235294117647
+Handwriting,4,30,"QUANT + cross-channel views + Hydra, gated",0.4023529411764706,0.15,0.8870588235294118
+Handwriting,4,30,"QUANT + cross-channel views + Hydra, gated",0.4047058823529412,0.2,0.9388235294117647
+Handwriting,4,30,"QUANT + cross-channel views + Hydra, gated",0.40352941176470586,0.3,0.9870588235294118
+Handwriting,4,30,"QUANT + cross-channel views + Hydra, gated",0.40352941176470586,0.4,0.9964705882352941
+Handwriting,4,30,"QUANT + cross-channel views + Hydra, gated",0.40352941176470586,0.5,1.0
+Handwriting,4,30,"QUANT + cross-channel views + Hydra, gated",0.40352941176470586,0.6,1.0
+Handwriting,4,30,"QUANT + cross-channel views + Hydra, gated",0.40352941176470586,0.8,1.0
+Handwriting,4,30,"QUANT + cross-channel views + Hydra, gated",0.40352941176470586,1.01,1.0
+Handwriting,0,90,QUANT,0.19647058823529412,,
+Handwriting,0,90,Hydra,0.22941176470588234,,
+Handwriting,0,90,QUANT + cross-channel views,0.22941176470588234,,
+Handwriting,0,90,"QUANT + Hydra, gated",0.19647058823529412,0.0,0.0
+Handwriting,0,90,"QUANT + Hydra, gated",0.24352941176470588,0.05,0.7282352941176471
+Handwriting,0,90,"QUANT + Hydra, gated",0.24705882352941178,0.1,0.9
+Handwriting,0,90,"QUANT + Hydra, gated",0.2447058823529412,0.15,0.9647058823529412
+Handwriting,0,90,"QUANT + Hydra, gated",0.2447058823529412,0.2,0.9882352941176471
+Handwriting,0,90,"QUANT + Hydra, gated",0.2447058823529412,0.3,0.9964705882352941
+Handwriting,0,90,"QUANT + Hydra, gated",0.2447058823529412,0.4,1.0
+Handwriting,0,90,"QUANT + Hydra, gated",0.2447058823529412,0.5,1.0
+Handwriting,0,90,"QUANT + Hydra, gated",0.2447058823529412,0.6,1.0
+Handwriting,0,90,"QUANT + Hydra, gated",0.2447058823529412,0.8,1.0
+Handwriting,0,90,"QUANT + Hydra, gated",0.2447058823529412,1.01,1.0
+Handwriting,0,90,"QUANT + cross-channel views + Hydra, gated",0.22941176470588234,0.0,0.0
+Handwriting,0,90,"QUANT + cross-channel views + Hydra, gated",0.2611764705882353,0.05,0.7152941176470589
+Handwriting,0,90,"QUANT + cross-channel views + Hydra, gated",0.2576470588235294,0.1,0.8976470588235295
+Handwriting,0,90,"QUANT + cross-channel views + Hydra, gated",0.2576470588235294,0.15,0.9576470588235294
+Handwriting,0,90,"QUANT + cross-channel views + Hydra, gated",0.2564705882352941,0.2,0.98
+Handwriting,0,90,"QUANT + cross-channel views + Hydra, gated",0.2564705882352941,0.3,0.9976470588235294
+Handwriting,0,90,"QUANT + cross-channel views + Hydra, gated",0.2564705882352941,0.4,1.0
+Handwriting,0,90,"QUANT + cross-channel views + Hydra, gated",0.2564705882352941,0.5,1.0
+Handwriting,0,90,"QUANT + cross-channel views + Hydra, gated",0.2564705882352941,0.6,1.0
+Handwriting,0,90,"QUANT + cross-channel views + Hydra, gated",0.2564705882352941,0.8,1.0
+Handwriting,0,90,"QUANT + cross-channel views + Hydra, gated",0.2564705882352941,1.01,1.0
+Handwriting,1,90,QUANT,0.1988235294117647,,
+Handwriting,1,90,Hydra,0.25176470588235295,,
+Handwriting,1,90,QUANT + cross-channel views,0.21294117647058824,,
+Handwriting,1,90,"QUANT + Hydra, gated",0.1988235294117647,0.0,0.0
+Handwriting,1,90,"QUANT + Hydra, gated",0.24588235294117647,0.05,0.7094117647058824
+Handwriting,1,90,"QUANT + Hydra, gated",0.2611764705882353,0.1,0.908235294117647
+Handwriting,1,90,"QUANT + Hydra, gated",0.26235294117647057,0.15,0.9552941176470588
+Handwriting,1,90,"QUANT + Hydra, gated",0.26235294117647057,0.2,0.98
+Handwriting,1,90,"QUANT + Hydra, gated",0.26235294117647057,0.3,0.991764705882353
+Handwriting,1,90,"QUANT + Hydra, gated",0.26235294117647057,0.4,0.9988235294117647
+Handwriting,1,90,"QUANT + Hydra, gated",0.26235294117647057,0.5,1.0
+Handwriting,1,90,"QUANT + Hydra, gated",0.26235294117647057,0.6,1.0
+Handwriting,1,90,"QUANT + Hydra, gated",0.26235294117647057,0.8,1.0
+Handwriting,1,90,"QUANT + Hydra, gated",0.26235294117647057,1.01,1.0
+Handwriting,1,90,"QUANT + cross-channel views + Hydra, gated",0.21294117647058824,0.0,0.0
+Handwriting,1,90,"QUANT + cross-channel views + Hydra, gated",0.26588235294117646,0.05,0.7588235294117647
+Handwriting,1,90,"QUANT + cross-channel views + Hydra, gated",0.27176470588235296,0.1,0.9176470588235294
+Handwriting,1,90,"QUANT + cross-channel views + Hydra, gated",0.27058823529411763,0.15,0.9647058823529412
+Handwriting,1,90,"QUANT + cross-channel views + Hydra, gated",0.27058823529411763,0.2,0.9870588235294118
+Handwriting,1,90,"QUANT + cross-channel views + Hydra, gated",0.27058823529411763,0.3,0.9976470588235294
+Handwriting,1,90,"QUANT + cross-channel views + Hydra, gated",0.27058823529411763,0.4,1.0
+Handwriting,1,90,"QUANT + cross-channel views + Hydra, gated",0.27058823529411763,0.5,1.0
+Handwriting,1,90,"QUANT + cross-channel views + Hydra, gated",0.27058823529411763,0.6,1.0
+Handwriting,1,90,"QUANT + cross-channel views + Hydra, gated",0.27058823529411763,0.8,1.0
+Handwriting,1,90,"QUANT + cross-channel views + Hydra, gated",0.27058823529411763,1.01,1.0
+Handwriting,2,90,QUANT,0.2,,
+Handwriting,2,90,Hydra,0.2211764705882353,,
+Handwriting,2,90,QUANT + cross-channel views,0.2164705882352941,,
+Handwriting,2,90,"QUANT + Hydra, gated",0.2,0.0,0.0
+Handwriting,2,90,"QUANT + Hydra, gated",0.2235294117647059,0.05,0.6764705882352942
+Handwriting,2,90,"QUANT + Hydra, gated",0.2235294117647059,0.1,0.8752941176470588
+Handwriting,2,90,"QUANT + Hydra, gated",0.2235294117647059,0.15,0.9341176470588235
+Handwriting,2,90,"QUANT + Hydra, gated",0.2235294117647059,0.2,0.9764705882352941
+Handwriting,2,90,"QUANT + Hydra, gated",0.2235294117647059,0.3,0.9941176470588236
+Handwriting,2,90,"QUANT + Hydra, gated",0.2235294117647059,0.4,0.9988235294117647
+Handwriting,2,90,"QUANT + Hydra, gated",0.2235294117647059,0.5,1.0
+Handwriting,2,90,"QUANT + Hydra, gated",0.2235294117647059,0.6,1.0
+Handwriting,2,90,"QUANT + Hydra, gated",0.2235294117647059,0.8,1.0
+Handwriting,2,90,"QUANT + Hydra, gated",0.2235294117647059,1.01,1.0
+Handwriting,2,90,"QUANT + cross-channel views + Hydra, gated",0.2164705882352941,0.0,0.0
+Handwriting,2,90,"QUANT + cross-channel views + Hydra, gated",0.24705882352941178,0.05,0.6811764705882353
+Handwriting,2,90,"QUANT + cross-channel views + Hydra, gated",0.25176470588235295,0.1,0.86
+Handwriting,2,90,"QUANT + cross-channel views + Hydra, gated",0.24588235294117647,0.15,0.94
+Handwriting,2,90,"QUANT + cross-channel views + Hydra, gated",0.24588235294117647,0.2,0.9729411764705882
+Handwriting,2,90,"QUANT + cross-channel views + Hydra, gated",0.24588235294117647,0.3,0.9952941176470588
+Handwriting,2,90,"QUANT + cross-channel views + Hydra, gated",0.24588235294117647,0.4,0.9976470588235294
+Handwriting,2,90,"QUANT + cross-channel views + Hydra, gated",0.24588235294117647,0.5,1.0
+Handwriting,2,90,"QUANT + cross-channel views + Hydra, gated",0.24588235294117647,0.6,1.0
+Handwriting,2,90,"QUANT + cross-channel views + Hydra, gated",0.24588235294117647,0.8,1.0
+Handwriting,2,90,"QUANT + cross-channel views + Hydra, gated",0.24588235294117647,1.01,1.0
+Handwriting,3,90,QUANT,0.19058823529411764,,
+Handwriting,3,90,Hydra,0.24,,
+Handwriting,3,90,QUANT + cross-channel views,0.20705882352941177,,
+Handwriting,3,90,"QUANT + Hydra, gated",0.19058823529411764,0.0,0.0
+Handwriting,3,90,"QUANT + Hydra, gated",0.24823529411764705,0.05,0.6658823529411765
+Handwriting,3,90,"QUANT + Hydra, gated",0.2564705882352941,0.1,0.8611764705882353
+Handwriting,3,90,"QUANT + Hydra, gated",0.25529411764705884,0.15,0.9294117647058824
+Handwriting,3,90,"QUANT + Hydra, gated",0.2541176470588235,0.2,0.9729411764705882
+Handwriting,3,90,"QUANT + Hydra, gated",0.25529411764705884,0.3,1.0
+Handwriting,3,90,"QUANT + Hydra, gated",0.25529411764705884,0.4,1.0
+Handwriting,3,90,"QUANT + Hydra, gated",0.25529411764705884,0.5,1.0
+Handwriting,3,90,"QUANT + Hydra, gated",0.25529411764705884,0.6,1.0
+Handwriting,3,90,"QUANT + Hydra, gated",0.25529411764705884,0.8,1.0
+Handwriting,3,90,"QUANT + Hydra, gated",0.25529411764705884,1.01,1.0
+Handwriting,3,90,"QUANT + cross-channel views + Hydra, gated",0.20705882352941177,0.0,0.0
+Handwriting,3,90,"QUANT + cross-channel views + Hydra, gated",0.25176470588235295,0.05,0.6305882352941177
+Handwriting,3,90,"QUANT + cross-channel views + Hydra, gated",0.2611764705882353,0.1,0.8141176470588235
+Handwriting,3,90,"QUANT + cross-channel views + Hydra, gated",0.2611764705882353,0.15,0.9035294117647059
+Handwriting,3,90,"QUANT + cross-channel views + Hydra, gated",0.26,0.2,0.9552941176470588
+Handwriting,3,90,"QUANT + cross-channel views + Hydra, gated",0.26,0.3,0.991764705882353
+Handwriting,3,90,"QUANT + cross-channel views + Hydra, gated",0.26,0.4,1.0
+Handwriting,3,90,"QUANT + cross-channel views + Hydra, gated",0.26,0.5,1.0
+Handwriting,3,90,"QUANT + cross-channel views + Hydra, gated",0.26,0.6,1.0
+Handwriting,3,90,"QUANT + cross-channel views + Hydra, gated",0.26,0.8,1.0
+Handwriting,3,90,"QUANT + cross-channel views + Hydra, gated",0.26,1.01,1.0
+Handwriting,4,90,QUANT,0.1976470588235294,,
+Handwriting,4,90,Hydra,0.2235294117647059,,
+Handwriting,4,90,QUANT + cross-channel views,0.21294117647058824,,
+Handwriting,4,90,"QUANT + Hydra, gated",0.1976470588235294,0.0,0.0
+Handwriting,4,90,"QUANT + Hydra, gated",0.22470588235294117,0.05,0.6905882352941176
+Handwriting,4,90,"QUANT + Hydra, gated",0.2223529411764706,0.1,0.8835294117647059
+Handwriting,4,90,"QUANT + Hydra, gated",0.2223529411764706,0.15,0.9541176470588235
+Handwriting,4,90,"QUANT + Hydra, gated",0.2211764705882353,0.2,0.9811764705882353
+Handwriting,4,90,"QUANT + Hydra, gated",0.2211764705882353,0.3,0.9988235294117647
+Handwriting,4,90,"QUANT + Hydra, gated",0.2211764705882353,0.4,1.0
+Handwriting,4,90,"QUANT + Hydra, gated",0.2211764705882353,0.5,1.0
+Handwriting,4,90,"QUANT + Hydra, gated",0.2211764705882353,0.6,1.0
+Handwriting,4,90,"QUANT + Hydra, gated",0.2211764705882353,0.8,1.0
+Handwriting,4,90,"QUANT + Hydra, gated",0.2211764705882353,1.01,1.0
+Handwriting,4,90,"QUANT + cross-channel views + Hydra, gated",0.21294117647058824,0.0,0.0
+Handwriting,4,90,"QUANT + cross-channel views + Hydra, gated",0.24,0.05,0.7152941176470589
+Handwriting,4,90,"QUANT + cross-channel views + Hydra, gated",0.24235294117647058,0.1,0.9129411764705883
+Handwriting,4,90,"QUANT + cross-channel views + Hydra, gated",0.2411764705882353,0.15,0.9647058823529412
+Handwriting,4,90,"QUANT + cross-channel views + Hydra, gated",0.24235294117647058,0.2,0.9870588235294118
+Handwriting,4,90,"QUANT + cross-channel views + Hydra, gated",0.24235294117647058,0.3,0.9964705882352941
+Handwriting,4,90,"QUANT + cross-channel views + Hydra, gated",0.24235294117647058,0.4,1.0
+Handwriting,4,90,"QUANT + cross-channel views + Hydra, gated",0.24235294117647058,0.5,1.0
+Handwriting,4,90,"QUANT + cross-channel views + Hydra, gated",0.24235294117647058,0.6,1.0
+Handwriting,4,90,"QUANT + cross-channel views + Hydra, gated",0.24235294117647058,0.8,1.0
+Handwriting,4,90,"QUANT + cross-channel views + Hydra, gated",0.24235294117647058,1.01,1.0
+Handwriting,0,180,QUANT,0.1423529411764706,,
+Handwriting,0,180,Hydra,0.18823529411764706,,
+Handwriting,0,180,QUANT + cross-channel views,0.19294117647058823,,
+Handwriting,0,180,"QUANT + Hydra, gated",0.1423529411764706,0.0,0.0
+Handwriting,0,180,"QUANT + Hydra, gated",0.18470588235294116,0.05,0.8035294117647059
+Handwriting,0,180,"QUANT + Hydra, gated",0.18588235294117647,0.1,0.9505882352941176
+Handwriting,0,180,"QUANT + Hydra, gated",0.18588235294117647,0.15,0.9894117647058823
+Handwriting,0,180,"QUANT + Hydra, gated",0.18588235294117647,0.2,0.9964705882352941
+Handwriting,0,180,"QUANT + Hydra, gated",0.18588235294117647,0.3,0.9976470588235294
+Handwriting,0,180,"QUANT + Hydra, gated",0.18588235294117647,0.4,1.0
+Handwriting,0,180,"QUANT + Hydra, gated",0.18588235294117647,0.5,1.0
+Handwriting,0,180,"QUANT + Hydra, gated",0.18588235294117647,0.6,1.0
+Handwriting,0,180,"QUANT + Hydra, gated",0.18588235294117647,0.8,1.0
+Handwriting,0,180,"QUANT + Hydra, gated",0.18588235294117647,1.01,1.0
+Handwriting,0,180,"QUANT + cross-channel views + Hydra, gated",0.19294117647058823,0.0,0.0
+Handwriting,0,180,"QUANT + cross-channel views + Hydra, gated",0.21411764705882352,0.05,0.7717647058823529
+Handwriting,0,180,"QUANT + cross-channel views + Hydra, gated",0.20941176470588235,0.1,0.9341176470588235
+Handwriting,0,180,"QUANT + cross-channel views + Hydra, gated",0.20941176470588235,0.15,0.9741176470588235
+Handwriting,0,180,"QUANT + cross-channel views + Hydra, gated",0.20941176470588235,0.2,0.9894117647058823
+Handwriting,0,180,"QUANT + cross-channel views + Hydra, gated",0.20941176470588235,0.3,0.9976470588235294
+Handwriting,0,180,"QUANT + cross-channel views + Hydra, gated",0.20941176470588235,0.4,1.0
+Handwriting,0,180,"QUANT + cross-channel views + Hydra, gated",0.20941176470588235,0.5,1.0
+Handwriting,0,180,"QUANT + cross-channel views + Hydra, gated",0.20941176470588235,0.6,1.0
+Handwriting,0,180,"QUANT + cross-channel views + Hydra, gated",0.20941176470588235,0.8,1.0
+Handwriting,0,180,"QUANT + cross-channel views + Hydra, gated",0.20941176470588235,1.01,1.0
+Handwriting,1,180,QUANT,0.14352941176470588,,
+Handwriting,1,180,Hydra,0.15411764705882353,,
+Handwriting,1,180,QUANT + cross-channel views,0.16705882352941176,,
+Handwriting,1,180,"QUANT + Hydra, gated",0.14352941176470588,0.0,0.0
+Handwriting,1,180,"QUANT + Hydra, gated",0.17647058823529413,0.05,0.7717647058823529
+Handwriting,1,180,"QUANT + Hydra, gated",0.17882352941176471,0.1,0.9470588235294117
+Handwriting,1,180,"QUANT + Hydra, gated",0.17882352941176471,0.15,0.9741176470588235
+Handwriting,1,180,"QUANT + Hydra, gated",0.17882352941176471,0.2,0.9952941176470588
+Handwriting,1,180,"QUANT + Hydra, gated",0.17882352941176471,0.3,0.9988235294117647
+Handwriting,1,180,"QUANT + Hydra, gated",0.17882352941176471,0.4,1.0
+Handwriting,1,180,"QUANT + Hydra, gated",0.17882352941176471,0.5,1.0
+Handwriting,1,180,"QUANT + Hydra, gated",0.17882352941176471,0.6,1.0
+Handwriting,1,180,"QUANT + Hydra, gated",0.17882352941176471,0.8,1.0
+Handwriting,1,180,"QUANT + Hydra, gated",0.17882352941176471,1.01,1.0
+Handwriting,1,180,"QUANT + cross-channel views + Hydra, gated",0.16705882352941176,0.0,0.0
+Handwriting,1,180,"QUANT + cross-channel views + Hydra, gated",0.1976470588235294,0.05,0.7764705882352941
+Handwriting,1,180,"QUANT + cross-channel views + Hydra, gated",0.1988235294117647,0.1,0.9505882352941176
+Handwriting,1,180,"QUANT + cross-channel views + Hydra, gated",0.2,0.15,0.9823529411764705
+Handwriting,1,180,"QUANT + cross-channel views + Hydra, gated",0.2,0.2,0.9952941176470588
+Handwriting,1,180,"QUANT + cross-channel views + Hydra, gated",0.2,0.3,1.0
+Handwriting,1,180,"QUANT + cross-channel views + Hydra, gated",0.2,0.4,1.0
+Handwriting,1,180,"QUANT + cross-channel views + Hydra, gated",0.2,0.5,1.0
+Handwriting,1,180,"QUANT + cross-channel views + Hydra, gated",0.2,0.6,1.0
+Handwriting,1,180,"QUANT + cross-channel views + Hydra, gated",0.2,0.8,1.0
+Handwriting,1,180,"QUANT + cross-channel views + Hydra, gated",0.2,1.01,1.0
+Handwriting,2,180,QUANT,0.13529411764705881,,
+Handwriting,2,180,Hydra,0.15411764705882353,,
+Handwriting,2,180,QUANT + cross-channel views,0.19294117647058823,,
+Handwriting,2,180,"QUANT + Hydra, gated",0.13529411764705881,0.0,0.0
+Handwriting,2,180,"QUANT + Hydra, gated",0.16941176470588235,0.05,0.7223529411764706
+Handwriting,2,180,"QUANT + Hydra, gated",0.16823529411764707,0.1,0.9047058823529411
+Handwriting,2,180,"QUANT + Hydra, gated",0.16941176470588235,0.15,0.9752941176470589
+Handwriting,2,180,"QUANT + Hydra, gated",0.16941176470588235,0.2,0.9905882352941177
+Handwriting,2,180,"QUANT + Hydra, gated",0.16941176470588235,0.3,0.9964705882352941
+Handwriting,2,180,"QUANT + Hydra, gated",0.16941176470588235,0.4,0.9988235294117647
+Handwriting,2,180,"QUANT + Hydra, gated",0.16941176470588235,0.5,1.0
+Handwriting,2,180,"QUANT + Hydra, gated",0.16941176470588235,0.6,1.0
+Handwriting,2,180,"QUANT + Hydra, gated",0.16941176470588235,0.8,1.0
+Handwriting,2,180,"QUANT + Hydra, gated",0.16941176470588235,1.01,1.0
+Handwriting,2,180,"QUANT + cross-channel views + Hydra, gated",0.19294117647058823,0.0,0.0
+Handwriting,2,180,"QUANT + cross-channel views + Hydra, gated",0.19411764705882353,0.05,0.6952941176470588
+Handwriting,2,180,"QUANT + cross-channel views + Hydra, gated",0.18823529411764706,0.1,0.8835294117647059
+Handwriting,2,180,"QUANT + cross-channel views + Hydra, gated",0.18823529411764706,0.15,0.9552941176470588
+Handwriting,2,180,"QUANT + cross-channel views + Hydra, gated",0.18823529411764706,0.2,0.98
+Handwriting,2,180,"QUANT + cross-channel views + Hydra, gated",0.18823529411764706,0.3,0.9952941176470588
+Handwriting,2,180,"QUANT + cross-channel views + Hydra, gated",0.18823529411764706,0.4,0.9988235294117647
+Handwriting,2,180,"QUANT + cross-channel views + Hydra, gated",0.18823529411764706,0.5,0.9988235294117647
+Handwriting,2,180,"QUANT + cross-channel views + Hydra, gated",0.18823529411764706,0.6,1.0
+Handwriting,2,180,"QUANT + cross-channel views + Hydra, gated",0.18823529411764706,0.8,1.0
+Handwriting,2,180,"QUANT + cross-channel views + Hydra, gated",0.18823529411764706,1.01,1.0
+Handwriting,3,180,QUANT,0.16,,
+Handwriting,3,180,Hydra,0.1588235294117647,,
+Handwriting,3,180,QUANT + cross-channel views,0.18470588235294116,,
+Handwriting,3,180,"QUANT + Hydra, gated",0.16,0.0,0.0
+Handwriting,3,180,"QUANT + Hydra, gated",0.18,0.05,0.711764705882353
+Handwriting,3,180,"QUANT + Hydra, gated",0.18352941176470589,0.1,0.8929411764705882
+Handwriting,3,180,"QUANT + Hydra, gated",0.18352941176470589,0.15,0.96
+Handwriting,3,180,"QUANT + Hydra, gated",0.18470588235294116,0.2,0.9882352941176471
+Handwriting,3,180,"QUANT + Hydra, gated",0.18470588235294116,0.3,0.9964705882352941
+Handwriting,3,180,"QUANT + Hydra, gated",0.18470588235294116,0.4,1.0
+Handwriting,3,180,"QUANT + Hydra, gated",0.18470588235294116,0.5,1.0
+Handwriting,3,180,"QUANT + Hydra, gated",0.18470588235294116,0.6,1.0
+Handwriting,3,180,"QUANT + Hydra, gated",0.18470588235294116,0.8,1.0
+Handwriting,3,180,"QUANT + Hydra, gated",0.18470588235294116,1.01,1.0
+Handwriting,3,180,"QUANT + cross-channel views + Hydra, gated",0.18470588235294116,0.0,0.0
+Handwriting,3,180,"QUANT + cross-channel views + Hydra, gated",0.20705882352941177,0.05,0.6823529411764706
+Handwriting,3,180,"QUANT + cross-channel views + Hydra, gated",0.20470588235294118,0.1,0.8682352941176471
+Handwriting,3,180,"QUANT + cross-channel views + Hydra, gated",0.20470588235294118,0.15,0.9388235294117647
+Handwriting,3,180,"QUANT + cross-channel views + Hydra, gated",0.20470588235294118,0.2,0.9741176470588235
+Handwriting,3,180,"QUANT + cross-channel views + Hydra, gated",0.20470588235294118,0.3,0.9952941176470588
+Handwriting,3,180,"QUANT + cross-channel views + Hydra, gated",0.20470588235294118,0.4,0.9988235294117647
+Handwriting,3,180,"QUANT + cross-channel views + Hydra, gated",0.20470588235294118,0.5,1.0
+Handwriting,3,180,"QUANT + cross-channel views + Hydra, gated",0.20470588235294118,0.6,1.0
+Handwriting,3,180,"QUANT + cross-channel views + Hydra, gated",0.20470588235294118,0.8,1.0
+Handwriting,3,180,"QUANT + cross-channel views + Hydra, gated",0.20470588235294118,1.01,1.0
+Handwriting,4,180,QUANT,0.13294117647058823,,
+Handwriting,4,180,Hydra,0.15058823529411763,,
+Handwriting,4,180,QUANT + cross-channel views,0.17294117647058824,,
+Handwriting,4,180,"QUANT + Hydra, gated",0.13294117647058823,0.0,0.0
+Handwriting,4,180,"QUANT + Hydra, gated",0.1623529411764706,0.05,0.7011764705882353
+Handwriting,4,180,"QUANT + Hydra, gated",0.16117647058823528,0.1,0.9164705882352941
+Handwriting,4,180,"QUANT + Hydra, gated",0.16117647058823528,0.15,0.9694117647058823
+Handwriting,4,180,"QUANT + Hydra, gated",0.16117647058823528,0.2,0.9882352941176471
+Handwriting,4,180,"QUANT + Hydra, gated",0.16117647058823528,0.3,1.0
+Handwriting,4,180,"QUANT + Hydra, gated",0.16117647058823528,0.4,1.0
+Handwriting,4,180,"QUANT + Hydra, gated",0.16117647058823528,0.5,1.0
+Handwriting,4,180,"QUANT + Hydra, gated",0.16117647058823528,0.6,1.0
+Handwriting,4,180,"QUANT + Hydra, gated",0.16117647058823528,0.8,1.0
+Handwriting,4,180,"QUANT + Hydra, gated",0.16117647058823528,1.01,1.0
+Handwriting,4,180,"QUANT + cross-channel views + Hydra, gated",0.17294117647058824,0.0,0.0
+Handwriting,4,180,"QUANT + cross-channel views + Hydra, gated",0.2023529411764706,0.05,0.7447058823529412
+Handwriting,4,180,"QUANT + cross-channel views + Hydra, gated",0.19647058823529412,0.1,0.9211764705882353
+Handwriting,4,180,"QUANT + cross-channel views + Hydra, gated",0.19411764705882353,0.15,0.9729411764705882
+Handwriting,4,180,"QUANT + cross-channel views + Hydra, gated",0.19411764705882353,0.2,0.9929411764705882
+Handwriting,4,180,"QUANT + cross-channel views + Hydra, gated",0.19411764705882353,0.3,1.0
+Handwriting,4,180,"QUANT + cross-channel views + Hydra, gated",0.19411764705882353,0.4,1.0
+Handwriting,4,180,"QUANT + cross-channel views + Hydra, gated",0.19411764705882353,0.5,1.0
+Handwriting,4,180,"QUANT + cross-channel views + Hydra, gated",0.19411764705882353,0.6,1.0
+Handwriting,4,180,"QUANT + cross-channel views + Hydra, gated",0.19411764705882353,0.8,1.0
+Handwriting,4,180,"QUANT + cross-channel views + Hydra, gated",0.19411764705882353,1.01,1.0
+RacketSports,0,30,QUANT,0.881578947368421,,
+RacketSports,0,30,Hydra,0.8618421052631579,,
+RacketSports,0,30,QUANT + cross-channel views,0.8552631578947368,,
+RacketSports,0,30,"QUANT + Hydra, gated",0.881578947368421,0.0,0.0
+RacketSports,0,30,"QUANT + Hydra, gated",0.8947368421052632,0.05,0.05263157894736842
+RacketSports,0,30,"QUANT + Hydra, gated",0.881578947368421,0.1,0.09210526315789473
+RacketSports,0,30,"QUANT + Hydra, gated",0.881578947368421,0.15,0.13157894736842105
+RacketSports,0,30,"QUANT + Hydra, gated",0.8881578947368421,0.2,0.2236842105263158
+RacketSports,0,30,"QUANT + Hydra, gated",0.8881578947368421,0.3,0.3815789473684211
+RacketSports,0,30,"QUANT + Hydra, gated",0.8881578947368421,0.4,0.5131578947368421
+RacketSports,0,30,"QUANT + Hydra, gated",0.8881578947368421,0.5,0.6118421052631579
+RacketSports,0,30,"QUANT + Hydra, gated",0.8881578947368421,0.6,0.756578947368421
+RacketSports,0,30,"QUANT + Hydra, gated",0.8881578947368421,0.8,0.9342105263157895
+RacketSports,0,30,"QUANT + Hydra, gated",0.8881578947368421,1.01,1.0
+RacketSports,0,30,"QUANT + cross-channel views + Hydra, gated",0.8552631578947368,0.0,0.0
+RacketSports,0,30,"QUANT + cross-channel views + Hydra, gated",0.8552631578947368,0.05,0.06578947368421052
+RacketSports,0,30,"QUANT + cross-channel views + Hydra, gated",0.868421052631579,0.1,0.125
+RacketSports,0,30,"QUANT + cross-channel views + Hydra, gated",0.8618421052631579,0.15,0.17105263157894737
+RacketSports,0,30,"QUANT + cross-channel views + Hydra, gated",0.881578947368421,0.2,0.25
+RacketSports,0,30,"QUANT + cross-channel views + Hydra, gated",0.875,0.3,0.3355263157894737
+RacketSports,0,30,"QUANT + cross-channel views + Hydra, gated",0.881578947368421,0.4,0.4868421052631579
+RacketSports,0,30,"QUANT + cross-channel views + Hydra, gated",0.881578947368421,0.5,0.6513157894736842
+RacketSports,0,30,"QUANT + cross-channel views + Hydra, gated",0.881578947368421,0.6,0.75
+RacketSports,0,30,"QUANT + cross-channel views + Hydra, gated",0.881578947368421,0.8,0.9013157894736842
+RacketSports,0,30,"QUANT + cross-channel views + Hydra, gated",0.881578947368421,1.01,1.0
+RacketSports,1,30,QUANT,0.8421052631578947,,
+RacketSports,1,30,Hydra,0.868421052631579,,
+RacketSports,1,30,QUANT + cross-channel views,0.868421052631579,,
+RacketSports,1,30,"QUANT + Hydra, gated",0.8421052631578947,0.0,0.0
+RacketSports,1,30,"QUANT + Hydra, gated",0.8618421052631579,0.05,0.05921052631578947
+RacketSports,1,30,"QUANT + Hydra, gated",0.881578947368421,0.1,0.13157894736842105
+RacketSports,1,30,"QUANT + Hydra, gated",0.881578947368421,0.15,0.17763157894736842
+RacketSports,1,30,"QUANT + Hydra, gated",0.881578947368421,0.2,0.23684210526315788
+RacketSports,1,30,"QUANT + Hydra, gated",0.881578947368421,0.3,0.3618421052631579
+RacketSports,1,30,"QUANT + Hydra, gated",0.881578947368421,0.4,0.48026315789473684
+RacketSports,1,30,"QUANT + Hydra, gated",0.881578947368421,0.5,0.5460526315789473
+RacketSports,1,30,"QUANT + Hydra, gated",0.881578947368421,0.6,0.7105263157894737
+RacketSports,1,30,"QUANT + Hydra, gated",0.881578947368421,0.8,0.9342105263157895
+RacketSports,1,30,"QUANT + Hydra, gated",0.881578947368421,1.01,1.0
+RacketSports,1,30,"QUANT + cross-channel views + Hydra, gated",0.868421052631579,0.0,0.0
+RacketSports,1,30,"QUANT + cross-channel views + Hydra, gated",0.881578947368421,0.05,0.09868421052631579
+RacketSports,1,30,"QUANT + cross-channel views + Hydra, gated",0.8881578947368421,0.1,0.16447368421052633
+RacketSports,1,30,"QUANT + cross-channel views + Hydra, gated",0.881578947368421,0.15,0.23684210526315788
+RacketSports,1,30,"QUANT + cross-channel views + Hydra, gated",0.868421052631579,0.2,0.3092105263157895
+RacketSports,1,30,"QUANT + cross-channel views + Hydra, gated",0.875,0.3,0.40789473684210525
+RacketSports,1,30,"QUANT + cross-channel views + Hydra, gated",0.875,0.4,0.506578947368421
+RacketSports,1,30,"QUANT + cross-channel views + Hydra, gated",0.875,0.5,0.625
+RacketSports,1,30,"QUANT + cross-channel views + Hydra, gated",0.875,0.6,0.7302631578947368
+RacketSports,1,30,"QUANT + cross-channel views + Hydra, gated",0.875,0.8,0.9013157894736842
+RacketSports,1,30,"QUANT + cross-channel views + Hydra, gated",0.875,1.01,1.0
+RacketSports,2,30,QUANT,0.9013157894736842,,
+RacketSports,2,30,Hydra,0.8552631578947368,,
+RacketSports,2,30,QUANT + cross-channel views,0.875,,
+RacketSports,2,30,"QUANT + Hydra, gated",0.9013157894736842,0.0,0.0
+RacketSports,2,30,"QUANT + Hydra, gated",0.9013157894736842,0.05,0.03289473684210526
+RacketSports,2,30,"QUANT + Hydra, gated",0.9078947368421053,0.1,0.09210526315789473
+RacketSports,2,30,"QUANT + Hydra, gated",0.9144736842105263,0.15,0.1513157894736842
+RacketSports,2,30,"QUANT + Hydra, gated",0.9144736842105263,0.2,0.23684210526315788
+RacketSports,2,30,"QUANT + Hydra, gated",0.9013157894736842,0.3,0.3618421052631579
+RacketSports,2,30,"QUANT + Hydra, gated",0.9013157894736842,0.4,0.48026315789473684
+RacketSports,2,30,"QUANT + Hydra, gated",0.9013157894736842,0.5,0.6118421052631579
+RacketSports,2,30,"QUANT + Hydra, gated",0.9013157894736842,0.6,0.7302631578947368
+RacketSports,2,30,"QUANT + Hydra, gated",0.9013157894736842,0.8,0.9671052631578947
+RacketSports,2,30,"QUANT + Hydra, gated",0.9013157894736842,1.01,1.0
+RacketSports,2,30,"QUANT + cross-channel views + Hydra, gated",0.875,0.0,0.0
+RacketSports,2,30,"QUANT + cross-channel views + Hydra, gated",0.9013157894736842,0.05,0.05263157894736842
+RacketSports,2,30,"QUANT + cross-channel views + Hydra, gated",0.9078947368421053,0.1,0.09868421052631579
+RacketSports,2,30,"QUANT + cross-channel views + Hydra, gated",0.9144736842105263,0.15,0.16447368421052633
+RacketSports,2,30,"QUANT + cross-channel views + Hydra, gated",0.9078947368421053,0.2,0.21710526315789475
+RacketSports,2,30,"QUANT + cross-channel views + Hydra, gated",0.9276315789473685,0.3,0.34868421052631576
+RacketSports,2,30,"QUANT + cross-channel views + Hydra, gated",0.9013157894736842,0.4,0.5
+RacketSports,2,30,"QUANT + cross-channel views + Hydra, gated",0.9013157894736842,0.5,0.625
+RacketSports,2,30,"QUANT + cross-channel views + Hydra, gated",0.9013157894736842,0.6,0.7105263157894737
+RacketSports,2,30,"QUANT + cross-channel views + Hydra, gated",0.9013157894736842,0.8,0.9210526315789473
+RacketSports,2,30,"QUANT + cross-channel views + Hydra, gated",0.9013157894736842,1.01,1.0
+RacketSports,3,30,QUANT,0.9078947368421053,,
+RacketSports,3,30,Hydra,0.8552631578947368,,
+RacketSports,3,30,QUANT + cross-channel views,0.881578947368421,,
+RacketSports,3,30,"QUANT + Hydra, gated",0.9078947368421053,0.0,0.0
+RacketSports,3,30,"QUANT + Hydra, gated",0.9013157894736842,0.05,0.03289473684210526
+RacketSports,3,30,"QUANT + Hydra, gated",0.9078947368421053,0.1,0.125
+RacketSports,3,30,"QUANT + Hydra, gated",0.8881578947368421,0.15,0.21052631578947367
+RacketSports,3,30,"QUANT + Hydra, gated",0.8881578947368421,0.2,0.28289473684210525
+RacketSports,3,30,"QUANT + Hydra, gated",0.8881578947368421,0.3,0.3881578947368421
+RacketSports,3,30,"QUANT + Hydra, gated",0.8881578947368421,0.4,0.506578947368421
+RacketSports,3,30,"QUANT + Hydra, gated",0.8881578947368421,0.5,0.5723684210526315
+RacketSports,3,30,"QUANT + Hydra, gated",0.8881578947368421,0.6,0.7171052631578947
+RacketSports,3,30,"QUANT + Hydra, gated",0.8881578947368421,0.8,0.9605263157894737
+RacketSports,3,30,"QUANT + Hydra, gated",0.8881578947368421,1.01,1.0
+RacketSports,3,30,"QUANT + cross-channel views + Hydra, gated",0.881578947368421,0.0,0.0
+RacketSports,3,30,"QUANT + cross-channel views + Hydra, gated",0.8881578947368421,0.05,0.046052631578947366
+RacketSports,3,30,"QUANT + cross-channel views + Hydra, gated",0.9013157894736842,0.1,0.13815789473684212
+RacketSports,3,30,"QUANT + cross-channel views + Hydra, gated",0.9078947368421053,0.15,0.18421052631578946
+RacketSports,3,30,"QUANT + cross-channel views + Hydra, gated",0.8947368421052632,0.2,0.25
+RacketSports,3,30,"QUANT + cross-channel views + Hydra, gated",0.8947368421052632,0.3,0.375
+RacketSports,3,30,"QUANT + cross-channel views + Hydra, gated",0.8947368421052632,0.4,0.4605263157894737
+RacketSports,3,30,"QUANT + cross-channel views + Hydra, gated",0.8947368421052632,0.5,0.5723684210526315
+RacketSports,3,30,"QUANT + cross-channel views + Hydra, gated",0.8947368421052632,0.6,0.6776315789473685
+RacketSports,3,30,"QUANT + cross-channel views + Hydra, gated",0.8947368421052632,0.8,0.9407894736842105
+RacketSports,3,30,"QUANT + cross-channel views + Hydra, gated",0.8947368421052632,1.01,1.0
+RacketSports,4,30,QUANT,0.8881578947368421,,
+RacketSports,4,30,Hydra,0.8552631578947368,,
+RacketSports,4,30,QUANT + cross-channel views,0.8881578947368421,,
+RacketSports,4,30,"QUANT + Hydra, gated",0.8881578947368421,0.0,0.0
+RacketSports,4,30,"QUANT + Hydra, gated",0.8947368421052632,0.05,0.02631578947368421
+RacketSports,4,30,"QUANT + Hydra, gated",0.881578947368421,0.1,0.08552631578947369
+RacketSports,4,30,"QUANT + Hydra, gated",0.881578947368421,0.15,0.17105263157894737
+RacketSports,4,30,"QUANT + Hydra, gated",0.881578947368421,0.2,0.21052631578947367
+RacketSports,4,30,"QUANT + Hydra, gated",0.868421052631579,0.3,0.375
+RacketSports,4,30,"QUANT + Hydra, gated",0.8618421052631579,0.4,0.5131578947368421
+RacketSports,4,30,"QUANT + Hydra, gated",0.8618421052631579,0.5,0.6447368421052632
+RacketSports,4,30,"QUANT + Hydra, gated",0.8618421052631579,0.6,0.7763157894736842
+RacketSports,4,30,"QUANT + Hydra, gated",0.8618421052631579,0.8,0.9407894736842105
+RacketSports,4,30,"QUANT + Hydra, gated",0.8618421052631579,1.01,1.0
+RacketSports,4,30,"QUANT + cross-channel views + Hydra, gated",0.8881578947368421,0.0,0.0
+RacketSports,4,30,"QUANT + cross-channel views + Hydra, gated",0.881578947368421,0.05,0.07236842105263158
+RacketSports,4,30,"QUANT + cross-channel views + Hydra, gated",0.8947368421052632,0.1,0.14473684210526316
+RacketSports,4,30,"QUANT + cross-channel views + Hydra, gated",0.881578947368421,0.15,0.20394736842105263
+RacketSports,4,30,"QUANT + cross-channel views + Hydra, gated",0.875,0.2,0.27631578947368424
+RacketSports,4,30,"QUANT + cross-channel views + Hydra, gated",0.868421052631579,0.3,0.39473684210526316
+RacketSports,4,30,"QUANT + cross-channel views + Hydra, gated",0.881578947368421,0.4,0.5394736842105263
+RacketSports,4,30,"QUANT + cross-channel views + Hydra, gated",0.875,0.5,0.6710526315789473
+RacketSports,4,30,"QUANT + cross-channel views + Hydra, gated",0.875,0.6,0.7697368421052632
+RacketSports,4,30,"QUANT + cross-channel views + Hydra, gated",0.875,0.8,0.9013157894736842
+RacketSports,4,30,"QUANT + cross-channel views + Hydra, gated",0.875,1.01,1.0
+RacketSports,0,90,QUANT,0.7894736842105263,,
+RacketSports,0,90,Hydra,0.7368421052631579,,
+RacketSports,0,90,QUANT + cross-channel views,0.8157894736842105,,
+RacketSports,0,90,"QUANT + Hydra, gated",0.7894736842105263,0.0,0.0
+RacketSports,0,90,"QUANT + Hydra, gated",0.8026315789473685,0.05,0.14473684210526316
+RacketSports,0,90,"QUANT + Hydra, gated",0.7894736842105263,0.1,0.2631578947368421
+RacketSports,0,90,"QUANT + Hydra, gated",0.8026315789473685,0.15,0.40131578947368424
+RacketSports,0,90,"QUANT + Hydra, gated",0.7894736842105263,0.2,0.5
+RacketSports,0,90,"QUANT + Hydra, gated",0.7697368421052632,0.3,0.6776315789473685
+RacketSports,0,90,"QUANT + Hydra, gated",0.7697368421052632,0.4,0.8223684210526315
+RacketSports,0,90,"QUANT + Hydra, gated",0.7697368421052632,0.5,0.9276315789473685
+RacketSports,0,90,"QUANT + Hydra, gated",0.7697368421052632,0.6,0.9605263157894737
+RacketSports,0,90,"QUANT + Hydra, gated",0.7697368421052632,0.8,1.0
+RacketSports,0,90,"QUANT + Hydra, gated",0.7697368421052632,1.01,1.0
+RacketSports,0,90,"QUANT + cross-channel views + Hydra, gated",0.8157894736842105,0.0,0.0
+RacketSports,0,90,"QUANT + cross-channel views + Hydra, gated",0.8421052631578947,0.05,0.1118421052631579
+RacketSports,0,90,"QUANT + cross-channel views + Hydra, gated",0.8421052631578947,0.1,0.23684210526315788
+RacketSports,0,90,"QUANT + cross-channel views + Hydra, gated",0.8355263157894737,0.15,0.34868421052631576
+RacketSports,0,90,"QUANT + cross-channel views + Hydra, gated",0.8157894736842105,0.2,0.4276315789473684
+RacketSports,0,90,"QUANT + cross-channel views + Hydra, gated",0.8157894736842105,0.3,0.5723684210526315
+RacketSports,0,90,"QUANT + cross-channel views + Hydra, gated",0.8092105263157895,0.4,0.7039473684210527
+RacketSports,0,90,"QUANT + cross-channel views + Hydra, gated",0.8092105263157895,0.5,0.8421052631578947
+RacketSports,0,90,"QUANT + cross-channel views + Hydra, gated",0.8092105263157895,0.6,0.9210526315789473
+RacketSports,0,90,"QUANT + cross-channel views + Hydra, gated",0.8092105263157895,0.8,1.0
+RacketSports,0,90,"QUANT + cross-channel views + Hydra, gated",0.8092105263157895,1.01,1.0
+RacketSports,1,90,QUANT,0.8026315789473685,,
+RacketSports,1,90,Hydra,0.8157894736842105,,
+RacketSports,1,90,QUANT + cross-channel views,0.8092105263157895,,
+RacketSports,1,90,"QUANT + Hydra, gated",0.8026315789473685,0.0,0.0
+RacketSports,1,90,"QUANT + Hydra, gated",0.8552631578947368,0.05,0.15789473684210525
+RacketSports,1,90,"QUANT + Hydra, gated",0.8355263157894737,0.1,0.2631578947368421
+RacketSports,1,90,"QUANT + Hydra, gated",0.8486842105263158,0.15,0.39473684210526316
+RacketSports,1,90,"QUANT + Hydra, gated",0.8421052631578947,0.2,0.5
+RacketSports,1,90,"QUANT + Hydra, gated",0.8289473684210527,0.3,0.6447368421052632
+RacketSports,1,90,"QUANT + Hydra, gated",0.8289473684210527,0.4,0.8026315789473685
+RacketSports,1,90,"QUANT + Hydra, gated",0.8289473684210527,0.5,0.9144736842105263
+RacketSports,1,90,"QUANT + Hydra, gated",0.8289473684210527,0.6,0.9671052631578947
+RacketSports,1,90,"QUANT + Hydra, gated",0.8289473684210527,0.8,1.0
+RacketSports,1,90,"QUANT + Hydra, gated",0.8289473684210527,1.01,1.0
+RacketSports,1,90,"QUANT + cross-channel views + Hydra, gated",0.8092105263157895,0.0,0.0
+RacketSports,1,90,"QUANT + cross-channel views + Hydra, gated",0.7960526315789473,0.05,0.10526315789473684
+RacketSports,1,90,"QUANT + cross-channel views + Hydra, gated",0.8157894736842105,0.1,0.18421052631578946
+RacketSports,1,90,"QUANT + cross-channel views + Hydra, gated",0.8421052631578947,0.15,0.28289473684210525
+RacketSports,1,90,"QUANT + cross-channel views + Hydra, gated",0.8618421052631579,0.2,0.40131578947368424
+RacketSports,1,90,"QUANT + cross-channel views + Hydra, gated",0.8486842105263158,0.3,0.625
+RacketSports,1,90,"QUANT + cross-channel views + Hydra, gated",0.8486842105263158,0.4,0.7763157894736842
+RacketSports,1,90,"QUANT + cross-channel views + Hydra, gated",0.8486842105263158,0.5,0.8421052631578947
+RacketSports,1,90,"QUANT + cross-channel views + Hydra, gated",0.8486842105263158,0.6,0.9276315789473685
+RacketSports,1,90,"QUANT + cross-channel views + Hydra, gated",0.8486842105263158,0.8,0.993421052631579
+RacketSports,1,90,"QUANT + cross-channel views + Hydra, gated",0.8486842105263158,1.01,1.0
+RacketSports,2,90,QUANT,0.8289473684210527,,
+RacketSports,2,90,Hydra,0.7368421052631579,,
+RacketSports,2,90,QUANT + cross-channel views,0.8552631578947368,,
+RacketSports,2,90,"QUANT + Hydra, gated",0.8289473684210527,0.0,0.0
+RacketSports,2,90,"QUANT + Hydra, gated",0.8026315789473685,0.05,0.125
+RacketSports,2,90,"QUANT + Hydra, gated",0.8092105263157895,0.1,0.26973684210526316
+RacketSports,2,90,"QUANT + Hydra, gated",0.7960526315789473,0.15,0.40131578947368424
+RacketSports,2,90,"QUANT + Hydra, gated",0.7894736842105263,0.2,0.5197368421052632
+RacketSports,2,90,"QUANT + Hydra, gated",0.7763157894736842,0.3,0.6447368421052632
+RacketSports,2,90,"QUANT + Hydra, gated",0.7763157894736842,0.4,0.7960526315789473
+RacketSports,2,90,"QUANT + Hydra, gated",0.7763157894736842,0.5,0.9013157894736842
+RacketSports,2,90,"QUANT + Hydra, gated",0.7763157894736842,0.6,0.9407894736842105
+RacketSports,2,90,"QUANT + Hydra, gated",0.7763157894736842,0.8,0.993421052631579
+RacketSports,2,90,"QUANT + Hydra, gated",0.7763157894736842,1.01,1.0
+RacketSports,2,90,"QUANT + cross-channel views + Hydra, gated",0.8552631578947368,0.0,0.0
+RacketSports,2,90,"QUANT + cross-channel views + Hydra, gated",0.8289473684210527,0.05,0.1118421052631579
+RacketSports,2,90,"QUANT + cross-channel views + Hydra, gated",0.8092105263157895,0.1,0.19736842105263158
+RacketSports,2,90,"QUANT + cross-channel views + Hydra, gated",0.8223684210526315,0.15,0.25
+RacketSports,2,90,"QUANT + cross-channel views + Hydra, gated",0.8092105263157895,0.2,0.3618421052631579
+RacketSports,2,90,"QUANT + cross-channel views + Hydra, gated",0.8092105263157895,0.3,0.5986842105263158
+RacketSports,2,90,"QUANT + cross-channel views + Hydra, gated",0.7960526315789473,0.4,0.7236842105263158
+RacketSports,2,90,"QUANT + cross-channel views + Hydra, gated",0.7960526315789473,0.5,0.8355263157894737
+RacketSports,2,90,"QUANT + cross-channel views + Hydra, gated",0.7960526315789473,0.6,0.9473684210526315
+RacketSports,2,90,"QUANT + cross-channel views + Hydra, gated",0.7960526315789473,0.8,0.993421052631579
+RacketSports,2,90,"QUANT + cross-channel views + Hydra, gated",0.7960526315789473,1.01,1.0
+RacketSports,3,90,QUANT,0.7894736842105263,,
+RacketSports,3,90,Hydra,0.7697368421052632,,
+RacketSports,3,90,QUANT + cross-channel views,0.8618421052631579,,
+RacketSports,3,90,"QUANT + Hydra, gated",0.7894736842105263,0.0,0.0
+RacketSports,3,90,"QUANT + Hydra, gated",0.7894736842105263,0.05,0.11842105263157894
+RacketSports,3,90,"QUANT + Hydra, gated",0.8223684210526315,0.1,0.21052631578947367
+RacketSports,3,90,"QUANT + Hydra, gated",0.8092105263157895,0.15,0.34868421052631576
+RacketSports,3,90,"QUANT + Hydra, gated",0.8157894736842105,0.2,0.4605263157894737
+RacketSports,3,90,"QUANT + Hydra, gated",0.8026315789473685,0.3,0.6447368421052632
+RacketSports,3,90,"QUANT + Hydra, gated",0.8026315789473685,0.4,0.8092105263157895
+RacketSports,3,90,"QUANT + Hydra, gated",0.8026315789473685,0.5,0.8618421052631579
+RacketSports,3,90,"QUANT + Hydra, gated",0.8026315789473685,0.6,0.9473684210526315
+RacketSports,3,90,"QUANT + Hydra, gated",0.8026315789473685,0.8,1.0
+RacketSports,3,90,"QUANT + Hydra, gated",0.8026315789473685,1.01,1.0
+RacketSports,3,90,"QUANT + cross-channel views + Hydra, gated",0.8618421052631579,0.0,0.0
+RacketSports,3,90,"QUANT + cross-channel views + Hydra, gated",0.875,0.05,0.1118421052631579
+RacketSports,3,90,"QUANT + cross-channel views + Hydra, gated",0.875,0.1,0.23684210526315788
+RacketSports,3,90,"QUANT + cross-channel views + Hydra, gated",0.875,0.15,0.29605263157894735
+RacketSports,3,90,"QUANT + cross-channel views + Hydra, gated",0.868421052631579,0.2,0.3618421052631579
+RacketSports,3,90,"QUANT + cross-channel views + Hydra, gated",0.8486842105263158,0.3,0.5394736842105263
+RacketSports,3,90,"QUANT + cross-channel views + Hydra, gated",0.8355263157894737,0.4,0.7039473684210527
+RacketSports,3,90,"QUANT + cross-channel views + Hydra, gated",0.8355263157894737,0.5,0.8026315789473685
+RacketSports,3,90,"QUANT + cross-channel views + Hydra, gated",0.8355263157894737,0.6,0.9210526315789473
+RacketSports,3,90,"QUANT + cross-channel views + Hydra, gated",0.8355263157894737,0.8,1.0
+RacketSports,3,90,"QUANT + cross-channel views + Hydra, gated",0.8355263157894737,1.01,1.0
+RacketSports,4,90,QUANT,0.8157894736842105,,
+RacketSports,4,90,Hydra,0.7763157894736842,,
+RacketSports,4,90,QUANT + cross-channel views,0.8289473684210527,,
+RacketSports,4,90,"QUANT + Hydra, gated",0.8157894736842105,0.0,0.0
+RacketSports,4,90,"QUANT + Hydra, gated",0.8157894736842105,0.05,0.1118421052631579
+RacketSports,4,90,"QUANT + Hydra, gated",0.8026315789473685,0.1,0.23684210526315788
+RacketSports,4,90,"QUANT + Hydra, gated",0.8157894736842105,0.15,0.3092105263157895
+RacketSports,4,90,"QUANT + Hydra, gated",0.8157894736842105,0.2,0.4342105263157895
+RacketSports,4,90,"QUANT + Hydra, gated",0.8223684210526315,0.3,0.625
+RacketSports,4,90,"QUANT + Hydra, gated",0.8092105263157895,0.4,0.8026315789473685
+RacketSports,4,90,"QUANT + Hydra, gated",0.8026315789473685,0.5,0.8947368421052632
+RacketSports,4,90,"QUANT + Hydra, gated",0.8026315789473685,0.6,0.9539473684210527
+RacketSports,4,90,"QUANT + Hydra, gated",0.8026315789473685,0.8,1.0
+RacketSports,4,90,"QUANT + Hydra, gated",0.8026315789473685,1.01,1.0
+RacketSports,4,90,"QUANT + cross-channel views + Hydra, gated",0.8289473684210527,0.0,0.0
+RacketSports,4,90,"QUANT + cross-channel views + Hydra, gated",0.8223684210526315,0.05,0.10526315789473684
+RacketSports,4,90,"QUANT + cross-channel views + Hydra, gated",0.8289473684210527,0.1,0.19078947368421054
+RacketSports,4,90,"QUANT + cross-channel views + Hydra, gated",0.8289473684210527,0.15,0.2631578947368421
+RacketSports,4,90,"QUANT + cross-channel views + Hydra, gated",0.8289473684210527,0.2,0.3355263157894737
+RacketSports,4,90,"QUANT + cross-channel views + Hydra, gated",0.8223684210526315,0.3,0.5
+RacketSports,4,90,"QUANT + cross-channel views + Hydra, gated",0.8223684210526315,0.4,0.6776315789473685
+RacketSports,4,90,"QUANT + cross-channel views + Hydra, gated",0.8223684210526315,0.5,0.8223684210526315
+RacketSports,4,90,"QUANT + cross-channel views + Hydra, gated",0.8223684210526315,0.6,0.9013157894736842
+RacketSports,4,90,"QUANT + cross-channel views + Hydra, gated",0.8223684210526315,0.8,1.0
+RacketSports,4,90,"QUANT + cross-channel views + Hydra, gated",0.8223684210526315,1.01,1.0
+RacketSports,0,180,QUANT,0.6644736842105263,,
+RacketSports,0,180,Hydra,0.6578947368421053,,
+RacketSports,0,180,QUANT + cross-channel views,0.7763157894736842,,
+RacketSports,0,180,"QUANT + Hydra, gated",0.6644736842105263,0.0,0.0
+RacketSports,0,180,"QUANT + Hydra, gated",0.7171052631578947,0.05,0.25
+RacketSports,0,180,"QUANT + Hydra, gated",0.7368421052631579,0.1,0.46710526315789475
+RacketSports,0,180,"QUANT + Hydra, gated",0.743421052631579,0.15,0.6513157894736842
+RacketSports,0,180,"QUANT + Hydra, gated",0.743421052631579,0.2,0.7763157894736842
+RacketSports,0,180,"QUANT + Hydra, gated",0.7368421052631579,0.3,0.8552631578947368
+RacketSports,0,180,"QUANT + Hydra, gated",0.7302631578947368,0.4,0.9473684210526315
+RacketSports,0,180,"QUANT + Hydra, gated",0.7302631578947368,0.5,0.9605263157894737
+RacketSports,0,180,"QUANT + Hydra, gated",0.7302631578947368,0.6,0.9736842105263158
+RacketSports,0,180,"QUANT + Hydra, gated",0.7302631578947368,0.8,1.0
+RacketSports,0,180,"QUANT + Hydra, gated",0.7302631578947368,1.01,1.0
+RacketSports,0,180,"QUANT + cross-channel views + Hydra, gated",0.7763157894736842,0.0,0.0
+RacketSports,0,180,"QUANT + cross-channel views + Hydra, gated",0.7828947368421053,0.05,0.13157894736842105
+RacketSports,0,180,"QUANT + cross-channel views + Hydra, gated",0.7894736842105263,0.1,0.2631578947368421
+RacketSports,0,180,"QUANT + cross-channel views + Hydra, gated",0.8026315789473685,0.15,0.3684210526315789
+RacketSports,0,180,"QUANT + cross-channel views + Hydra, gated",0.7894736842105263,0.2,0.5
+RacketSports,0,180,"QUANT + cross-channel views + Hydra, gated",0.7828947368421053,0.3,0.6776315789473685
+RacketSports,0,180,"QUANT + cross-channel views + Hydra, gated",0.7828947368421053,0.4,0.8289473684210527
+RacketSports,0,180,"QUANT + cross-channel views + Hydra, gated",0.7828947368421053,0.5,0.9078947368421053
+RacketSports,0,180,"QUANT + cross-channel views + Hydra, gated",0.7828947368421053,0.6,0.9671052631578947
+RacketSports,0,180,"QUANT + cross-channel views + Hydra, gated",0.7828947368421053,0.8,1.0
+RacketSports,0,180,"QUANT + cross-channel views + Hydra, gated",0.7828947368421053,1.01,1.0
+RacketSports,1,180,QUANT,0.6578947368421053,,
+RacketSports,1,180,Hydra,0.6381578947368421,,
+RacketSports,1,180,QUANT + cross-channel views,0.756578947368421,,
+RacketSports,1,180,"QUANT + Hydra, gated",0.6578947368421053,0.0,0.0
+RacketSports,1,180,"QUANT + Hydra, gated",0.7302631578947368,0.05,0.24342105263157895
+RacketSports,1,180,"QUANT + Hydra, gated",0.7039473684210527,0.1,0.4407894736842105
+RacketSports,1,180,"QUANT + Hydra, gated",0.7105263157894737,0.15,0.5723684210526315
+RacketSports,1,180,"QUANT + Hydra, gated",0.7105263157894737,0.2,0.6513157894736842
+RacketSports,1,180,"QUANT + Hydra, gated",0.6907894736842105,0.3,0.8157894736842105
+RacketSports,1,180,"QUANT + Hydra, gated",0.6907894736842105,0.4,0.881578947368421
+RacketSports,1,180,"QUANT + Hydra, gated",0.6907894736842105,0.5,0.9407894736842105
+RacketSports,1,180,"QUANT + Hydra, gated",0.6907894736842105,0.6,0.9671052631578947
+RacketSports,1,180,"QUANT + Hydra, gated",0.6907894736842105,0.8,1.0
+RacketSports,1,180,"QUANT + Hydra, gated",0.6907894736842105,1.01,1.0
+RacketSports,1,180,"QUANT + cross-channel views + Hydra, gated",0.756578947368421,0.0,0.0
+RacketSports,1,180,"QUANT + cross-channel views + Hydra, gated",0.7697368421052632,0.05,0.125
+RacketSports,1,180,"QUANT + cross-channel views + Hydra, gated",0.7894736842105263,0.1,0.21052631578947367
+RacketSports,1,180,"QUANT + cross-channel views + Hydra, gated",0.7763157894736842,0.15,0.32894736842105265
+RacketSports,1,180,"QUANT + cross-channel views + Hydra, gated",0.7960526315789473,0.2,0.42105263157894735
+RacketSports,1,180,"QUANT + cross-channel views + Hydra, gated",0.7763157894736842,0.3,0.625
+RacketSports,1,180,"QUANT + cross-channel views + Hydra, gated",0.7631578947368421,0.4,0.7763157894736842
+RacketSports,1,180,"QUANT + cross-channel views + Hydra, gated",0.756578947368421,0.5,0.8486842105263158
+RacketSports,1,180,"QUANT + cross-channel views + Hydra, gated",0.756578947368421,0.6,0.9736842105263158
+RacketSports,1,180,"QUANT + cross-channel views + Hydra, gated",0.756578947368421,0.8,1.0
+RacketSports,1,180,"QUANT + cross-channel views + Hydra, gated",0.756578947368421,1.01,1.0
+RacketSports,2,180,QUANT,0.7236842105263158,,
+RacketSports,2,180,Hydra,0.6644736842105263,,
+RacketSports,2,180,QUANT + cross-channel views,0.8026315789473685,,
+RacketSports,2,180,"QUANT + Hydra, gated",0.7236842105263158,0.0,0.0
+RacketSports,2,180,"QUANT + Hydra, gated",0.743421052631579,0.05,0.23026315789473684
+RacketSports,2,180,"QUANT + Hydra, gated",0.7302631578947368,0.1,0.42105263157894735
+RacketSports,2,180,"QUANT + Hydra, gated",0.7368421052631579,0.15,0.5526315789473685
+RacketSports,2,180,"QUANT + Hydra, gated",0.7236842105263158,0.2,0.6578947368421053
+RacketSports,2,180,"QUANT + Hydra, gated",0.7105263157894737,0.3,0.8223684210526315
+RacketSports,2,180,"QUANT + Hydra, gated",0.7039473684210527,0.4,0.9078947368421053
+RacketSports,2,180,"QUANT + Hydra, gated",0.7039473684210527,0.5,0.9539473684210527
+RacketSports,2,180,"QUANT + Hydra, gated",0.7039473684210527,0.6,0.9868421052631579
+RacketSports,2,180,"QUANT + Hydra, gated",0.7039473684210527,0.8,1.0
+RacketSports,2,180,"QUANT + Hydra, gated",0.7039473684210527,1.01,1.0
+RacketSports,2,180,"QUANT + cross-channel views + Hydra, gated",0.8026315789473685,0.0,0.0
+RacketSports,2,180,"QUANT + cross-channel views + Hydra, gated",0.7960526315789473,0.05,0.11842105263157894
+RacketSports,2,180,"QUANT + cross-channel views + Hydra, gated",0.7828947368421053,0.1,0.2236842105263158
+RacketSports,2,180,"QUANT + cross-channel views + Hydra, gated",0.7894736842105263,0.15,0.28289473684210525
+RacketSports,2,180,"QUANT + cross-channel views + Hydra, gated",0.7763157894736842,0.2,0.42105263157894735
+RacketSports,2,180,"QUANT + cross-channel views + Hydra, gated",0.7631578947368421,0.3,0.618421052631579
+RacketSports,2,180,"QUANT + cross-channel views + Hydra, gated",0.7631578947368421,0.4,0.7302631578947368
+RacketSports,2,180,"QUANT + cross-channel views + Hydra, gated",0.743421052631579,0.5,0.9144736842105263
+RacketSports,2,180,"QUANT + cross-channel views + Hydra, gated",0.743421052631579,0.6,0.9605263157894737
+RacketSports,2,180,"QUANT + cross-channel views + Hydra, gated",0.743421052631579,0.8,0.993421052631579
+RacketSports,2,180,"QUANT + cross-channel views + Hydra, gated",0.743421052631579,1.01,1.0
+RacketSports,3,180,QUANT,0.7039473684210527,,
+RacketSports,3,180,Hydra,0.6842105263157895,,
+RacketSports,3,180,QUANT + cross-channel views,0.7960526315789473,,
+RacketSports,3,180,"QUANT + Hydra, gated",0.7039473684210527,0.0,0.0
+RacketSports,3,180,"QUANT + Hydra, gated",0.7368421052631579,0.05,0.14473684210526316
+RacketSports,3,180,"QUANT + Hydra, gated",0.75,0.1,0.3355263157894737
+RacketSports,3,180,"QUANT + Hydra, gated",0.743421052631579,0.15,0.5
+RacketSports,3,180,"QUANT + Hydra, gated",0.75,0.2,0.625
+RacketSports,3,180,"QUANT + Hydra, gated",0.7368421052631579,0.3,0.8157894736842105
+RacketSports,3,180,"QUANT + Hydra, gated",0.7368421052631579,0.4,0.9144736842105263
+RacketSports,3,180,"QUANT + Hydra, gated",0.7368421052631579,0.5,0.9736842105263158
+RacketSports,3,180,"QUANT + Hydra, gated",0.7368421052631579,0.6,0.993421052631579
+RacketSports,3,180,"QUANT + Hydra, gated",0.7368421052631579,0.8,1.0
+RacketSports,3,180,"QUANT + Hydra, gated",0.7368421052631579,1.01,1.0
+RacketSports,3,180,"QUANT + cross-channel views + Hydra, gated",0.7960526315789473,0.0,0.0
+RacketSports,3,180,"QUANT + cross-channel views + Hydra, gated",0.8026315789473685,0.05,0.13157894736842105
+RacketSports,3,180,"QUANT + cross-channel views + Hydra, gated",0.7894736842105263,0.1,0.21052631578947367
+RacketSports,3,180,"QUANT + cross-channel views + Hydra, gated",0.8092105263157895,0.15,0.3223684210526316
+RacketSports,3,180,"QUANT + cross-channel views + Hydra, gated",0.8026315789473685,0.2,0.4473684210526316
+RacketSports,3,180,"QUANT + cross-channel views + Hydra, gated",0.7631578947368421,0.3,0.6381578947368421
+RacketSports,3,180,"QUANT + cross-channel views + Hydra, gated",0.756578947368421,0.4,0.8223684210526315
+RacketSports,3,180,"QUANT + cross-channel views + Hydra, gated",0.756578947368421,0.5,0.9078947368421053
+RacketSports,3,180,"QUANT + cross-channel views + Hydra, gated",0.756578947368421,0.6,0.9671052631578947
+RacketSports,3,180,"QUANT + cross-channel views + Hydra, gated",0.756578947368421,0.8,1.0
+RacketSports,3,180,"QUANT + cross-channel views + Hydra, gated",0.756578947368421,1.01,1.0
+RacketSports,4,180,QUANT,0.6578947368421053,,
+RacketSports,4,180,Hydra,0.6447368421052632,,
+RacketSports,4,180,QUANT + cross-channel views,0.7697368421052632,,
+RacketSports,4,180,"QUANT + Hydra, gated",0.6578947368421053,0.0,0.0
+RacketSports,4,180,"QUANT + Hydra, gated",0.7171052631578947,0.05,0.16447368421052633
+RacketSports,4,180,"QUANT + Hydra, gated",0.7105263157894737,0.1,0.3092105263157895
+RacketSports,4,180,"QUANT + Hydra, gated",0.6710526315789473,0.15,0.45394736842105265
+RacketSports,4,180,"QUANT + Hydra, gated",0.6513157894736842,0.2,0.5921052631578947
+RacketSports,4,180,"QUANT + Hydra, gated",0.6447368421052632,0.3,0.7960526315789473
+RacketSports,4,180,"QUANT + Hydra, gated",0.6447368421052632,0.4,0.9078947368421053
+RacketSports,4,180,"QUANT + Hydra, gated",0.6447368421052632,0.5,0.9802631578947368
+RacketSports,4,180,"QUANT + Hydra, gated",0.6447368421052632,0.6,1.0
+RacketSports,4,180,"QUANT + Hydra, gated",0.6447368421052632,0.8,1.0
+RacketSports,4,180,"QUANT + Hydra, gated",0.6447368421052632,1.01,1.0
+RacketSports,4,180,"QUANT + cross-channel views + Hydra, gated",0.7697368421052632,0.0,0.0
+RacketSports,4,180,"QUANT + cross-channel views + Hydra, gated",0.7631578947368421,0.05,0.1513157894736842
+RacketSports,4,180,"QUANT + cross-channel views + Hydra, gated",0.7368421052631579,0.1,0.2236842105263158
+RacketSports,4,180,"QUANT + cross-channel views + Hydra, gated",0.756578947368421,0.15,0.34868421052631576
+RacketSports,4,180,"QUANT + cross-channel views + Hydra, gated",0.743421052631579,0.2,0.4342105263157895
+RacketSports,4,180,"QUANT + cross-channel views + Hydra, gated",0.7368421052631579,0.3,0.625
+RacketSports,4,180,"QUANT + cross-channel views + Hydra, gated",0.7105263157894737,0.4,0.7697368421052632
+RacketSports,4,180,"QUANT + cross-channel views + Hydra, gated",0.7105263157894737,0.5,0.8947368421052632
+RacketSports,4,180,"QUANT + cross-channel views + Hydra, gated",0.7105263157894737,0.6,0.9736842105263158
+RacketSports,4,180,"QUANT + cross-channel views + Hydra, gated",0.7105263157894737,0.8,1.0
+RacketSports,4,180,"QUANT + cross-channel views + Hydra, gated",0.7105263157894737,1.01,1.0
+UWaveGestureLibrary,0,30,QUANT,0.875,,
+UWaveGestureLibrary,0,30,Hydra,0.89375,,
+UWaveGestureLibrary,0,30,QUANT + cross-channel views,0.871875,,
+UWaveGestureLibrary,0,30,"QUANT + Hydra, gated",0.875,0.0,0.0
+UWaveGestureLibrary,0,30,"QUANT + Hydra, gated",0.896875,0.05,0.0625
+UWaveGestureLibrary,0,30,"QUANT + Hydra, gated",0.896875,0.1,0.1125
+UWaveGestureLibrary,0,30,"QUANT + Hydra, gated",0.9,0.15,0.16875
+UWaveGestureLibrary,0,30,"QUANT + Hydra, gated",0.903125,0.2,0.221875
+UWaveGestureLibrary,0,30,"QUANT + Hydra, gated",0.9,0.3,0.290625
+UWaveGestureLibrary,0,30,"QUANT + Hydra, gated",0.90625,0.4,0.4
+UWaveGestureLibrary,0,30,"QUANT + Hydra, gated",0.90625,0.5,0.528125
+UWaveGestureLibrary,0,30,"QUANT + Hydra, gated",0.90625,0.6,0.675
+UWaveGestureLibrary,0,30,"QUANT + Hydra, gated",0.90625,0.8,0.915625
+UWaveGestureLibrary,0,30,"QUANT + Hydra, gated",0.90625,1.01,1.0
+UWaveGestureLibrary,0,30,"QUANT + cross-channel views + Hydra, gated",0.871875,0.0,0.0
+UWaveGestureLibrary,0,30,"QUANT + cross-channel views + Hydra, gated",0.89375,0.05,0.05625
+UWaveGestureLibrary,0,30,"QUANT + cross-channel views + Hydra, gated",0.896875,0.1,0.115625
+UWaveGestureLibrary,0,30,"QUANT + cross-channel views + Hydra, gated",0.903125,0.15,0.15625
+UWaveGestureLibrary,0,30,"QUANT + cross-channel views + Hydra, gated",0.909375,0.2,0.21875
+UWaveGestureLibrary,0,30,"QUANT + cross-channel views + Hydra, gated",0.915625,0.3,0.303125
+UWaveGestureLibrary,0,30,"QUANT + cross-channel views + Hydra, gated",0.909375,0.4,0.434375
+UWaveGestureLibrary,0,30,"QUANT + cross-channel views + Hydra, gated",0.9125,0.5,0.540625
+UWaveGestureLibrary,0,30,"QUANT + cross-channel views + Hydra, gated",0.9125,0.6,0.665625
+UWaveGestureLibrary,0,30,"QUANT + cross-channel views + Hydra, gated",0.9125,0.8,0.946875
+UWaveGestureLibrary,0,30,"QUANT + cross-channel views + Hydra, gated",0.9125,1.01,1.0
+UWaveGestureLibrary,1,30,QUANT,0.8875,,
+UWaveGestureLibrary,1,30,Hydra,0.884375,,
+UWaveGestureLibrary,1,30,QUANT + cross-channel views,0.9125,,
+UWaveGestureLibrary,1,30,"QUANT + Hydra, gated",0.8875,0.0,0.0
+UWaveGestureLibrary,1,30,"QUANT + Hydra, gated",0.903125,0.05,0.04375
+UWaveGestureLibrary,1,30,"QUANT + Hydra, gated",0.903125,0.1,0.08125
+UWaveGestureLibrary,1,30,"QUANT + Hydra, gated",0.90625,0.15,0.11875
+UWaveGestureLibrary,1,30,"QUANT + Hydra, gated",0.90625,0.2,0.175
+UWaveGestureLibrary,1,30,"QUANT + Hydra, gated",0.896875,0.3,0.309375
+UWaveGestureLibrary,1,30,"QUANT + Hydra, gated",0.896875,0.4,0.41875
+UWaveGestureLibrary,1,30,"QUANT + Hydra, gated",0.896875,0.5,0.56875
+UWaveGestureLibrary,1,30,"QUANT + Hydra, gated",0.896875,0.6,0.715625
+UWaveGestureLibrary,1,30,"QUANT + Hydra, gated",0.896875,0.8,0.91875
+UWaveGestureLibrary,1,30,"QUANT + Hydra, gated",0.896875,1.01,1.0
+UWaveGestureLibrary,1,30,"QUANT + cross-channel views + Hydra, gated",0.9125,0.0,0.0
+UWaveGestureLibrary,1,30,"QUANT + cross-channel views + Hydra, gated",0.921875,0.05,0.05
+UWaveGestureLibrary,1,30,"QUANT + cross-channel views + Hydra, gated",0.91875,0.1,0.08125
+UWaveGestureLibrary,1,30,"QUANT + cross-channel views + Hydra, gated",0.91875,0.15,0.134375
+UWaveGestureLibrary,1,30,"QUANT + cross-channel views + Hydra, gated",0.91875,0.2,0.184375
+UWaveGestureLibrary,1,30,"QUANT + cross-channel views + Hydra, gated",0.903125,0.3,0.325
+UWaveGestureLibrary,1,30,"QUANT + cross-channel views + Hydra, gated",0.903125,0.4,0.446875
+UWaveGestureLibrary,1,30,"QUANT + cross-channel views + Hydra, gated",0.903125,0.5,0.615625
+UWaveGestureLibrary,1,30,"QUANT + cross-channel views + Hydra, gated",0.9,0.6,0.734375
+UWaveGestureLibrary,1,30,"QUANT + cross-channel views + Hydra, gated",0.9,0.8,0.93125
+UWaveGestureLibrary,1,30,"QUANT + cross-channel views + Hydra, gated",0.9,1.01,1.0
+UWaveGestureLibrary,2,30,QUANT,0.878125,,
+UWaveGestureLibrary,2,30,Hydra,0.896875,,
+UWaveGestureLibrary,2,30,QUANT + cross-channel views,0.884375,,
+UWaveGestureLibrary,2,30,"QUANT + Hydra, gated",0.878125,0.0,0.0
+UWaveGestureLibrary,2,30,"QUANT + Hydra, gated",0.90625,0.05,0.10625
+UWaveGestureLibrary,2,30,"QUANT + Hydra, gated",0.915625,0.1,0.1625
+UWaveGestureLibrary,2,30,"QUANT + Hydra, gated",0.925,0.15,0.209375
+UWaveGestureLibrary,2,30,"QUANT + Hydra, gated",0.925,0.2,0.24375
+UWaveGestureLibrary,2,30,"QUANT + Hydra, gated",0.928125,0.3,0.334375
+UWaveGestureLibrary,2,30,"QUANT + Hydra, gated",0.925,0.4,0.45625
+UWaveGestureLibrary,2,30,"QUANT + Hydra, gated",0.925,0.5,0.546875
+UWaveGestureLibrary,2,30,"QUANT + Hydra, gated",0.925,0.6,0.678125
+UWaveGestureLibrary,2,30,"QUANT + Hydra, gated",0.925,0.8,0.909375
+UWaveGestureLibrary,2,30,"QUANT + Hydra, gated",0.925,1.01,1.0
+UWaveGestureLibrary,2,30,"QUANT + cross-channel views + Hydra, gated",0.884375,0.0,0.0
+UWaveGestureLibrary,2,30,"QUANT + cross-channel views + Hydra, gated",0.928125,0.05,0.0875
+UWaveGestureLibrary,2,30,"QUANT + cross-channel views + Hydra, gated",0.94375,0.1,0.1625
+UWaveGestureLibrary,2,30,"QUANT + cross-channel views + Hydra, gated",0.940625,0.15,0.209375
+UWaveGestureLibrary,2,30,"QUANT + cross-channel views + Hydra, gated",0.928125,0.2,0.259375
+UWaveGestureLibrary,2,30,"QUANT + cross-channel views + Hydra, gated",0.921875,0.3,0.359375
+UWaveGestureLibrary,2,30,"QUANT + cross-channel views + Hydra, gated",0.925,0.4,0.4625
+UWaveGestureLibrary,2,30,"QUANT + cross-channel views + Hydra, gated",0.925,0.5,0.56875
+UWaveGestureLibrary,2,30,"QUANT + cross-channel views + Hydra, gated",0.925,0.6,0.725
+UWaveGestureLibrary,2,30,"QUANT + cross-channel views + Hydra, gated",0.925,0.8,0.9375
+UWaveGestureLibrary,2,30,"QUANT + cross-channel views + Hydra, gated",0.925,1.01,1.0
+UWaveGestureLibrary,3,30,QUANT,0.9125,,
+UWaveGestureLibrary,3,30,Hydra,0.921875,,
+UWaveGestureLibrary,3,30,QUANT + cross-channel views,0.921875,,
+UWaveGestureLibrary,3,30,"QUANT + Hydra, gated",0.9125,0.0,0.0
+UWaveGestureLibrary,3,30,"QUANT + Hydra, gated",0.94375,0.05,0.0875
+UWaveGestureLibrary,3,30,"QUANT + Hydra, gated",0.940625,0.1,0.115625
+UWaveGestureLibrary,3,30,"QUANT + Hydra, gated",0.94375,0.15,0.165625
+UWaveGestureLibrary,3,30,"QUANT + Hydra, gated",0.9375,0.2,0.2
+UWaveGestureLibrary,3,30,"QUANT + Hydra, gated",0.93125,0.3,0.321875
+UWaveGestureLibrary,3,30,"QUANT + Hydra, gated",0.928125,0.4,0.43125
+UWaveGestureLibrary,3,30,"QUANT + Hydra, gated",0.928125,0.5,0.5625
+UWaveGestureLibrary,3,30,"QUANT + Hydra, gated",0.928125,0.6,0.703125
+UWaveGestureLibrary,3,30,"QUANT + Hydra, gated",0.928125,0.8,0.9
+UWaveGestureLibrary,3,30,"QUANT + Hydra, gated",0.928125,1.01,1.0
+UWaveGestureLibrary,3,30,"QUANT + cross-channel views + Hydra, gated",0.921875,0.0,0.0
+UWaveGestureLibrary,3,30,"QUANT + cross-channel views + Hydra, gated",0.946875,0.05,0.065625
+UWaveGestureLibrary,3,30,"QUANT + cross-channel views + Hydra, gated",0.94375,0.1,0.09375
+UWaveGestureLibrary,3,30,"QUANT + cross-channel views + Hydra, gated",0.946875,0.15,0.125
+UWaveGestureLibrary,3,30,"QUANT + cross-channel views + Hydra, gated",0.946875,0.2,0.190625
+UWaveGestureLibrary,3,30,"QUANT + cross-channel views + Hydra, gated",0.934375,0.3,0.25
+UWaveGestureLibrary,3,30,"QUANT + cross-channel views + Hydra, gated",0.9375,0.4,0.4125
+UWaveGestureLibrary,3,30,"QUANT + cross-channel views + Hydra, gated",0.934375,0.5,0.515625
+UWaveGestureLibrary,3,30,"QUANT + cross-channel views + Hydra, gated",0.934375,0.6,0.671875
+UWaveGestureLibrary,3,30,"QUANT + cross-channel views + Hydra, gated",0.934375,0.8,0.921875
+UWaveGestureLibrary,3,30,"QUANT + cross-channel views + Hydra, gated",0.934375,1.01,1.0
+UWaveGestureLibrary,4,30,QUANT,0.9,,
+UWaveGestureLibrary,4,30,Hydra,0.91875,,
+UWaveGestureLibrary,4,30,QUANT + cross-channel views,0.9125,,
+UWaveGestureLibrary,4,30,"QUANT + Hydra, gated",0.9,0.0,0.0
+UWaveGestureLibrary,4,30,"QUANT + Hydra, gated",0.9125,0.05,0.046875
+UWaveGestureLibrary,4,30,"QUANT + Hydra, gated",0.925,0.1,0.1125
+UWaveGestureLibrary,4,30,"QUANT + Hydra, gated",0.934375,0.15,0.1625
+UWaveGestureLibrary,4,30,"QUANT + Hydra, gated",0.93125,0.2,0.203125
+UWaveGestureLibrary,4,30,"QUANT + Hydra, gated",0.93125,0.3,0.290625
+UWaveGestureLibrary,4,30,"QUANT + Hydra, gated",0.934375,0.4,0.38125
+UWaveGestureLibrary,4,30,"QUANT + Hydra, gated",0.934375,0.5,0.50625
+UWaveGestureLibrary,4,30,"QUANT + Hydra, gated",0.934375,0.6,0.66875
+UWaveGestureLibrary,4,30,"QUANT + Hydra, gated",0.934375,0.8,0.93125
+UWaveGestureLibrary,4,30,"QUANT + Hydra, gated",0.934375,1.01,1.0
+UWaveGestureLibrary,4,30,"QUANT + cross-channel views + Hydra, gated",0.9125,0.0,0.0
+UWaveGestureLibrary,4,30,"QUANT + cross-channel views + Hydra, gated",0.925,0.05,0.040625
+UWaveGestureLibrary,4,30,"QUANT + cross-channel views + Hydra, gated",0.925,0.1,0.08125
+UWaveGestureLibrary,4,30,"QUANT + cross-channel views + Hydra, gated",0.928125,0.15,0.11875
+UWaveGestureLibrary,4,30,"QUANT + cross-channel views + Hydra, gated",0.928125,0.2,0.171875
+UWaveGestureLibrary,4,30,"QUANT + cross-channel views + Hydra, gated",0.93125,0.3,0.26875
+UWaveGestureLibrary,4,30,"QUANT + cross-channel views + Hydra, gated",0.93125,0.4,0.365625
+UWaveGestureLibrary,4,30,"QUANT + cross-channel views + Hydra, gated",0.93125,0.5,0.46875
+UWaveGestureLibrary,4,30,"QUANT + cross-channel views + Hydra, gated",0.93125,0.6,0.628125
+UWaveGestureLibrary,4,30,"QUANT + cross-channel views + Hydra, gated",0.93125,0.8,0.909375
+UWaveGestureLibrary,4,30,"QUANT + cross-channel views + Hydra, gated",0.93125,1.01,1.0
+UWaveGestureLibrary,0,90,QUANT,0.615625,,
+UWaveGestureLibrary,0,90,Hydra,0.6875,,
+UWaveGestureLibrary,0,90,QUANT + cross-channel views,0.653125,,
+UWaveGestureLibrary,0,90,"QUANT + Hydra, gated",0.615625,0.0,0.0
+UWaveGestureLibrary,0,90,"QUANT + Hydra, gated",0.625,0.05,0.18125
+UWaveGestureLibrary,0,90,"QUANT + Hydra, gated",0.65625,0.1,0.29375
+UWaveGestureLibrary,0,90,"QUANT + Hydra, gated",0.68125,0.15,0.4
+UWaveGestureLibrary,0,90,"QUANT + Hydra, gated",0.690625,0.2,0.5125
+UWaveGestureLibrary,0,90,"QUANT + Hydra, gated",0.7,0.3,0.621875
+UWaveGestureLibrary,0,90,"QUANT + Hydra, gated",0.7,0.4,0.765625
+UWaveGestureLibrary,0,90,"QUANT + Hydra, gated",0.696875,0.5,0.84375
+UWaveGestureLibrary,0,90,"QUANT + Hydra, gated",0.696875,0.6,0.88125
+UWaveGestureLibrary,0,90,"QUANT + Hydra, gated",0.696875,0.8,0.98125
+UWaveGestureLibrary,0,90,"QUANT + Hydra, gated",0.696875,1.01,1.0
+UWaveGestureLibrary,0,90,"QUANT + cross-channel views + Hydra, gated",0.653125,0.0,0.0
+UWaveGestureLibrary,0,90,"QUANT + cross-channel views + Hydra, gated",0.671875,0.05,0.146875
+UWaveGestureLibrary,0,90,"QUANT + cross-channel views + Hydra, gated",0.6875,0.1,0.290625
+UWaveGestureLibrary,0,90,"QUANT + cross-channel views + Hydra, gated",0.696875,0.15,0.40625
+UWaveGestureLibrary,0,90,"QUANT + cross-channel views + Hydra, gated",0.70625,0.2,0.50625
+UWaveGestureLibrary,0,90,"QUANT + cross-channel views + Hydra, gated",0.721875,0.3,0.628125
+UWaveGestureLibrary,0,90,"QUANT + cross-channel views + Hydra, gated",0.7125,0.4,0.75
+UWaveGestureLibrary,0,90,"QUANT + cross-channel views + Hydra, gated",0.7125,0.5,0.815625
+UWaveGestureLibrary,0,90,"QUANT + cross-channel views + Hydra, gated",0.7125,0.6,0.875
+UWaveGestureLibrary,0,90,"QUANT + cross-channel views + Hydra, gated",0.7125,0.8,0.978125
+UWaveGestureLibrary,0,90,"QUANT + cross-channel views + Hydra, gated",0.7125,1.01,1.0
+UWaveGestureLibrary,1,90,QUANT,0.6375,,
+UWaveGestureLibrary,1,90,Hydra,0.728125,,
+UWaveGestureLibrary,1,90,QUANT + cross-channel views,0.675,,
+UWaveGestureLibrary,1,90,"QUANT + Hydra, gated",0.6375,0.0,0.0
+UWaveGestureLibrary,1,90,"QUANT + Hydra, gated",0.6875,0.05,0.2125
+UWaveGestureLibrary,1,90,"QUANT + Hydra, gated",0.703125,0.1,0.315625
+UWaveGestureLibrary,1,90,"QUANT + Hydra, gated",0.709375,0.15,0.415625
+UWaveGestureLibrary,1,90,"QUANT + Hydra, gated",0.7125,0.2,0.49375
+UWaveGestureLibrary,1,90,"QUANT + Hydra, gated",0.725,0.3,0.64375
+UWaveGestureLibrary,1,90,"QUANT + Hydra, gated",0.721875,0.4,0.7875
+UWaveGestureLibrary,1,90,"QUANT + Hydra, gated",0.721875,0.5,0.89375
+UWaveGestureLibrary,1,90,"QUANT + Hydra, gated",0.721875,0.6,0.96875
+UWaveGestureLibrary,1,90,"QUANT + Hydra, gated",0.721875,0.8,1.0
+UWaveGestureLibrary,1,90,"QUANT + Hydra, gated",0.721875,1.01,1.0
+UWaveGestureLibrary,1,90,"QUANT + cross-channel views + Hydra, gated",0.675,0.0,0.0
+UWaveGestureLibrary,1,90,"QUANT + cross-channel views + Hydra, gated",0.740625,0.05,0.246875
+UWaveGestureLibrary,1,90,"QUANT + cross-channel views + Hydra, gated",0.753125,0.1,0.36875
+UWaveGestureLibrary,1,90,"QUANT + cross-channel views + Hydra, gated",0.75,0.15,0.46875
+UWaveGestureLibrary,1,90,"QUANT + cross-channel views + Hydra, gated",0.753125,0.2,0.565625
+UWaveGestureLibrary,1,90,"QUANT + cross-channel views + Hydra, gated",0.759375,0.3,0.690625
+UWaveGestureLibrary,1,90,"QUANT + cross-channel views + Hydra, gated",0.75625,0.4,0.8
+UWaveGestureLibrary,1,90,"QUANT + cross-channel views + Hydra, gated",0.75625,0.5,0.9
+UWaveGestureLibrary,1,90,"QUANT + cross-channel views + Hydra, gated",0.75625,0.6,0.95
+UWaveGestureLibrary,1,90,"QUANT + cross-channel views + Hydra, gated",0.75625,0.8,1.0
+UWaveGestureLibrary,1,90,"QUANT + cross-channel views + Hydra, gated",0.75625,1.01,1.0
+UWaveGestureLibrary,2,90,QUANT,0.678125,,
+UWaveGestureLibrary,2,90,Hydra,0.709375,,
+UWaveGestureLibrary,2,90,QUANT + cross-channel views,0.659375,,
+UWaveGestureLibrary,2,90,"QUANT + Hydra, gated",0.678125,0.0,0.0
+UWaveGestureLibrary,2,90,"QUANT + Hydra, gated",0.703125,0.05,0.159375
+UWaveGestureLibrary,2,90,"QUANT + Hydra, gated",0.70625,0.1,0.31875
+UWaveGestureLibrary,2,90,"QUANT + Hydra, gated",0.70625,0.15,0.415625
+UWaveGestureLibrary,2,90,"QUANT + Hydra, gated",0.7125,0.2,0.521875
+UWaveGestureLibrary,2,90,"QUANT + Hydra, gated",0.715625,0.3,0.65625
+UWaveGestureLibrary,2,90,"QUANT + Hydra, gated",0.715625,0.4,0.765625
+UWaveGestureLibrary,2,90,"QUANT + Hydra, gated",0.715625,0.5,0.878125
+UWaveGestureLibrary,2,90,"QUANT + Hydra, gated",0.715625,0.6,0.934375
+UWaveGestureLibrary,2,90,"QUANT + Hydra, gated",0.715625,0.8,1.0
+UWaveGestureLibrary,2,90,"QUANT + Hydra, gated",0.715625,1.01,1.0
+UWaveGestureLibrary,2,90,"QUANT + cross-channel views + Hydra, gated",0.659375,0.0,0.0
+UWaveGestureLibrary,2,90,"QUANT + cross-channel views + Hydra, gated",0.7,0.05,0.2
+UWaveGestureLibrary,2,90,"QUANT + cross-channel views + Hydra, gated",0.715625,0.1,0.346875
+UWaveGestureLibrary,2,90,"QUANT + cross-channel views + Hydra, gated",0.725,0.15,0.45
+UWaveGestureLibrary,2,90,"QUANT + cross-channel views + Hydra, gated",0.71875,0.2,0.515625
+UWaveGestureLibrary,2,90,"QUANT + cross-channel views + Hydra, gated",0.721875,0.3,0.6875
+UWaveGestureLibrary,2,90,"QUANT + cross-channel views + Hydra, gated",0.721875,0.4,0.79375
+UWaveGestureLibrary,2,90,"QUANT + cross-channel views + Hydra, gated",0.721875,0.5,0.878125
+UWaveGestureLibrary,2,90,"QUANT + cross-channel views + Hydra, gated",0.721875,0.6,0.934375
+UWaveGestureLibrary,2,90,"QUANT + cross-channel views + Hydra, gated",0.721875,0.8,0.99375
+UWaveGestureLibrary,2,90,"QUANT + cross-channel views + Hydra, gated",0.721875,1.01,1.0
+UWaveGestureLibrary,3,90,QUANT,0.640625,,
+UWaveGestureLibrary,3,90,Hydra,0.70625,,
+UWaveGestureLibrary,3,90,QUANT + cross-channel views,0.709375,,
+UWaveGestureLibrary,3,90,"QUANT + Hydra, gated",0.640625,0.0,0.0
+UWaveGestureLibrary,3,90,"QUANT + Hydra, gated",0.709375,0.05,0.1875
+UWaveGestureLibrary,3,90,"QUANT + Hydra, gated",0.71875,0.1,0.31875
+UWaveGestureLibrary,3,90,"QUANT + Hydra, gated",0.734375,0.15,0.44375
+UWaveGestureLibrary,3,90,"QUANT + Hydra, gated",0.740625,0.2,0.5375
+UWaveGestureLibrary,3,90,"QUANT + Hydra, gated",0.728125,0.3,0.721875
+UWaveGestureLibrary,3,90,"QUANT + Hydra, gated",0.728125,0.4,0.828125
+UWaveGestureLibrary,3,90,"QUANT + Hydra, gated",0.728125,0.5,0.890625
+UWaveGestureLibrary,3,90,"QUANT + Hydra, gated",0.728125,0.6,0.959375
+UWaveGestureLibrary,3,90,"QUANT + Hydra, gated",0.728125,0.8,0.990625
+UWaveGestureLibrary,3,90,"QUANT + Hydra, gated",0.728125,1.01,1.0
+UWaveGestureLibrary,3,90,"QUANT + cross-channel views + Hydra, gated",0.709375,0.0,0.0
+UWaveGestureLibrary,3,90,"QUANT + cross-channel views + Hydra, gated",0.73125,0.05,0.171875
+UWaveGestureLibrary,3,90,"QUANT + cross-channel views + Hydra, gated",0.7375,0.1,0.275
+UWaveGestureLibrary,3,90,"QUANT + cross-channel views + Hydra, gated",0.728125,0.15,0.39375
+UWaveGestureLibrary,3,90,"QUANT + cross-channel views + Hydra, gated",0.73125,0.2,0.484375
+UWaveGestureLibrary,3,90,"QUANT + cross-channel views + Hydra, gated",0.7375,0.3,0.6875
+UWaveGestureLibrary,3,90,"QUANT + cross-channel views + Hydra, gated",0.7375,0.4,0.815625
+UWaveGestureLibrary,3,90,"QUANT + cross-channel views + Hydra, gated",0.7375,0.5,0.9
+UWaveGestureLibrary,3,90,"QUANT + cross-channel views + Hydra, gated",0.7375,0.6,0.953125
+UWaveGestureLibrary,3,90,"QUANT + cross-channel views + Hydra, gated",0.7375,0.8,0.990625
+UWaveGestureLibrary,3,90,"QUANT + cross-channel views + Hydra, gated",0.7375,1.01,1.0
+UWaveGestureLibrary,4,90,QUANT,0.678125,,
+UWaveGestureLibrary,4,90,Hydra,0.734375,,
+UWaveGestureLibrary,4,90,QUANT + cross-channel views,0.734375,,
+UWaveGestureLibrary,4,90,"QUANT + Hydra, gated",0.678125,0.0,0.0
+UWaveGestureLibrary,4,90,"QUANT + Hydra, gated",0.740625,0.05,0.209375
+UWaveGestureLibrary,4,90,"QUANT + Hydra, gated",0.746875,0.1,0.371875
+UWaveGestureLibrary,4,90,"QUANT + Hydra, gated",0.746875,0.15,0.459375
+UWaveGestureLibrary,4,90,"QUANT + Hydra, gated",0.75,0.2,0.540625
+UWaveGestureLibrary,4,90,"QUANT + Hydra, gated",0.753125,0.3,0.690625
+UWaveGestureLibrary,4,90,"QUANT + Hydra, gated",0.746875,0.4,0.809375
+UWaveGestureLibrary,4,90,"QUANT + Hydra, gated",0.746875,0.5,0.9
+UWaveGestureLibrary,4,90,"QUANT + Hydra, gated",0.746875,0.6,0.959375
+UWaveGestureLibrary,4,90,"QUANT + Hydra, gated",0.746875,0.8,0.996875
+UWaveGestureLibrary,4,90,"QUANT + Hydra, gated",0.746875,1.01,1.0
+UWaveGestureLibrary,4,90,"QUANT + cross-channel views + Hydra, gated",0.734375,0.0,0.0
+UWaveGestureLibrary,4,90,"QUANT + cross-channel views + Hydra, gated",0.75625,0.05,0.190625
+UWaveGestureLibrary,4,90,"QUANT + cross-channel views + Hydra, gated",0.75,0.1,0.303125
+UWaveGestureLibrary,4,90,"QUANT + cross-channel views + Hydra, gated",0.753125,0.15,0.396875
+UWaveGestureLibrary,4,90,"QUANT + cross-channel views + Hydra, gated",0.753125,0.2,0.496875
+UWaveGestureLibrary,4,90,"QUANT + cross-channel views + Hydra, gated",0.753125,0.3,0.684375
+UWaveGestureLibrary,4,90,"QUANT + cross-channel views + Hydra, gated",0.753125,0.4,0.790625
+UWaveGestureLibrary,4,90,"QUANT + cross-channel views + Hydra, gated",0.75,0.5,0.903125
+UWaveGestureLibrary,4,90,"QUANT + cross-channel views + Hydra, gated",0.75,0.6,0.953125
+UWaveGestureLibrary,4,90,"QUANT + cross-channel views + Hydra, gated",0.75,0.8,0.990625
+UWaveGestureLibrary,4,90,"QUANT + cross-channel views + Hydra, gated",0.75,1.01,1.0
+UWaveGestureLibrary,0,180,QUANT,0.403125,,
+UWaveGestureLibrary,0,180,Hydra,0.5,,
+UWaveGestureLibrary,0,180,QUANT + cross-channel views,0.425,,
+UWaveGestureLibrary,0,180,"QUANT + Hydra, gated",0.403125,0.0,0.0
+UWaveGestureLibrary,0,180,"QUANT + Hydra, gated",0.478125,0.05,0.346875
+UWaveGestureLibrary,0,180,"QUANT + Hydra, gated",0.509375,0.1,0.540625
+UWaveGestureLibrary,0,180,"QUANT + Hydra, gated",0.5125,0.15,0.659375
+UWaveGestureLibrary,0,180,"QUANT + Hydra, gated",0.521875,0.2,0.76875
+UWaveGestureLibrary,0,180,"QUANT + Hydra, gated",0.521875,0.3,0.8625
+UWaveGestureLibrary,0,180,"QUANT + Hydra, gated",0.51875,0.4,0.9125
+UWaveGestureLibrary,0,180,"QUANT + Hydra, gated",0.51875,0.5,0.921875
+UWaveGestureLibrary,0,180,"QUANT + Hydra, gated",0.51875,0.6,0.94375
+UWaveGestureLibrary,0,180,"QUANT + Hydra, gated",0.51875,0.8,0.99375
+UWaveGestureLibrary,0,180,"QUANT + Hydra, gated",0.51875,1.01,1.0
+UWaveGestureLibrary,0,180,"QUANT + cross-channel views + Hydra, gated",0.425,0.0,0.0
+UWaveGestureLibrary,0,180,"QUANT + cross-channel views + Hydra, gated",0.46875,0.05,0.221875
+UWaveGestureLibrary,0,180,"QUANT + cross-channel views + Hydra, gated",0.50625,0.1,0.40625
+UWaveGestureLibrary,0,180,"QUANT + cross-channel views + Hydra, gated",0.528125,0.15,0.578125
+UWaveGestureLibrary,0,180,"QUANT + cross-channel views + Hydra, gated",0.53125,0.2,0.70625
+UWaveGestureLibrary,0,180,"QUANT + cross-channel views + Hydra, gated",0.528125,0.3,0.809375
+UWaveGestureLibrary,0,180,"QUANT + cross-channel views + Hydra, gated",0.528125,0.4,0.865625
+UWaveGestureLibrary,0,180,"QUANT + cross-channel views + Hydra, gated",0.528125,0.5,0.9
+UWaveGestureLibrary,0,180,"QUANT + cross-channel views + Hydra, gated",0.528125,0.6,0.925
+UWaveGestureLibrary,0,180,"QUANT + cross-channel views + Hydra, gated",0.528125,0.8,0.9875
+UWaveGestureLibrary,0,180,"QUANT + cross-channel views + Hydra, gated",0.528125,1.01,1.0
+UWaveGestureLibrary,1,180,QUANT,0.428125,,
+UWaveGestureLibrary,1,180,Hydra,0.509375,,
+UWaveGestureLibrary,1,180,QUANT + cross-channel views,0.475,,
+UWaveGestureLibrary,1,180,"QUANT + Hydra, gated",0.428125,0.0,0.0
+UWaveGestureLibrary,1,180,"QUANT + Hydra, gated",0.478125,0.05,0.34375
+UWaveGestureLibrary,1,180,"QUANT + Hydra, gated",0.50625,0.1,0.5625
+UWaveGestureLibrary,1,180,"QUANT + Hydra, gated",0.521875,0.15,0.690625
+UWaveGestureLibrary,1,180,"QUANT + Hydra, gated",0.521875,0.2,0.7875
+UWaveGestureLibrary,1,180,"QUANT + Hydra, gated",0.51875,0.3,0.8875
+UWaveGestureLibrary,1,180,"QUANT + Hydra, gated",0.51875,0.4,0.95625
+UWaveGestureLibrary,1,180,"QUANT + Hydra, gated",0.51875,0.5,0.984375
+UWaveGestureLibrary,1,180,"QUANT + Hydra, gated",0.51875,0.6,1.0
+UWaveGestureLibrary,1,180,"QUANT + Hydra, gated",0.51875,0.8,1.0
+UWaveGestureLibrary,1,180,"QUANT + Hydra, gated",0.51875,1.01,1.0
+UWaveGestureLibrary,1,180,"QUANT + cross-channel views + Hydra, gated",0.475,0.0,0.0
+UWaveGestureLibrary,1,180,"QUANT + cross-channel views + Hydra, gated",0.528125,0.05,0.3
+UWaveGestureLibrary,1,180,"QUANT + cross-channel views + Hydra, gated",0.528125,0.1,0.5125
+UWaveGestureLibrary,1,180,"QUANT + cross-channel views + Hydra, gated",0.540625,0.15,0.64375
+UWaveGestureLibrary,1,180,"QUANT + cross-channel views + Hydra, gated",0.5375,0.2,0.7375
+UWaveGestureLibrary,1,180,"QUANT + cross-channel views + Hydra, gated",0.534375,0.3,0.840625
+UWaveGestureLibrary,1,180,"QUANT + cross-channel views + Hydra, gated",0.534375,0.4,0.9
+UWaveGestureLibrary,1,180,"QUANT + cross-channel views + Hydra, gated",0.534375,0.5,0.953125
+UWaveGestureLibrary,1,180,"QUANT + cross-channel views + Hydra, gated",0.534375,0.6,0.965625
+UWaveGestureLibrary,1,180,"QUANT + cross-channel views + Hydra, gated",0.534375,0.8,1.0
+UWaveGestureLibrary,1,180,"QUANT + cross-channel views + Hydra, gated",0.534375,1.01,1.0
+UWaveGestureLibrary,2,180,QUANT,0.4125,,
+UWaveGestureLibrary,2,180,Hydra,0.509375,,
+UWaveGestureLibrary,2,180,QUANT + cross-channel views,0.4875,,
+UWaveGestureLibrary,2,180,"QUANT + Hydra, gated",0.4125,0.0,0.0
+UWaveGestureLibrary,2,180,"QUANT + Hydra, gated",0.475,0.05,0.321875
+UWaveGestureLibrary,2,180,"QUANT + Hydra, gated",0.49375,0.1,0.5125
+UWaveGestureLibrary,2,180,"QUANT + Hydra, gated",0.50625,0.15,0.640625
+UWaveGestureLibrary,2,180,"QUANT + Hydra, gated",0.509375,0.2,0.734375
+UWaveGestureLibrary,2,180,"QUANT + Hydra, gated",0.509375,0.3,0.85625
+UWaveGestureLibrary,2,180,"QUANT + Hydra, gated",0.5125,0.4,0.925
+UWaveGestureLibrary,2,180,"QUANT + Hydra, gated",0.5125,0.5,0.975
+UWaveGestureLibrary,2,180,"QUANT + Hydra, gated",0.5125,0.6,0.99375
+UWaveGestureLibrary,2,180,"QUANT + Hydra, gated",0.5125,0.8,1.0
+UWaveGestureLibrary,2,180,"QUANT + Hydra, gated",0.5125,1.01,1.0
+UWaveGestureLibrary,2,180,"QUANT + cross-channel views + Hydra, gated",0.4875,0.0,0.0
+UWaveGestureLibrary,2,180,"QUANT + cross-channel views + Hydra, gated",0.51875,0.05,0.265625
+UWaveGestureLibrary,2,180,"QUANT + cross-channel views + Hydra, gated",0.534375,0.1,0.446875
+UWaveGestureLibrary,2,180,"QUANT + cross-channel views + Hydra, gated",0.528125,0.15,0.6
+UWaveGestureLibrary,2,180,"QUANT + cross-channel views + Hydra, gated",0.53125,0.2,0.675
+UWaveGestureLibrary,2,180,"QUANT + cross-channel views + Hydra, gated",0.546875,0.3,0.809375
+UWaveGestureLibrary,2,180,"QUANT + cross-channel views + Hydra, gated",0.540625,0.4,0.878125
+UWaveGestureLibrary,2,180,"QUANT + cross-channel views + Hydra, gated",0.540625,0.5,0.93125
+UWaveGestureLibrary,2,180,"QUANT + cross-channel views + Hydra, gated",0.540625,0.6,0.959375
+UWaveGestureLibrary,2,180,"QUANT + cross-channel views + Hydra, gated",0.540625,0.8,1.0
+UWaveGestureLibrary,2,180,"QUANT + cross-channel views + Hydra, gated",0.540625,1.01,1.0
+UWaveGestureLibrary,3,180,QUANT,0.409375,,
+UWaveGestureLibrary,3,180,Hydra,0.496875,,
+UWaveGestureLibrary,3,180,QUANT + cross-channel views,0.540625,,
+UWaveGestureLibrary,3,180,"QUANT + Hydra, gated",0.409375,0.0,0.0
+UWaveGestureLibrary,3,180,"QUANT + Hydra, gated",0.4625,0.05,0.340625
+UWaveGestureLibrary,3,180,"QUANT + Hydra, gated",0.509375,0.1,0.621875
+UWaveGestureLibrary,3,180,"QUANT + Hydra, gated",0.515625,0.15,0.74375
+UWaveGestureLibrary,3,180,"QUANT + Hydra, gated",0.521875,0.2,0.803125
+UWaveGestureLibrary,3,180,"QUANT + Hydra, gated",0.521875,0.3,0.890625
+UWaveGestureLibrary,3,180,"QUANT + Hydra, gated",0.521875,0.4,0.940625
+UWaveGestureLibrary,3,180,"QUANT + Hydra, gated",0.521875,0.5,0.95625
+UWaveGestureLibrary,3,180,"QUANT + Hydra, gated",0.521875,0.6,0.975
+UWaveGestureLibrary,3,180,"QUANT + Hydra, gated",0.521875,0.8,1.0
+UWaveGestureLibrary,3,180,"QUANT + Hydra, gated",0.521875,1.01,1.0
+UWaveGestureLibrary,3,180,"QUANT + cross-channel views + Hydra, gated",0.540625,0.0,0.0
+UWaveGestureLibrary,3,180,"QUANT + cross-channel views + Hydra, gated",0.571875,0.05,0.31875
+UWaveGestureLibrary,3,180,"QUANT + cross-channel views + Hydra, gated",0.5625,0.1,0.50625
+UWaveGestureLibrary,3,180,"QUANT + cross-channel views + Hydra, gated",0.565625,0.15,0.621875
+UWaveGestureLibrary,3,180,"QUANT + cross-channel views + Hydra, gated",0.55625,0.2,0.70625
+UWaveGestureLibrary,3,180,"QUANT + cross-channel views + Hydra, gated",0.546875,0.3,0.834375
+UWaveGestureLibrary,3,180,"QUANT + cross-channel views + Hydra, gated",0.54375,0.4,0.8875
+UWaveGestureLibrary,3,180,"QUANT + cross-channel views + Hydra, gated",0.54375,0.5,0.934375
+UWaveGestureLibrary,3,180,"QUANT + cross-channel views + Hydra, gated",0.54375,0.6,0.946875
+UWaveGestureLibrary,3,180,"QUANT + cross-channel views + Hydra, gated",0.54375,0.8,0.99375
+UWaveGestureLibrary,3,180,"QUANT + cross-channel views + Hydra, gated",0.54375,1.01,1.0
+UWaveGestureLibrary,4,180,QUANT,0.41875,,
+UWaveGestureLibrary,4,180,Hydra,0.5,,
+UWaveGestureLibrary,4,180,QUANT + cross-channel views,0.571875,,
+UWaveGestureLibrary,4,180,"QUANT + Hydra, gated",0.41875,0.0,0.0
+UWaveGestureLibrary,4,180,"QUANT + Hydra, gated",0.4625,0.05,0.3125
+UWaveGestureLibrary,4,180,"QUANT + Hydra, gated",0.46875,0.1,0.51875
+UWaveGestureLibrary,4,180,"QUANT + Hydra, gated",0.490625,0.15,0.6625
+UWaveGestureLibrary,4,180,"QUANT + Hydra, gated",0.5,0.2,0.778125
+UWaveGestureLibrary,4,180,"QUANT + Hydra, gated",0.503125,0.3,0.90625
+UWaveGestureLibrary,4,180,"QUANT + Hydra, gated",0.503125,0.4,0.959375
+UWaveGestureLibrary,4,180,"QUANT + Hydra, gated",0.503125,0.5,0.990625
+UWaveGestureLibrary,4,180,"QUANT + Hydra, gated",0.503125,0.6,0.996875
+UWaveGestureLibrary,4,180,"QUANT + Hydra, gated",0.503125,0.8,1.0
+UWaveGestureLibrary,4,180,"QUANT + Hydra, gated",0.503125,1.01,1.0
+UWaveGestureLibrary,4,180,"QUANT + cross-channel views + Hydra, gated",0.571875,0.0,0.0
+UWaveGestureLibrary,4,180,"QUANT + cross-channel views + Hydra, gated",0.54375,0.05,0.296875
+UWaveGestureLibrary,4,180,"QUANT + cross-channel views + Hydra, gated",0.528125,0.1,0.48125
+UWaveGestureLibrary,4,180,"QUANT + cross-channel views + Hydra, gated",0.528125,0.15,0.634375
+UWaveGestureLibrary,4,180,"QUANT + cross-channel views + Hydra, gated",0.534375,0.2,0.74375
+UWaveGestureLibrary,4,180,"QUANT + cross-channel views + Hydra, gated",0.5375,0.3,0.8375
+UWaveGestureLibrary,4,180,"QUANT + cross-channel views + Hydra, gated",0.5375,0.4,0.93125
+UWaveGestureLibrary,4,180,"QUANT + cross-channel views + Hydra, gated",0.5375,0.5,0.96875
+UWaveGestureLibrary,4,180,"QUANT + cross-channel views + Hydra, gated",0.5375,0.6,0.98125
+UWaveGestureLibrary,4,180,"QUANT + cross-channel views + Hydra, gated",0.5375,0.8,1.0
+UWaveGestureLibrary,4,180,"QUANT + cross-channel views + Hydra, gated",0.5375,1.01,1.0

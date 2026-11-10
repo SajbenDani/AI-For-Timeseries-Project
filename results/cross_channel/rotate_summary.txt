@@ -1,0 +1,24 @@
+Rotation stress test: 6 3-axis sensor datasets x 5 resamples, every series tilted at random by
+up to 30, 90 or 180 degrees (train and test). Mean accuracy (%).
+
+                                       0 deg  30 deg  90 deg  180 deg  lost (0 -> 180)
+QUANT                                  85.63   84.19   74.83    67.54            18.09
+Hydra                                  87.89   85.84   76.99    69.12            18.77
+Idea 18 (QUANT + Hydra, gated)         88.29   86.57   78.25    71.51            16.78
+Idea 19 (QUANT + cross-channel views)  85.92   84.58   78.22    73.59            12.32
+Ideas 18 + 19 (views + Hydra, gated)   88.27   86.90   79.66    74.03            14.24
+
+At 180 deg, Hydra vs QUANT: +1.58 pts, W/D/L 4/0/2, Wilcoxon p=0.69
+At 180 deg, Idea 18 (QUANT + Hydra, gated) vs QUANT: +3.97 pts, W/D/L 6/0/0, Wilcoxon p=0.031
+At 180 deg, Idea 19 (QUANT + cross-channel views) vs QUANT: +6.05 pts, W/D/L 6/0/0, Wilcoxon p=0.031
+At 180 deg, Ideas 18 + 19 (views + Hydra, gated) vs QUANT: +6.49 pts, W/D/L 6/0/0, Wilcoxon p=0.031
+
+Per dataset at 180 deg (%):
+                     QUANT  Hydra  Idea 18 (QUANT + Hydra, gated)  Idea 19 (QUANT + cross-channel views)  Ideas 18 + 19 (views + Hydra, gated)
+dataset                                                                                                                                       
+BasicMotions         99.50  96.00                          100.00                                 100.00                                100.00
+Cricket              87.22  90.28                           93.61                                  97.78                                 97.22
+Epilepsy             94.64  96.23                           96.23                                  97.54                                 97.83
+Handwriting          14.28  16.12                           17.60                                  18.21                                 19.93
+RacketSports         68.16  65.79                           70.13                                  78.03                                 75.53
+UWaveGestureLibrary  41.44  50.31                           51.50                                  50.00                                 53.69

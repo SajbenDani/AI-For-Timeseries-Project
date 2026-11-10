@@ -28,7 +28,7 @@ The most promising ways to improve QUANT. Ideas 1–10 are ranked by expected im
 | 16 | *Efficient approach:* shape-aware Fourier view (a slice of the bispectrum) | QUANT's position-free view is blind to shape | Low | Medium | Yes (bispectra used only as 2-D images for CNNs) | **Done: did not help** (+0.11, p = 0.24; but +1.0 on gestures; ×1.16 runtime) |
 | 17 | *Efficient approach:* rank-uniform splits for ExtraTrees | A third of QUANT's features get lopsided random splits | Very low | Low | For ExtraTrees, yes (the transform is known for ordinary trees) | **Done: did not help** (−0.09 pts, p = 0.05; ×1.16 runtime) |
 | 18 | *Efficient approach:* second opinion only when needed (gated QUANT + Hydra) | The ensemble's 4–6× cost | Low-medium | Low | For TSC, yes | **Done: success** (87.16%, +1.8 pts: 95% of the ensemble's gain at ×2.1 QUANT's time; smaller Hydra: +1.3 at ×1.27). **Multivariate** (19 UEA datasets × 5 resamples): 75.59% vs QUANT's 74.18%, +1.4 pts, 11/5/3, p = 0.033 |
-| 19 | *Multivariate:* cross-channel views (magnitude, channel differences, main PCA direction) | QUANT treats each channel alone: blind to how channels move together and to sensor rotation | Low-medium | Medium | Yes | Not done |
+| 19 | *Multivariate:* cross-channel views (magnitude, channel differences, main PCA direction) | QUANT treats each channel alone: blind to how channels move together and to sensor rotation | Low-medium | Medium | Yes | **Done: success** (19 UEA datasets × 5: 76.80% vs QUANT's 74.18%, +2.6 pts, 13/1/5, p = 0.031; with idea 18: 77.78%, +3.6 pts, p = 0.001. Rotation stress test, 6 sensor datasets: loses 12.3 pts at 180° instead of QUANT's 18.1, +6.1 pts ahead, 6/0/0) |
 
 **Suggested order:**
 1. Start with **5 and 6**. They are cheap tests of the "position" diagnosis.
@@ -442,6 +442,7 @@ Almost everything QUANT computes depends on *when* things happen. The exceptions
 
 
 ## 19. Cross-channel views for multivariate data
+> **Status: done. Success.** On 19 UEA datasets × 5 resamples: 74.18% → 76.80% (+2.62 pts), better on 13 / worse on 5, p = 0.031. The gain comes from the channel differences and the main direction of all channels (HandMovementDirection +23.8, NATOPS +8.5, EthanolConcentration +5.1); on the 6 sensor datasets, already near their ceiling, it adds +0.3. The gains stack with idea 18: 77.78% (+3.60 pts, 15/1/3, p = 0.001; +2.19 over idea 18 alone, p = 0.032). **Rotation stress test** (6 sensor datasets, every series tilted by up to 30°, 90°, 180°): QUANT loses 18.1 pts at 180°, idea 19 12.3; at 180° idea 19 is +6.1 pts ahead, better on all 6 (p = 0.031), and ahead of idea 18 (73.6% vs 71.5%). Handwriting and UWaveGestureLibrary drop for every method, since there the direction itself is the class. Code: `scripts/cross_channel_tests.py`; results: `results/cross_channel/`.
 
 **What.** On multivariate data, QUANT computes its features on each channel alone and joins them. Add views that mix channels, next to QUANT's own, with QUANT's usual windows and quantiles on top:
 - **Magnitude** √(x² + y² + z²) for each 3-axis sensor: unchanged when the sensor is rotated.
