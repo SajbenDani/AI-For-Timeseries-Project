@@ -1,0 +1,16 @@
+Idea 13: QUANT's features with another classifier (ExtraTrees = plain QUANT)
+
+QUANT features + Random Forest: 142 datasets x 10 resamples
+  QUANT (ExtraTrees) 85.36%   Random Forest 84.09%
+  change -1.27 pts   W/D/L 14/8/120   Wilcoxon p=2.1e-18
+  training time vs ExtraTrees (total over datasets): x1.5
+  largest gains (pts): Rock +2.4, ShakeGestureWiimoteZEq +2.0, Herring +1.7, Ham +0.9, GestureMidAirD2Eq +0.8
+  largest losses (pts): PigAirwayPressure -12.2, PigCVP -8.7, DodgerLoopGameNmv -6.8, SemgHandMovementCh2 -5.7, InlineSkate -5.6
+
+QUANT features + LightGBM: 142 datasets x 10 resamples
+  QUANT (ExtraTrees) 85.36%   LightGBM 82.66%
+  change -2.70 pts   W/D/L 26/3/113   Wilcoxon p=9.9e-15
+  training time vs ExtraTrees (total over datasets): x4.3
+  largest gains (pts): ElectricDevices +1.6, LargeKitchenAppliances +1.5, BeetleFly +1.5, Herring +1.1, SmoothSubspace +0.9
+  largest losses (pts): PigArtPressure -50.3, PigCVP -49.1, FiftyWords -34.6, PigAirwayPressure -25.1, Phoneme -14.1
+

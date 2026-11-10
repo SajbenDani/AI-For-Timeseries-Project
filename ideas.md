@@ -22,7 +22,7 @@ The most promising ways to improve QUANT. Ideas 1–10 are ranked by expected im
 | 10 | Native variable-length QUANT (windows relative to each series' length) | Padding (costs ~8 points) | Medium | Low | Yes (aeon can't do it) | **Done: partial success** (padded + native: +2.0 pts on the 11 mostly-gesture datasets, but only +0.2 on 3 fresh datasets; native alone +0.1) |
 | 11 | Multi-scale differences ("wavelet-like" views) | Change at medium speeds, located in time | Low | Low | For QUANT, yes | Not done |
 | 12 | Order-aware counts per window (mean crossings, peaks, slope) | Quantiles ignore the order of values inside a window | Low | Low | For QUANT, yes | **Done: did not help** (+0.04 pts, 68/16/58, p = 0.24; all per-dataset changes within ±2.3 pts) |
-| 13 | Quick classifier check: Random Forest, LightGBM | Completes the "which classifier?" comparison | Low | Low (expect small gains) | No | Not done |
+| 13 | Quick classifier check: Random Forest, LightGBM | Completes the "which classifier?" comparison | Low | Low (expect small gains) | No | **Done: did not help** (Random Forest −1.27 pts, 14/8/120, p = 2e-18; LightGBM −2.70 pts, 26/3/113, p = 1e-14, up to −50 pts on the many-class Pig datasets). ExtraTrees stays the best choice |
 | 14 | *Efficient approach:* speed-invariant quantiles (values weighted by how much the series moves) | The same movement made at different speeds (gestures, handwriting) | Low-medium | Medium | Yes | **Done: success (small)** (+0.14 pts, p = 0.006; +0.5 where elastic methods win; ×1.33 runtime) |
 | 15 | *Efficient approach:* cycle view: fold repeating series into one typical cycle | Position and rate in repeating signals (Pig, appliances) | Medium | Medium | Yes (folding is done by hand in astronomy) | **Done: did not help** (±0.00; but +1.5 pts under random shifts; ×1.19 runtime) |
 | 16 | *Efficient approach:* shape-aware Fourier view (a slice of the bispectrum) | QUANT's position-free view is blind to shape | Low | Medium | Yes (bispectra used only as 2-D images for CNNs) | **Done: did not help** (+0.11, p = 0.24; but +1.0 on gestures; ×1.16 runtime) |
@@ -282,6 +282,8 @@ A log-spectrum would add little. Taking the log doesn't change the order of valu
 **How to test.** Run 142 × 30. Check that the forest actually uses the counts (feature importances) and how much extra time they cost.
 
 ## 13. Quick classifier check: Random Forest and LightGBM
+
+> **Status: done. Did not help.** Same QUANT features, only the classifier swapped (142 datasets × 10 resamples). **Random Forest** (QUANT's settings: 200 trees, 10% of features, entropy): 84.09% vs 85.36%, −1.27 pts, worse on 120 / better on 14, p = 2e-18; about 1.5× ExtraTrees' training time. Worst: PigAirwayPressure −12.2, PigCVP −8.7. **LightGBM** (200 rounds, 10% of features per tree, leaves of at least 2): 82.66%, −2.70 pts, worse on 113 / better on 26, p = 1e-14; much slower (about 4×, measured partly in low-power mode). It collapses where there are many classes and few examples: PigArtPressure −50.3, PigCVP −49.1, FiftyWords −34.6. ExtraTrees' random split points suit QUANT's many correlated features and small training sets best. Code: `scripts/classifier_tests.py`; results: `results/classifiers/summary.txt`.
 
 **What.** Keep QUANT's features and swap only the classifier: a Random Forest with the same settings, and LightGBM (gradient boosting).
 

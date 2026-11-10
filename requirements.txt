@@ -9,3 +9,4 @@ tqdm==4.70.1
 gdown==6.4.1
 matplotlib==3.11.2
 aeon==1.6.0
+lightgbm==4.7.0
