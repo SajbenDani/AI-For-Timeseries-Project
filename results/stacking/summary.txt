@@ -1,0 +1,11 @@
+Do the gains stack? 142 datasets x 10 resamples; two-level gate at gap < 0.4, Hydra only if >= 10% of test series unsure
+
+QUANT                                       85.36%
+Ideas 1 + 14 (pooled + speed quantiles)     85.79%   vs QUANT: +0.43 pts, 91/13/38, p=1.1e-06
+Idea 18 (QUANT + Hydra, gated)              87.22%   vs QUANT: +1.86 pts, 89/27/26, p=3.5e-11
+Ideas 1 + 14 + 18 (stacked)                 87.47%   vs QUANT: +2.11 pts, 105/11/26, p=1.1e-14   vs Idea 18: +0.25 pts, 91/14/37, p=3.6e-08
+Hydra asked (idea 18): 30% of test series, used on 76% of datasets
+Hydra asked (stacked): 29% of test series, used on 73% of datasets
+
+Stacked vs idea 18, largest gains (pts): FloodModeling3Discrete +4.2, PigAirwayPressure +3.0, FloodModeling1Discrete +2.3, SemgHandMovementCh2 +2.3, SemgHandSubjectCh2 +1.9
+Stacked vs idea 18, largest losses (pts): GestureMidAirD3Eq -0.5, TwoLeadECG -0.4, ECG200 -0.4, DistalPhalanxOutlineCorrect -0.4, Colposcopy -0.4

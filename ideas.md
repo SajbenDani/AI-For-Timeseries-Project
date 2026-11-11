@@ -30,14 +30,36 @@ The most promising ways to improve QUANT. Ideas 1–10 are ranked by expected im
 | 18 | *Efficient approach:* second opinion only when needed (gated QUANT + Hydra) | The ensemble's 4–6× cost | Low-medium | Low | For TSC, yes | **Done: success** (87.16%, +1.8 pts: 95% of the ensemble's gain at ×2.1 QUANT's time; smaller Hydra: +1.3 at ×1.27). **Multivariate** (19 UEA datasets × 5 resamples): 75.59% vs QUANT's 74.18%, +1.4 pts, 11/5/3, p = 0.033 |
 | 19 | *Multivariate:* cross-channel views (magnitude, channel differences, main PCA direction) | QUANT treats each channel alone: blind to how channels move together and to sensor rotation | Low-medium | Medium | Yes | **Done: success** (19 UEA datasets × 5: 76.80% vs QUANT's 74.18%, +2.6 pts, 13/1/5, p = 0.031; with idea 18: 77.78%, +3.6 pts, p = 0.001. Rotation stress test, 6 sensor datasets: loses 12.3 pts at 180° instead of QUANT's 18.1, +6.1 pts ahead, 6/0/0) |
 
-**Suggested order:**
-1. Start with **5 and 6**. They are cheap tests of the "position" diagnosis.
-2. Then build **1 or 2**, the main research contribution.
-3. Use **3** as a strong, safe baseline.
-4. Add **4** if we can get a free GPU (Kaggle / Colab).
-5. **9** and **10** are good secondary contributions (speed, new capability).
-6. **11–13** are cheap add-ons. Run 11 and 12 together with 7 (they are all "new view / new feature" changes), and 13 alongside 4 and 8 (they are all classifier changes).
-7. **14–18 (efficient approaches)** keep QUANT cheap. Start with **17** (a few lines of code, no extra runtime). Then do **15 and 16** (new views, run with the same code as ideas 1 and 2), **18** (reuses the ensemble code) and **14**.
+**Where things stand:** every idea except 4, 6 and 8 has been tested; results and explanations are in [report.md](report.md) and the paper.
+
+| What worked (142 datasets × first 10 resamples) | Accuracy | vs QUANT | Cost vs QUANT |
+|---|---|---|---|
+| QUANT | 85.36% | | 1× |
+| Idea 14: speed quantiles | 85.50% | +0.14 | 1.33× |
+| Idea 9: keep the top 25% of features | 85.65% | +0.29 | 0.6× (training only) |
+| Idea 1: pooled quantiles | 85.75% | +0.39 | 1.4× |
+| Idea 2: convolution quantiles | 85.76% | +0.40 | 4.0× |
+| Ideas 1 + 14 together | 85.79% | +0.43 | not timed |
+| Idea 18: QUANT + Hydra, gated, small Hydra | 86.63% | +1.27 | 1.27× |
+| Idea 18: QUANT + Hydra, gated | 87.16% | +1.80 | 2.1× |
+| Idea 3: QUANT + Hydra, always (equal weights) | 87.25% | +1.89 | 4.1× |
+| Idea 3: QUANT + Hydra, always (weighted) | 87.39% | +2.03 | 5.8× |
+| **Ideas 1 + 14 + 18 stacked*** | **87.47%** | **+2.11** | not timed |
+| *MultiRocket+Hydra (bake-off redux, same splits)* | *87.06%* | *+1.70* | *≈5×* |
+| *HIVE-COTE 2 (bake-off redux, same splits)* | *87.53%* | *+2.17* | *weeks* |
+
+\*Fixed gate setting (gap < 0.4, Hydra only if ≥ 10% of a dataset's test series are unsure). At the same setting idea 18 alone gives 87.22%, so stacking adds +0.25 pts (91/14/37, p = 4e-8), and no dataset loses more than 0.5 pts. Code: `scripts/stacking_tests.py`; results: `results/stacking/summary.txt`.
+
+Idea 10 (padded + native windows) is not in this table because it was tested only on the 11 variable-length datasets: +2.0 pts there, +0.2 on 3 fresh ones.
+
+| Multivariate (19 UEA datasets × 5 resamples) | Accuracy | vs QUANT |
+|---|---|---|
+| QUANT | 74.18% | |
+| Idea 18: QUANT + Hydra, gated | 75.59% | +1.41 (11/5/3, p = 0.033) |
+| **Idea 19: cross-channel views** | **76.80%** | **+2.62** (13/1/5, p = 0.031) |
+| **Ideas 18 + 19** | **77.78%** | **+3.60** (15/1/3, p = 0.001) |
+
+Rotation stress test (6 datasets with 3-axis sensors, every series tilted by up to 180°): QUANT loses 18.1 pts, idea 19 only 12.3 (+6.1 pts ahead, better on all 6). See idea 19.
 
 ---
 
