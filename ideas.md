@@ -18,7 +18,7 @@ The most promising ways to improve QUANT. Ideas 1–10 are ranked by expected im
 | 6 | Align series before windowing (cross-correlation / phase alignment) | Position; periodic signals | Low-medium | Medium | For QUANT, yes | Not done |
 | 7 | Phase-invariant representations (autocorrelation, AR coefficients) | Periodic signals with random phase | Low | Low | Partly (rSTSF uses AR) | **Done: did not help on average** (+0.25 pts, 70/13/59, p = 0.095), but large gains on the periodic Pig datasets (PigCVP +14.5, PigAirwayPressure +5.8, PigArtPressure +4.3); worst PLAIDEq −5.6 |
 | 8 | Oblique / rotation trees for correlated quantile features | Few examples; wasted splits | Medium | Medium (speed) | For QUANT, yes | Not done |
-| 9 | Prune features + sample big windows more often (authors' own idea) | Training cost on long series | Low-medium | Low | Partly | Not done |
+| 9 | Prune features + sample big windows more often (authors' own idea) | Training cost on long series | Low-medium | Low | Partly | **Done: success** (pruning only: keep the top 25% of features → +0.29 pts, 87/14/41, p = 5e-5, 1.7× faster training; 10% → +0.18, p = 0.15, 2.0× faster; 50% → +0.07, 1.2× faster) |
 | 10 | Native variable-length QUANT (windows relative to each series' length) | Padding (costs ~8 points) | Medium | Low | Yes (aeon can't do it) | **Done: partial success** (padded + native: +2.0 pts on the 11 mostly-gesture datasets, but only +0.2 on 3 fresh datasets; native alone +0.1) |
 | 11 | Multi-scale differences ("wavelet-like" views) | Change at medium speeds, located in time | Low | Low | For QUANT, yes | **Done: did not help** (+0.08 pts, 76/11/55, p = 0.19; all per-dataset changes within ±3.3 pts) |
 | 12 | Order-aware counts per window (mean crossings, peaks, slope) | Quantiles ignore the order of values inside a window | Low | Low | For QUANT, yes | **Done: did not help** (+0.04 pts, 68/16/58, p = 0.24; all per-dataset changes within ±2.3 pts) |
@@ -192,6 +192,8 @@ A log-spectrum would add little. Taking the log doesn't change the order of valu
 - Watch the runtime: Rotation Forest has a time-capped "contract" version.
 
 ## 9. Prune features and sample big windows more often (speed)
+
+> **Status: done (pruning part). Success.** A small forest (50 trees, QUANT's settings) ranks the features on the training data; QUANT's forest (200 trees) is then trained on the top 50%, 25% or 10% only. Plain QUANT was re-fitted in the same run for a fair time comparison (training time only, all cores). **25%:** 85.65% vs 85.36% (+0.29 pts), better on 87 / worse on 41, p = 5e-5, 1.7× faster training. **10%:** +0.18 pts, p = 0.15, 2.0× faster (worst: SmoothSubspace −7.0). **50%:** +0.07 pts, p = 0.019, 1.2× faster. "Sample big windows more often" was not tried. Code: `scripts/pruning_tests.py`; results: `results/pruning/summary.txt`.
 
 **What.**
 1. Fit a small forest, keep only the most useful 10–50% of features, then fit the final forest.

@@ -1,0 +1,14 @@
+Idea 9: feature pruning (selection forest of 50 trees, then QUANT's forest on the kept features)
+142 datasets x 10 resamples; plain QUANT re-fitted in the same run (largest difference to efficient.csv: 0.0432)
+
+QUANT, all features      85.36%   training time x1.00
+
+QUANT, 50% of features   85.43%   change +0.07 pts   W/D/L 82/14/46   Wilcoxon p=0.019   training 1.2x faster
+   largest losses (pts): BirdChicken -2.0, WormsTwoClass -1.7, PigCVP -1.6
+
+QUANT, 25% of features   85.65%   change +0.29 pts   W/D/L 87/14/41   Wilcoxon p=5.2e-05   training 1.7x faster
+   largest losses (pts): WormsTwoClass -1.7, Car -1.7, Crop -1.6
+
+QUANT, 10% of features   85.54%   change +0.18 pts   W/D/L 72/12/58   Wilcoxon p=0.15   training 2.0x faster
+   largest losses (pts): SmoothSubspace -7.0, Crop -3.5, MiddlePhalanxTW -2.8
+
