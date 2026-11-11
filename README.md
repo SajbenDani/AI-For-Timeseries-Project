@@ -6,12 +6,20 @@ UCD *AI for Time Series* group project by Dániel Sajben (26107621) and Tymur Su
 
 1. reproduce the paper's main experiment (142 UCR datasets × 30 train/test splits);
 2. measure where QUANT is weak;
-3. test ten ideas for improving it.
+3. test fifteen ideas for improving it, and whether the best ones stack;
+4. extend QUANT to multivariate data with views that combine channels (19 UEA datasets).
 
 Everything runs on a laptop CPU, with no GPU needed.
 
 - **Paper:** [Papers/documentation.pdf](Papers/documentation.pdf) (IEEE format; LaTeX source [Papers/documentation.tex](Papers/documentation.tex), figures in [Papers/figures/](Papers/figures/)).
 - **Full write-up of every experiment:** [report.md](report.md). **All ideas, with evidence and verdicts:** [ideas.md](ideas.md).
+
+## Who did what
+
+We planned the project, discussed every result and wrote the paper together. The experiments were split by time:
+
+- **Dániel Sajben:** the reproduction, the weakness tests, round 1 (ideas 1, 2, 3, 5, 10) and round 2 (ideas 14–18), the first draft of the paper and report, and the repository setup.
+- **Tymur Sukhariev:** round 3 (ideas 7, 11, 12, 13, and multivariate data: ideas 18 and 19 on 19 UEA datasets, with the rotation stress test) and round 4 (idea 9, feature pruning, and the stacking of ideas 1 + 14 + 18), the paper's multivariate section, fitting the new results into its six pages, and macOS support.
 
 ## Main results
 
@@ -28,18 +36,33 @@ Everything runs on a laptop CPU, with no GPU needed.
 
 \*Covid3Month and FloodModeling1–3 were corrected by the archive maintainers after the paper; only the new versions can be downloaded. Per-dataset results: `results/repro/comparison_per_dataset.csv`.
 
-**Improvements** (142 datasets × first 10 resamples; time is one-core compute relative to QUANT):
+**Improvements** (142 datasets × first 10 resamples; time is one-core compute relative to QUANT, unless the row says otherwise):
 
 | Method | Accuracy | vs QUANT | Time |
 |---|---|---|---|
 | QUANT | 85.36% | | 1× |
-| QUANT + Hydra, asked only when QUANT is unsure (idea 18) | **87.16%** | +1.80 | 2.1× |
+| QUANT + pooled + speed quantiles + Hydra when QUANT is unsure (ideas 1 + 14 + 18)* | **87.47%** | **+2.11** | not timed |
 | QUANT + Hydra, always averaged (idea 3) | 87.39% | +2.03 | 5.8× (4.1× with equal weights) |
+| QUANT + Hydra, asked only when QUANT is unsure (idea 18) | 87.16% | +1.80 | 2.1× |
 | QUANT + position-free pooled quantiles (idea 1) | 85.75% | +0.39 | 1.4× |
+| QUANT on the top 25% of its features (idea 9) | 85.65% | +0.29 | 1.7× faster training (all cores) |
 | QUANT + speed-invariant quantiles (idea 14) | 85.50% | +0.14 | 1.3× |
 | MultiRocket+Hydra / HIVE-COTE 2 (from the bake-off redux) | 87.06% / 87.53% | | ≈5× / weeks |
 
-Several ideas did not help; they are reported in the paper and in [report.md](report.md).
+\*With one fixed gate setting; idea 18 alone at that setting gives 87.22%, so stacking adds +0.25 points (p = 4e-8).
+
+**Multivariate data** (19 UEA datasets × 5 resamples):
+
+| Method | Accuracy | vs QUANT |
+|---|---|---|
+| QUANT | 74.18% | |
+| QUANT + Hydra, gated (idea 18) | 75.59% | +1.41 |
+| QUANT + cross-channel views (idea 19) | 76.80% | +2.62 |
+| Ideas 18 + 19 | **77.78%** | **+3.60** |
+
+With the sensors of the 6 accelerometer/gyroscope datasets tilted at random by up to 180°, QUANT loses 18.1 points and idea 19 only 12.3.
+
+**Ideas that did not help on average:** shift/stretch augmentation (idea 5), the cycle view (15), the bispectrum view (16), rank-uniform splits (17), autocorrelation and AR features (7, although they gave +4 to +15 points on the Pig heartbeat recordings), multi-scale differences (11), order-aware counts per window (12), and other classifiers instead of ExtraTrees (13: Random Forest −1.3 and LightGBM −2.7 points). Details are in the paper and in [report.md](report.md).
 
 ## Repository layout
 
@@ -53,10 +76,15 @@ results/                         raw results (CSV) and text summaries of every e
   improvements/                    round 1: ideas 1, 2, 3, 5, 10 (varlen_fresh/: idea 10 on unseen data)
   ideas/                           read-only checks behind ideas 14-18
   efficient/                       round 2: ideas 14-18
+  autocorr/, multiscale/,          round 3: ideas 7, 11, 12, 13
+    order_counts/, classifiers/
+  multivariate/                    round 3: QUANT, Hydra and idea 18 on 19 UEA datasets
+  cross_channel/                   round 3: idea 19 and the rotation stress test
+  pruning/, stacking/              round 4: idea 9, ideas 1 + 14 + 18 stacked
   bakeoff_redux/                   published results of other methods, used for comparison
 Papers/                          the paper (documentation.tex) and its figures
 report.md, ideas.md              detailed write-up and idea catalogue
-data/                            created by the download step (not in git, ~4 GB)
+data/                            created by the download steps (not in git, ~4 GB)
 ```
 
 ## Setup
@@ -70,6 +98,8 @@ python -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\
 pip install -r requirements.txt
 ```
 
+On macOS, LightGBM (idea 13) also needs `brew install libomp`.
+
 ## Checking our numbers without re-running anything
 
 The raw results of every run are already in `results/`. These scripts rebuild every summary, table and figure from them in about a minute, with no data download needed:
@@ -81,6 +111,10 @@ python scripts/improvement_analysis.py
 python scripts/idea_checks.py
 python scripts/efficient_analysis.py
 python scripts/paper_figures.py
+python scripts/autocorr_tests.py summary && python scripts/multiscale_tests.py summary && python scripts/order_counts_tests.py summary
+python scripts/classifier_tests.py summary
+python scripts/pruning_tests.py summary && python scripts/stacking_tests.py summary
+python scripts/multivariate_tests.py summary && python scripts/cross_channel_tests.py summary rotate_summary
 ```
 
 | Paper | Script | Output |
@@ -89,14 +123,17 @@ python scripts/paper_figures.py
 | Section IV, Fig. 1 | `weakness_analysis.py` | `results/weaknesses/summary.txt`, `Papers/figures/weaknesses.pdf` |
 | Section V, Table III (ideas 1, 2, 3, 5, 10) | `improvement_analysis.py` | `results/improvements/summary.txt` |
 | Section V, Table III (ideas 14-18) | `idea_checks.py`, `efficient_analysis.py` | `results/ideas/checks.txt`, `results/efficient/summary.txt` |
+| Section V, Table III (ideas 7, 11, 12, 13) | `autocorr_tests.py`, `multiscale_tests.py`, `order_counts_tests.py`, `classifier_tests.py` | `results/autocorr/summary.txt`, `results/multiscale/summary.txt`, `results/order_counts/summary.txt`, `results/classifiers/summary.txt` |
+| Section V, Table III (idea 9, stacking 1 + 14 + 18) | `pruning_tests.py`, `stacking_tests.py` | `results/pruning/summary.txt`, `results/stacking/summary.txt` |
+| Section VI, Table IV (multivariate, ideas 18 and 19, rotation test) | `multivariate_tests.py`, `cross_channel_tests.py` | `results/multivariate/summary.txt`, `results/cross_channel/summary.txt`, `results/cross_channel/rotate_summary.txt` |
 | Fig. 2 | `paper_figures.py` | `Papers/figures/main_results.pdf` |
 
 ## Reproducing everything from scratch
 
-Run these steps in order, because later steps read earlier results. About 30 h of compute in total on our laptop (Ryzen 5 5600H, 6 cores, 16 GB RAM).
+Run these steps in order, because later steps read earlier results. Steps 1–6 take about 30 h of compute in total on our laptop (Ryzen 5 5600H, 6 cores, 16 GB RAM). Steps 7–9 were run on a MacBook; their times are wall-clock times of our runs, about 13 h in total.
 
 - **Resumable:** every run saves after each finished dataset and skips finished datasets when restarted, so it can be stopped at any time. To redo a step, delete its output files first.
-- **Same numbers as ours:** all runs use the official resamples and seed = resample index, so accuracies come out exactly as ours. Only timings depend on the machine.
+- **Same numbers as ours:** all runs use the official resamples and seed = resample index, so accuracies come out exactly as ours, up to tiny floating-point differences between machines (the largest we saw: one test series on one split). Only timings depend on the machine.
 - **Timing runs:** run the one-core timing steps alone on the machine.
 
 ```bash
@@ -129,10 +166,25 @@ python scripts/efficient_analysis.py
 
 # 6. The paper's Fig. 2 and the PDF (needs a TeX distribution with IEEEtran, e.g. TeX Live or MiKTeX)
 python scripts/paper_figures.py
-cd Papers && pdflatex documentation.tex && pdflatex documentation.tex
+cd Papers && pdflatex documentation.tex && pdflatex documentation.tex && cd ..
+
+# 7. Round 3: the remaining ideas 7, 11, 12, 13 (142 x 10; ideas 7 and 12 ~15 min each, idea 11 ~45 min, idea 13 ~6 h)
+python scripts/autocorr_tests.py main && python scripts/autocorr_tests.py summary
+python scripts/multiscale_tests.py main && python scripts/multiscale_tests.py summary
+python scripts/order_counts_tests.py main && python scripts/order_counts_tests.py summary
+python scripts/classifier_tests.py main rf lgbm && python scripts/classifier_tests.py summary
+
+# 8. Round 3: multivariate data (19 UEA datasets x 5; downloads the UEA files into data/UEA/; ~20 min in total)
+python scripts/multivariate_datasets.py
+python scripts/multivariate_tests.py main summary
+python scripts/cross_channel_tests.py check main summary rotate rotate_summary
+
+# 9. Round 4: feature pruning (~1 h) and stacking (~4.5 h) (142 x 10)
+python scripts/pruning_tests.py main summary
+python scripts/stacking_tests.py main summary
 ```
 
 ## Credits
 
 - **QUANT and Hydra:** original code by Angus Dempster and co-authors (GPL-3.0). It is included unmodified as submodules.
-- **Data:** the UCR archive (Dau et al., 2019), the 30 new datasets and resample indices from the bake-off redux (Middlehurst, Schäfer & Bagnall, 2024), and the original variable-length Asphalt sets from timeseriesclassification.com.
+- **Data:** the UCR archive (Dau et al., 2019), the 30 new datasets and resample indices from the bake-off redux (Middlehurst, Schäfer & Bagnall, 2024), the original variable-length Asphalt sets from timeseriesclassification.com, and the UEA multivariate archive (Bagnall et al., 2018), loaded with aeon.

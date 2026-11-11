@@ -1,10 +1,12 @@
 # Improving QUANT: what we tried and what happened
 
-*Status, 10 October 2026: all experiments are complete: round 1 (five ideas) and round 2 (five "efficient approaches", ideas 14–18), with their stress tests and one-core timings. The two choices we made after seeing results were also checked on data they had not seen: idea 18's two-level gate (it held up) and idea 10's "padded + native" version (its gain mostly did not carry over).*
+*Status, 11 November 2026: all experiments are complete: round 1 (five ideas), round 2 (five "efficient approaches", ideas 14–18), with their stress tests and one-core timings, round 3 (ideas 7, 11, 12, 13, and multivariate data with idea 19) and round 4 (idea 9 and stacking). The two choices we made after seeing results were also checked on data they had not seen: idea 18's two-level gate (it held up) and idea 10's "padded + native" version (its gain mostly did not carry over).*
 
 ## The short version
 
-We tried five ways to make QUANT more accurate. One clearly worked:
+Over four rounds we tested fifteen ideas on the 142 univariate datasets, and one more on multivariate data. The best univariate result is **87.47%** (ideas 1 + 14 + 18 stacked), only 0.06 points below HIVE-COTE 2. On multivariate data, views that combine channels (idea 19) gave the largest gain.
+
+**Round 1** tried five ways to make QUANT more accurate. One clearly worked:
 
 - **Combining QUANT with Hydra** (a second, very different method) raised average accuracy from **85.4% to 87.4%** over 142 datasets. That puts it level with HIVE-COTE 2, the most accurate method in the big 2024 comparison, which takes weeks.
 - **The price:** on one CPU core, QUANT needs 16 minutes for all 142 datasets, and the combination needs **66 minutes** (simple average) to **91 minutes** (weighted average). That is **4–6× longer**. It is about what MultiRocket+Hydra costs, and that method is almost as accurate.
@@ -26,6 +28,15 @@ The main lesson is that QUANT's reliance on *where* things happen in a series is
 - **Idea 14** (speed-invariant quantiles) gave a small but significant gain: +0.14 points overall, and +0.5 where elastic methods beat QUANT.
 - **Ideas 15, 16 and 17** did not help on average, although the cycle view (15) made QUANT more robust to moved patterns.
 
+**Round 3:** the four remaining cheap ideas, and multivariate data.
+- **Ideas 7, 11, 12 and 13 did not help.** New views (autocorrelation, multi-scale differences) and per-window counts gave +0.04 to +0.25 points, none significant. Other classifiers instead of ExtraTrees (Random Forest, LightGBM) were clearly worse (−1.3 and −2.7). Idea 7 did give +4 to +15 points on the Pig heartbeat recordings.
+- **Multivariate data (19 UEA datasets):** QUANT looks at every channel on its own. Adding views that combine channels (idea 19) raised accuracy from 74.2% to 76.8% (+2.6 points), more than idea 18 (+1.4), and the two together reach 77.8% (+3.6).
+- **Tilted sensors:** when every recording is rotated at random, as if the device were worn at another angle, QUANT loses 18.1 points and idea 19 only 12.3.
+
+**Round 4:** making QUANT cheaper, and combining the winners.
+- **Idea 9:** training on only the top 25% of QUANT's features is 1.7× faster and slightly more accurate (+0.29 points).
+- **The gains stack:** ideas 1 + 14 + 18 together reach **87.47%** (+2.11 points), +0.25 over idea 18 alone at the same setting, and only 0.06 points below HIVE-COTE 2.
+
 ## Some words used below
 
 - **Accuracy**: the share of test series a method labels correctly. "+1 point" means +1 percentage point, e.g. 85.4% → 86.4%.
@@ -41,7 +52,7 @@ The main lesson is that QUANT's reliance on *where* things happen in a series is
    - **When the same pattern appears at different times**, QUANT suffers. QUANT summarises fixed time windows (first half, second quarter, ...), so a pattern that moves lands in a different window. With patterns at random positions it lost 5.6 points, against 2.4 for Hydra.
    - **With many classes and few examples per class** it does badly: 5.6 points behind Hydra on 18 such datasets, and up to 27 points behind on the "Pig" heartbeat datasets.
    - **On variable-length series padded to equal length** (11 datasets), padding costs about 8 points on the most padded series.
-3. **The ideas list** (`ideas.md`). We took the five highest-ranked ideas that run on a laptop CPU. Idea 4 (a pre-trained "TabPFN" classifier) was skipped because it needs a GPU.
+3. **The ideas list** (`ideas.md`). We took the five highest-ranked ideas that run on a laptop CPU. Idea 4 (a pre-trained "TabPFN" classifier) was skipped because it needs a GPU. Rounds 2–4 then tested the remaining ideas, except 4, 6 and 8 (see `ideas.md`).
 
 **The test rules**, the same for every idea:
 
@@ -50,7 +61,7 @@ The main lesson is that QUANT's reliance on *where* things happen in a series is
 - **10 splits per dataset instead of 30**, to fit the laptop (Ryzen 5 5600H, no GPU). The 11 variable-length datasets are small, so they got all 30. On the first 10 splits, plain QUANT scores **85.36%**, and that is the number to beat.
 - **Code and output.** The code is `scripts/improvement_tests.py`, with the new features in `scripts/quant_extensions.py`. The numbers are produced by `scripts/improvement_analysis.py` and saved in `results/improvements/summary.txt`.
 
-## The five ideas and their results
+## Round 1: the five ideas and their results
 
 All accuracies are averages over 142 datasets × 10 splits unless noted. Plain QUANT scores 85.36%.
 
@@ -329,18 +340,144 @@ python scripts/efficient_tests.py timing            # one-core timing (~3 h); ru
 python scripts/efficient_analysis.py                # -> results/efficient/summary.txt, Papers/figures/efficient.pdf
 ```
 
+## Round 3: the remaining ideas, and multivariate data
+
+*Status, 11 November 2026: complete. Ideas 7, 11, 12 and 13 on the 142 univariate datasets; ideas 18 and 19 on 19 multivariate datasets, with a rotation stress test.*
+
+### Remaining univariate ideas (7, 11, 12, 13)
+
+**Test rules:** the same as rounds 1 and 2: 142 datasets × the first 10 resamples, same seeds, QUANT itself unchanged. Plain QUANT's accuracies (85.36%) come from `results/efficient/efficient.csv`.
+- These runs were done on a different computer (a MacBook) than rounds 1 and 2. Re-fitting plain QUANT there (round 4) gave the same mean, 85.36%, but tiny floating-point differences can flip a single test series: the largest difference on one split was 4.3 points. This can move a few W/D/L counts, not the means.
+
+| Idea | What it adds | Accuracy | Change | W/D/L | p | Verdict |
+|---|---|---|---|---|---|---|
+| 7. Autocorrelation + AR view | the autocorrelation function (QUANT's windows and quantiles on it) and 10 AR coefficients | 85.61% | +0.25 | 70/13/59 | 0.095 | Did not help on average (but +4 to +15 on the Pig recordings) |
+| 11. Multi-scale differences | for scales 2, 4, 8: mean of the next s points minus mean of the previous s points (undecimated Haar wavelet) | 85.44% | +0.08 | 76/11/55 | 0.19 | Did not help |
+| 12. Order-aware counts | per window: mean crossings, local peaks, longest run above the mean, slope | 85.40% | +0.04 | 68/16/58 | 0.24 | Did not help |
+| 13. Random Forest instead of ExtraTrees | same features, QUANT's forest settings | 84.09% | −1.27 | 14/8/120 | 2e-18 | Worse, and 1.5× the training time |
+| 13. LightGBM instead of ExtraTrees | same features, 200 rounds, 10% of features per tree | 82.66% | −2.70 | 26/3/113 | 1e-14 | Worse, and about 4× the training time |
+
+- **Idea 7** helps where series repeat and the beats start anywhere: PigCVP +14.5, PigAirwayPressure +5.8, PigArtPressure +4.3, ToeSegmentation1 +3.7. It hurts on PLAIDEq (−5.6) and DodgerLoopDayNmv (−4.2).
+- **Idea 11:** gains and losses are all within ±3.3 points (Lightning7 +3.3, GestureMidAirD3Eq +3.2; ToeSegmentation1 −2.2, BirdChicken −2.0). QUANT's differences and Fourier view already seem to cover medium-speed change.
+- **Idea 12:** all changes within ±2.3 points. QUANT's quantiles at several window sizes already capture enough of the order of values.
+- **Idea 13:** ExtraTrees' random split points suit QUANT's many correlated features and small training sets. LightGBM collapses with many classes and few examples per class: PigArtPressure −50.3, PigCVP −49.1, FiftyWords −34.6.
+  - On macOS, LightGBM and PyTorch bring two different OpenMP libraries that crash in one process, so `classifier_tests.py` runs LightGBM in a separate process. Its timing was measured partly in low-power mode and is only approximate.
+
+### Multivariate data (ideas 18 and 19)
+
+**Why:** all 142 datasets above have one channel, but many sensors record several at once, such as the x, y and z axes of an accelerometer. QUANT's code computes its features on every channel separately and joins them, so it never sees how channels move together.
+
+**Setup:**
+- 19 small and medium datasets of the UEA archive (2–28 channels; the largest and the variable-length ones were left out), loaded with aeon: `results/multivariate/datasets.csv`.
+- 5 resamples each: the official split and 4 random splits with the same number of training series per class (seed = resample number). There are no official multivariate resamples on our disk.
+- QUANT, the authors' multivariate Hydra and idea 18 run unchanged; idea 18's gate uses a setting from the univariate results (gap < 0.4, Hydra only if ≥ 10% of a dataset's test series are unsure).
+
+**Idea 19: cross-channel views.** New series built from several channels, each described by QUANT's own windows and quantiles:
+- for every 3-axis sensor (6 datasets): its magnitude √(x² + y² + z²) and the series along its own main direction of movement (first principal axis of that series). Both stay exactly the same when the sensor is rotated;
+- for all datasets: differences between pairs of channels (each standardised per series; at most 15 fixed random pairs) and the series along the main direction of all channels.
+
+A sanity check (`results/cross_channel/check.txt`) confirmed that rotating the sensors changes QUANT's features by 36–69%, and those of the magnitude and main direction by 0%.
+
+| Method (19 datasets × 5 resamples) | Accuracy | Change | W/D/L | p |
+|---|---|---|---|---|
+| QUANT | 74.18% | | | |
+| Hydra | 74.03% | −0.14 | 11/1/7 | 0.73 |
+| Idea 18: QUANT + Hydra, gated | 75.59% | +1.41 | 11/5/3 | 0.033 |
+| **Idea 19: QUANT + cross-channel views** | **76.80%** | **+2.62** | 13/1/5 | 0.031 |
+| **Ideas 18 + 19** | **77.78%** | **+3.60** | 15/1/3 | 0.0012 |
+
+- **Idea 18 carries over** (+1.4 points), but saves less time: QUANT is unsure more often here, so Hydra was asked about 48% of the test series, in 79% of the datasets (univariate: 26% and 66%).
+- **Idea 19 gains more than idea 18, and the two stack:** ideas 18 + 19 are +2.19 points above idea 18 alone (11/3/5, p = 0.032).
+- **Where the gain comes from:** almost all of it from the channel differences and main directions, on datasets without 3-axis sensors: HandMovementDirection +23.8, NATOPS +8.5, AtrialFibrillation +8.0, EthanolConcentration +5.1. Without HandMovementDirection the gain is +1.45. On the 6 sensor datasets, already near their ceiling (85.6%), it adds only +0.3.
+
+**Rotation stress test.** Every series of the 6 sensor datasets was rotated at random by up to 30°, 90° or 180°, in training and test data alike, as if the device were worn at another angle (same splits, seeds fixed per dataset and tilt).
+
+| Method (6 sensor datasets) | 0° | 30° | 90° | 180° | Lost |
+|---|---|---|---|---|---|
+| QUANT | 85.63% | 84.19% | 74.83% | 67.54% | −18.1 |
+| Hydra | 87.89% | 85.84% | 76.99% | 69.12% | −18.8 |
+| Idea 18 | 88.29% | 86.57% | 78.25% | 71.51% | −16.8 |
+| **Idea 19** | 85.92% | 84.58% | 78.22% | 73.59% | **−12.3** |
+| **Ideas 18 + 19** | 88.27% | 86.90% | **79.66%** | **74.03%** | −14.2 |
+
+- **Idea 19 loses a third less than QUANT** (12.3 vs 18.1 points). At 180° it is 6.1 points ahead and better on all 6 datasets (p = 0.031, the smallest possible with 6).
+- **At 90° and 180° it beats idea 18**, which is not built for rotation.
+- It still loses accuracy, because QUANT's own per-axis features stay in. On Handwriting and UWaveGestureLibrary every method collapses: there the direction of the movement is the class, so rotating destroys real information.
+
+**Limitations:** 19 datasets, 5 resamples, our own random splits, and half of the normal-data gain comes from one dataset.
+
+## Round 4: pruning and stacking (ideas 9 and 1 + 14 + 18)
+
+*Status, 11 November 2026: complete.*
+
+### Idea 9: feature pruning
+
+**What we did:** a small forest (50 trees, QUANT's settings) ranks the features on the training data only; QUANT's normal forest (200 trees) is then trained on the top 50%, 25% or 10%. Plain QUANT was re-fitted in the same run, on the same computer, so the times compare fairly (training time only, all cores).
+
+| Kept features | Accuracy | Change | W/D/L | p | Training |
+|---|---|---|---|---|---|
+| 100% (QUANT) | 85.36% | | | | 1× |
+| 50% | 85.43% | +0.07 | 82/14/46 | 0.019 | 1.2× faster |
+| **25%** | **85.65%** | **+0.29** | 87/14/41 | 5e-5 | **1.7× faster** |
+| 10% | 85.54% | +0.18 | 72/12/58 | 0.15 | 2.0× faster |
+
+- **Keeping a quarter of the features makes QUANT both faster and slightly more accurate.** Three quarters of its features add cost but no accuracy.
+- At 10% a few datasets suffer (SmoothSubspace −7.0, Crop −3.5).
+- The authors' second suggestion, sampling big windows more often, was not tried.
+
+### Do the gains stack? (ideas 1 + 14 + 18)
+
+**What we did:** the pooled quantiles of idea 1 and the speed quantiles of idea 14 added to QUANT, with idea 18's Hydra gated on top. Plain QUANT and idea 18 were re-run in the same run. Both gated versions use one fixed setting (gap < 0.4, Hydra only if ≥ 10% of a dataset's test series are unsure), so they are scored the same way; the 87.16% of round 2 chose its setting on the other half of the datasets instead.
+
+| Method | Accuracy | Change vs QUANT | W/D/L | p |
+|---|---|---|---|---|
+| QUANT | 85.36% | | | |
+| Ideas 1 + 14 | 85.79% | +0.43 | 91/13/38 | 1e-6 |
+| Idea 18 (fixed setting) | 87.22% | +1.86 | 89/27/26 | 4e-11 |
+| **Ideas 1 + 14 + 18** | **87.47%** | **+2.11** | 105/11/26 | 1e-14 |
+
+- **Yes, the gains stack:** +0.25 points over idea 18 at the same setting (91/14/37, p = 4e-8), and no dataset loses more than 0.5 points. Largest gains: FloodModeling3Discrete +4.2, PigAirwayPressure +3.0.
+- **That is 0.06 points below HIVE-COTE 2** (87.53% on the same splits), which needs weeks.
+- Hydra was asked about 29% of the test series, in 73% of the datasets (idea 18: 30% and 76%).
+- Its compute time was not measured; from its parts it should be about 2.5–3× QUANT's.
+
+### How to rerun rounds 3 and 4
+
+Every test saves after each finished dataset and skips finished datasets when restarted; a dataset that fails is reported and skipped.
+
+```bash
+# Round 3, univariate (142 x 10)
+python scripts/autocorr_tests.py main && python scripts/autocorr_tests.py summary          # idea 7
+python scripts/multiscale_tests.py main && python scripts/multiscale_tests.py summary      # idea 11
+python scripts/order_counts_tests.py main && python scripts/order_counts_tests.py summary  # idea 12
+python scripts/classifier_tests.py main rf lgbm && python scripts/classifier_tests.py summary  # idea 13
+
+# Round 3, multivariate (19 UEA datasets x 5)
+python scripts/multivariate_datasets.py                         # download, -> results/multivariate/datasets.csv
+python scripts/multivariate_tests.py main summary               # QUANT, Hydra, idea 18
+python scripts/cross_channel_tests.py check                     # sanity check of idea 19's views
+python scripts/cross_channel_tests.py main summary              # ideas 19 and 18 + 19
+python scripts/cross_channel_tests.py rotate rotate_summary     # rotation stress test
+
+# Round 4 (142 x 10)
+python scripts/pruning_tests.py main summary                    # idea 9
+python scripts/stacking_tests.py main summary                   # ideas 1 + 14 + 18
+```
+
 ## How this compares with the original QUANT
 
 | | Accuracy | Notes |
 |---|---|---|
 | QUANT, paper | 85.68% | 30 splits; uses 4 datasets that were later corrected. About 15 min on one core |
 | QUANT, our reproduction | 85.51% (30 splits) / 85.36% (first 10) | the reference for this report. 15.7 min on one core of our laptop (18.3 min in an earlier timing run) |
+| **QUANT + pooled + speed quantiles + Hydra, gated (ours, round 4)** | **87.47%** (first 10) | +2.1 points over QUANT; ideas 1 + 14 + 18 stacked, with one fixed gate setting. Not timed; about 2.5–3× QUANT's time expected |
 | **QUANT + Hydra ensemble (ours)** | **87.39%** (first 10) | +2.0 points over QUANT. 91 min on one core (×5.8); ×4.1 with equal weights and the free calibration of round 2 |
 | **QUANT + Hydra, two-level gate (ours, round 2)** | **87.16%** (first 10) | +1.8 points over QUANT, 2.1× its one-core time: Hydra only where QUANT is unsure |
-| MultiRocket+Hydra (2024 bake-off) | 87.06% (same 10 splits) | ours is +0.3 ahead, not significant (p = 0.37). About 1 h 15 min (QUANT paper) |
-| HIVE-COTE 2 (2024 bake-off) | 87.53% (same 10 splits) | ours is −0.1 behind, not significant (p = 0.63). Several weeks (QUANT paper) |
+| QUANT on its top 25% of features (ours, round 4) | 85.65% (first 10) | +0.3 points over QUANT, with 1.7× faster training |
+| MultiRocket+Hydra (2024 bake-off) | 87.06% (same 10 splits) | about 1 h 15 min (QUANT paper) |
+| HIVE-COTE 2 (2024 bake-off) | 87.53% (same 10 splits) | 0.06 points above our stacked version. Several weeks (QUANT paper) |
 
-The bake-off used the same official splits, so these comparisons are like-for-like. HIVE-COTE 2 combines several slow methods; our ensemble uses two fast ones.
+The bake-off used the same official splits, so these comparisons are like-for-like. HIVE-COTE 2 combines several slow methods; our ensembles use two fast ones.
 
 ## What we can conclude
 
@@ -348,18 +485,22 @@ The bake-off used the same official splits, so these comparisons are like-for-li
    - **Forcing** QUANT to ignore position (augmentation) hurt on average. It only paid off on datasets with very few examples per class.
    - **Adding** a new view and letting the forest choose helped. That holds for the position-free features (ideas 1 and 2, a little almost everywhere) and for the unpadded windows (idea 10: +2 points next to the padded view on the 11 mostly-gesture datasets, but only +0.2 on three fresh ones).
    - **A second, position-free model** (idea 3) helped most.
-2. **The best fix is a second opinion, not a modified QUANT, but it has a price.** QUANT and Hydra make different mistakes, so averaging them gave a +2 point gain that no feature change came close to. It reaches top-method accuracy at 4–6× QUANT's runtime: 66–91 minutes on one core instead of 16. That is far cheaper than HIVE-COTE 2 (weeks), but about the same as MultiRocket+Hydra (about an hour), which is nearly as accurate. Plain QUANT is still the choice when speed matters most. Round 2 (idea 18) keeps 95% of the gain for 2.1× QUANT's time, by asking Hydra only where QUANT is unsure.
+2. **The best fix is a second opinion, not a modified QUANT, but it has a price.** QUANT and Hydra make different mistakes, so averaging them gave a +2 point gain that no feature change came close to. It reaches top-method accuracy at 4–6× QUANT's runtime: 66–91 minutes on one core instead of 16. That is far cheaper than HIVE-COTE 2 (weeks), but about the same as MultiRocket+Hydra (about an hour), which is nearly as accurate. Plain QUANT is still the choice when speed matters most. Round 2 (idea 18) keeps 95% of the gain for 2.1× QUANT's time, by asking Hydra only where QUANT is unsure, and round 4 shows that the small feature gains add on top of it: 87.47%, 0.06 points below HIVE-COTE 2.
 3. **The weakness tests predicted where gains would appear.** Every position-related idea, even augmentation, helped most on the many-class, few-example datasets that the weakness analysis flagged (+1 to +6 points there).
 4. **Fancier features need to earn their cost.** The convolution features (idea 2, 4.0× the runtime) gave the same +0.4 as the much cheaper pooled quantiles (idea 1, 1.4×).
 5. **Padding was not the problem we thought.** Removing it (idea 10) didn't help on average, which matches our weakness test: padding hurts QUANT and Hydra equally. The padding even carries useful information (the length, and so the speed, of a gesture). Giving the forest both views is what helped, on gesture data; on three fresh, non-gesture datasets it added only +0.2 points.
 6. **Robustness and accuracy are different things.** Every idea we stress-tested (1, 2, 3 and 5) made QUANT more robust to moved patterns. On real data, only the ones that keep QUANT's original view intact also improved accuracy.
+7. **QUANT carries more features than it needs, and its forest is the right one.** Keeping only the top quarter of its features made training 1.7× faster and accuracy slightly higher (idea 9). Swapping ExtraTrees for a Random Forest or LightGBM made it clearly worse (idea 13), and more per-window statistics added nothing (ideas 11 and 12).
+8. **On multivariate data, what QUANT misses is how channels move together.** It treats every channel on its own. Views built from several channels (idea 19) gave +2.6 points on 19 UEA datasets, more than the Hydra second opinion (+1.4), and the two stack (+3.6).
+9. **Robustness can be built in where the invariance is known.** For 3-axis sensors, the magnitude and the main direction of movement do not change when the device is tilted. With them QUANT lost a third less accuracy under random rotations (12.3 instead of 18.1 points), unlike in point 6, where robustness came without an accuracy gain.
 
 ## What is left
 
-Both rounds are done, including the fresh-data checks. The raw results are in `results/improvements/` (round 1, and `varlen_fresh/` for idea 10's check) and `results/efficient/` (round 2). `python scripts/improvement_analysis.py` and `python scripts/efficient_analysis.py` rebuild the summaries, and `python scripts/paper_figures.py` rebuilds the paper's Fig. 2.
+All four rounds are done, including the fresh-data checks. The raw results are in `results/improvements/` (round 1, and `varlen_fresh/` for idea 10's check), `results/efficient/` (round 2), `results/autocorr/`, `results/multiscale/`, `results/order_counts/`, `results/classifiers/`, `results/multivariate/`, `results/cross_channel/` (round 3), and `results/pruning/`, `results/stacking/` (round 4). `python scripts/improvement_analysis.py` and `python scripts/efficient_analysis.py` rebuild the summaries, and `python scripts/paper_figures.py` rebuilds the paper's Fig. 2.
 
-1. **The paper** (`Papers/documentation.tex`) contains all of these results: 6 pages of content, then the work plan page (still empty, for the team to fill in) and the references.
+1. **The paper** (`Papers/documentation.tex`) contains all of these results: 6 pages of content, then the work plan page and the references.
 2. **Worth trying next:**
-   - Do the gains stack? For example, pooled or speed-invariant quantiles inside the gated Hydra ensemble (idea 18).
+   - ~~Do the gains stack?~~ Answered in round 4: yes, ideas 1 + 14 + 18 reach 87.47%.
    - Augmentation could be switched on only for datasets with very few examples per class.
-   - The ideas we could not try on our hardware (paper, Section VI): a tabular foundation model (TabPFN or TabICL) on QUANT's features needs a GPU, and the large MONSTER datasets need far more than our 20 GB disk budget.
+   - Multivariate: the full UEA archive with official resamples, and a one-core timing of idea 19 and of the stacked version.
+   - The ideas we could not try on our hardware (paper, Section VII): a tabular foundation model (TabPFN or TabICL) on QUANT's features needs a GPU, and the large MONSTER datasets need far more than our 20 GB disk budget.
