@@ -1,22 +1,22 @@
 Idea 12: QUANT + order-aware counts (idea 12)
-142 datasets x 10 resamples, same splits and seeds
+142 datasets x 10 resamples, same splits and seeds; plain QUANT fitted on the same computer (results/pruning/pruning.csv)
 
 QUANT           85.36%
 QUANT + idea 12 85.40%
-change          +0.04 pts   W/D/L 68/16/58   Wilcoxon p=0.24
+change          +0.04 pts   W/D/L 63/15/64   Wilcoxon p=0.47
 
 Largest gains (pts):
 dataset
+GestureMidAirD2Eq        1.85
 Rock                     1.80
-GestureMidAirD2Eq        1.69
-Colposcopy               1.39
-GestureMidAirD3Eq        1.38
-ChlorineConcentration    1.33
+Lightning2               1.63
+Colposcopy               1.49
+ChlorineConcentration    1.37
 
 Largest losses (pts):
 dataset
-Covid3MonthDiscrete     -2.30
+Covid3MonthDiscrete     -2.46
 DodgerLoopDayNmv        -1.95
 DodgerLoopGameNmv       -1.42
-SonyAIBORobotSurface1   -1.15
-Herring                 -1.09
+PigCVP                  -1.25
+SonyAIBORobotSurface1   -1.23

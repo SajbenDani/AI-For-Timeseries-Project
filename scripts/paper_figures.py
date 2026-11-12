@@ -1,4 +1,4 @@
-"""The summary figure of the paper: Papers/figures/main_results.pdf (and .png).
+"""The summary figure of the paper (Fig. 2): Papers/figures/main_results.pdf.
 
 Usage: python scripts/paper_figures.py
 Every number is read from the result files, through scripts/improvement_analysis.py (round 1: ideas 1, 2, 3, 5, 10)
@@ -17,7 +17,6 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
-import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -136,7 +135,6 @@ tidy(bx, "(b) Robustness (30 datasets, stress tests)")
 fig.tight_layout(w_pad=1.5)
 out = ROOT / "Papers" / "figures" / "main_results.pdf"
 fig.savefig(out)
-fig.savefig(out.with_suffix(".png"), dpi=220)
 print(f"wrote {out}")
 print("panel (a):", [(n, round(float(c), 2), round(100 * float(a), 2)) for n, c, a in second + views])
 print("panel (b):", [(r[0], round(float(r[1]), 1)) for r in rows if not isinstance(r, str)])

@@ -9,7 +9,10 @@ Every split trains, on the same machine and with the same seeds:
     forests is unsure (efficient_tests.gate, every threshold).
 The summary compares idea 18 and the stacked version at one fixed two-level gate setting (gap < 0.4, Hydra used only
 when at least 10% of a dataset's test series are unsure; inside the range chosen in report.md), so both are scored
-exactly the same way; plain QUANT and idea 18 are re-run here rather than read from efficient.csv.
+exactly the same way; plain QUANT and idea 18 are re-run here rather than read from efficient.csv. This setting was
+fixed after round 2, not picked on held-out datasets as in efficient_analysis.py, so idea 18 scores 87.22% here
+against 87.16% there. The stacked version is also compared with MultiRocket+Hydra and HIVE-COTE 2 (bake-off redux,
+same resamples).
 Finished datasets are skipped when the test is re-run; a dataset that fails is reported and skipped.
 """
 
@@ -20,8 +23,8 @@ import warnings
 
 import numpy as np
 import pandas as pd
-from scipy.stats import wilcoxon
 
+from analysis_utils import KEY, bakeoff, paired, two_level
 from quant_extensions import pooled_features, speed_quantiles
 from weakness_tests import (
     NAMES,
@@ -32,7 +35,7 @@ from weakness_tests import (
     hydra_features,
     quant_features,
 )
-from improvement_tests import forest, proba, timed
+from improvement_tests import forest, proba
 from efficient_tests import gate, hydra_loo
 
 warnings.filterwarnings("ignore")
@@ -83,36 +86,23 @@ def test_main(args):
             print(f"main {name}: FAILED, skipped\n{traceback.format_exc()}", flush=True)
 
 
-def two_level(df, method, alone):
-    g = df[(df["method"] == method) & np.isclose(df["threshold"], THRESHOLD)].set_index(
-        ["dataset", "resample"]
-    )
-    return g["accuracy"].where(g["asked"] >= MIN_ASKED, alone.reindex(g.index))
-
-
 def test_summary(args):
     df = pd.read_csv(OUT / "stacking.csv")
-    key = ["dataset", "resample"]
-    q = df[df["method"] == "QUANT"].set_index(key)["accuracy"]
-    s = df[df["method"] == STACKED].set_index(key)["accuracy"]
+    q = df[df["method"] == "QUANT"].set_index(KEY)["accuracy"]
+    s = df[df["method"] == STACKED].set_index(KEY)["accuracy"]
     methods = {
         "QUANT": q,
         "Ideas 1 + 14 (pooled + speed quantiles)": s,
-        "Idea 18 (QUANT + Hydra, gated)": two_level(df, "QUANT + Hydra, gated", q),
-        "Ideas 1 + 14 + 18 (stacked)": two_level(df, f"{STACKED} + Hydra, gated", s),
+        "Idea 18 (QUANT + Hydra, gated)": two_level(df, "QUANT + Hydra, gated", q, THRESHOLD, MIN_ASKED),
+        "Ideas 1 + 14 + 18 (stacked)": two_level(df, f"{STACKED} + Hydra, gated", s, THRESHOLD, MIN_ASKED),
     }
     per = pd.DataFrame(
         {m: v.groupby(level="dataset").mean() for m, v in methods.items()}
     ).dropna()
 
     def vs(a, b):
-        d = np.round(per[a] - per[b], 4)
-        p = (
-            wilcoxon(per[a], per[b], zero_method="pratt").pvalue
-            if (d != 0).any()
-            else 1.0
-        )
-        return f"vs {b.split(' (')[0]}: {100 * d.mean():+.2f} pts, {(d > 0).sum()}/{(d == 0).sum()}/{(d < 0).sum()}, p={p:.2g}"
+        diff, w, d, l_, p = paired(per[a], per[b])
+        return f"vs {b.split(' (')[0]}: {100 * diff:+.2f} pts, {w}/{d}/{l_}, p={p:.2g}"
 
     lines = [
         f"Do the gains stack? {len(per)} datasets x {q.index.get_level_values('resample').nunique()} resamples; "
@@ -136,6 +126,12 @@ def test_summary(args):
             f"Hydra asked ({label}): {g['asked'].where(used, 0).mean():.0%} of test series, "
             f"used on {used.groupby(g['dataset']).mean().mean():.0%} of datasets"
         )
+    resamples = q.index.get_level_values("resample").nunique()
+    for label, method in (("MultiRocket+Hydra", "MR-Hydra"), ("HIVE-COTE 2", "HC2")):
+        other = bakeoff(method, resamples)[per.index]
+        diff, w, d, l_, p = paired(per["Ideas 1 + 14 + 18 (stacked)"], other)
+        lines.append(f"Stacked vs {label} (bake-off, same {resamples} resamples, {100 * other.mean():.2f}%): "
+                     f"{100 * diff:+.2f} pts, {w}/{d}/{l_}, p={p:.2g}")
     d = per["Ideas 1 + 14 + 18 (stacked)"] - per["Idea 18 (QUANT + Hydra, gated)"]
     lines += [
         "",
@@ -148,7 +144,7 @@ def test_summary(args):
         + ", ".join(f"{n} {100 * v:+.1f}" for n, v in d.sort_values().head(5).items()),
     ]
     text = "\n".join(lines)
-    (OUT / "summary.txt").write_text(text + "\n")
+    (OUT / "summary.txt").write_text(text + "\n", encoding="utf-8")
     print(text)
 
 

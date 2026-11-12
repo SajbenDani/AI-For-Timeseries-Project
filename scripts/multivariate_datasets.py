@@ -1,6 +1,5 @@
 """Download the UEA multivariate datasets we use and save a table of their sizes.
 
-Run from the repo root:
     python scripts/multivariate_datasets.py
 
 Data goes to data/UEA/ (not in git). The table goes to
@@ -39,8 +38,9 @@ DATASETS = [
     "UWaveGestureLibrary",
 ]
 
-DATA_DIR = Path("data/UEA")
-OUT = Path("results/multivariate/datasets.csv")
+ROOT = Path(__file__).resolve().parents[1]
+DATA_DIR = ROOT / "data" / "UEA"
+OUT = ROOT / "results" / "multivariate" / "datasets.csv"
 
 
 def main():
@@ -66,7 +66,7 @@ def main():
         )
         print(f"{name}: {rows[-1]}")
     pd.DataFrame(rows).to_csv(OUT, index=False)
-    print(f"\nSaved {len(rows)} datasets to {OUT}")
+    print(f"\nSaved {len(rows)} datasets to {OUT.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":

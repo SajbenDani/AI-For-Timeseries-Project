@@ -1,6 +1,6 @@
 # Improving QUANT: what we tried and what happened
 
-*Status, 11 November 2026: all experiments are complete: round 1 (five ideas), round 2 (five "efficient approaches", ideas 14–18), with their stress tests and one-core timings, round 3 (ideas 7, 11, 12, 13, and multivariate data with idea 19) and round 4 (idea 9 and stacking). The two choices we made after seeing results were also checked on data they had not seen: idea 18's two-level gate (it held up) and idea 10's "padded + native" version (its gain mostly did not carry over).*
+This is the full write-up of our four rounds of experiments: round 1 (five ideas), round 2 (five "efficient approaches", ideas 14–18), each with stress tests and one-core timings, round 3 (ideas 7, 11, 12, 13, and multivariate data with idea 19) and round 4 (idea 9 and stacking). The two choices we made after seeing results were also checked on data they had not seen: idea 18's two-level gate (it held up) and idea 10's "padded + native" version (its gain mostly did not carry over).
 
 ## The short version
 
@@ -9,8 +9,7 @@ Over four rounds we tested fifteen ideas on the 142 univariate datasets, and one
 **Round 1** tried five ways to make QUANT more accurate. One clearly worked:
 
 - **Combining QUANT with Hydra** (a second, very different method) raised average accuracy from **85.4% to 87.4%** over 142 datasets. That puts it level with HIVE-COTE 2, the most accurate method in the big 2024 comparison, which takes weeks.
-- **The price:** on one CPU core, QUANT needs 16 minutes for all 142 datasets, and the combination needs **66 minutes** (simple average) to **91 minutes** (weighted average). That is **4–6× longer**. It is about what MultiRocket+Hydra costs, and that method is almost as accurate.
-  - *Correction (found in round 2):* as we ran it, the simple average still needed part of the cross-validation, which made it ×5.0 rather than ×4.2. Round 2 replaces that cross-validation with a free calibration, at the same accuracy: ×4.1.
+- **The price:** on one CPU core, QUANT needs 16 minutes for all 142 datasets, and the combination needs about **70 minutes** (simple average) to **91 minutes** (weighted average). That is **4–6× longer**. It is about what MultiRocket+Hydra costs, and that method is almost as accurate.
 
 The other ideas:
 
@@ -42,8 +41,9 @@ The main lesson is that QUANT's reliance on *where* things happen in a series is
 - **Accuracy**: the share of test series a method labels correctly. "+1 point" means +1 percentage point, e.g. 85.4% → 86.4%.
 - **Dataset**: one classification problem from the UCR archive, e.g. telling apart gestures, heartbeats or kinds of beef from their measured curves. We use the 142 datasets of the QUANT paper.
 - **Resample**: one random split of a dataset into training and test data. The archive provides 30 fixed splits, so everyone tests on exactly the same splits.
-- **W/D/L (wins/draws/losses)**: on how many datasets the new version beat, tied or lost to plain QUANT.
+- **W/D/L (wins/draws/losses)**: on how many datasets the new version beat, tied or lost to plain QUANT, with accuracies rounded to 4 decimals.
 - **p-value (Wilcoxon signed-rank test)**: how likely a difference this consistent would be if the change really did nothing. Below 0.05 we call it a real effect, not luck.
+- **Holm correction**: we tested many ideas, and with many tests some look real by luck. Holm's method makes the test stricter the more ideas there are. Over all 21 comparisons with plain QUANT in the paper's Table III, every gain we call a success stays below 0.05 (ideas 2, 10 and 14 only just, at about 0.049); the small loss of augmentation with test-time averaging does not. See `results/checks/multiple_testing.txt` (`python scripts/multiple_testing.py`).
 
 ## What the experiments were based on
 
@@ -90,16 +90,16 @@ All accuracies are averages over 142 datasets × 10 splits unless noted. Plain Q
 - **Result:** 87.39%, **+2.0 points**, better on 99 datasets and worse on 33.
   - On the 18 many-class datasets: +6.4 points, e.g. PigCVP +27, PigAirwayPressure +26.
   - It beats picking the better of the two methods per dataset (87.29%), because combining helps even where both are decent.
-  - Equal weights gave almost the same: 87.25%. (*Correction:* this version still used the cross-validation to calibrate Hydra's scores; see "A correction to idea 3" in round 2. Calibrated for free instead, it also gives 87.25%.)
+  - Equal weights gave almost the same: 87.25%.
 - **Cost: 4–6× slower than QUANT.** Compute time for one train/test run of all 142 datasets on one CPU core, measured the way the QUANT paper reports its 15 minutes:
 
   | | Minutes | vs QUANT | Accuracy |
   |---|---|---|---|
   | QUANT alone | 15.7 | ×1 | 85.36% |
-  | QUANT + Hydra, equal weights* | 65.6 | ×4.2 | 87.25% |
+  | QUANT + Hydra, equal weights* | 69.5 | ×4.1 | 87.25% |
   | QUANT + Hydra, weighted | 91.3 | ×5.8 | 87.39% |
 
-  \*Without the cross-validation that calibrated Hydra's scores, which this version still used. That took 15.1 min more in the round-2 timing run, making it ×5.0. With round 2's free calibration it costs ×4.1 (69.5 min against QUANT's 16.8 min in that run), at the same accuracy.
+  \*Measured in the round-2 timing run (QUANT: 16.8 min there), with Hydra's scores calibrated for free; see "How Hydra's scores are calibrated" in round 2. As first run in round 1, with a cross-validation for the calibration, it cost ×5.0.
 
   - **Where the time goes** (weighted version, 91 min):
     - computing Hydra's features: 46 min, half of the total;
@@ -107,7 +107,7 @@ All accuracies are averages over 142 datasets × 10 splits unless noted. Plain Q
     - QUANT itself: 16 min;
     - training Hydra's classifier: 4 min.
   - **The weighting is poor value.** It costs 26 extra minutes for +0.14 points, so the equal-weights version is the better deal.
-  - **On all 12 threads** of the laptop, the same run takes 5.2 min (QUANT), 24.9 min (equal weights) and 34.1 min (weighted).
+  - **On all 12 threads** of the laptop, the round-1 run takes 5.2 min (QUANT), 24.9 min (equal weights, round-1 version) and 34.1 min (weighted).
   - **In context:** the QUANT paper reports about 1 h 15 min for MultiRocket+Hydra and several weeks for HIVE-COTE 2. So the ensemble reaches HIVE-COTE 2's accuracy at roughly MultiRocket+Hydra's cost. It is *not* cheaper than MultiRocket+Hydra, which is about as accurate.
 
 ### Idea 1: position-free pooled quantiles. Small success.
@@ -135,7 +135,7 @@ All accuracies are averages over 142 datasets × 10 splits unless noted. Plain Q
   - It closes 41% of the gap to MultiRocket+Hydra on these datasets.
   - Across all 142 datasets this would move QUANT's average from 85.51% to 85.67%.
 - **Caveat:** we added this version *after* seeing the first results, and tested it on the same 11 datasets. So we checked it on fresh data.
-- **Fresh-data check (10 Oct):** the 142 benchmark datasets include three more datasets that were originally variable-length and padded (with low-level noise, like the 11): AsphaltObstacles, AsphaltPavementType and AsphaltRegularity, recordings of road surfaces. We had never used them in this test. Their original, unpadded files are on timeseriesclassification.com, and we checked that each padded series starts with exactly its original (same order, labels and values). We ran the same three versions, unchanged, with all 30 splits:
+- **Fresh-data check:** the 142 benchmark datasets include three more datasets that were originally variable-length and padded (with low-level noise, like the 11): AsphaltObstacles, AsphaltPavementType and AsphaltRegularity, recordings of road surfaces. We had never used them in this test. Their original, unpadded files are on timeseriesclassification.com, and we checked that each padded series starts with exactly its original (same order, labels and values). We ran the same three versions, unchanged, with all 30 splits:
 
   | Dataset | Padded (plain QUANT) | Native windows only | Padded + native |
   |---|---|---|---|
@@ -155,7 +155,7 @@ All accuracies are averages over 142 datasets × 10 splits unless noted. Plain Q
 - **What we did:**
   - **Training:** added four copies of every training series, shifted by ±10% and stretched by ±10%.
   - **Testing:** in a second version, also averaged the predictions over the same four copies of each test series ("test-time augmentation", TTA).
-- **Result:** −0.7 points (−0.35 with TTA), worse on about twice as many datasets as it helped (87 vs 46). Both drops are small but real (p < 0.05). The first 28 datasets had suggested −2 points; all 142 show a smaller, mixed effect.
+- **Result:** −0.7 points (−0.35 with TTA), worse on about twice as many datasets as it helped (87 vs 46). Both drops are small but real (p < 0.05).
 - **It helps where QUANT is weakest.** With TTA:
   - PigAirwayPressure +33 points, PigCVP +13;
   - +1.1 on the 18 many-class, few-example datasets.
@@ -188,8 +188,6 @@ This repeats our weakness test with each idea added. Every series is placed at a
 *(a) Accuracy change vs QUANT on all 142 datasets and on the 18 many-class datasets. (b) The stress test. (c) The 11 variable-length datasets.*
 
 ## Round 2: efficient approaches (ideas 14–18)
-
-*Status, 10 October 2026: complete: accuracy on all 142 datasets, both stress tests and the one-core timing.*
 
 ### What we tested, and why
 
@@ -302,17 +300,13 @@ All accuracies are averages over 142 datasets × 10 splits. Plain QUANT scores 8
   - **Lesson:** lopsided random splits are not what limits QUANT's forest. Picking the best of 300 candidates per split seems to make up for it.
 - **Cost:** 1.16×. The rank transform itself is cheap, but the rank-scaled features made training a little slower.
 
-### A correction to idea 3, found while building idea 18
+### How Hydra's scores are calibrated, and what it costs
 
-- **What we reported:** the equal-weights ensemble (87.25%) cost 65.6 min on one core (×4.2), "without the extra cross-validation".
-- **What actually ran:** the equal-weights version still used the cross-validation, to turn Hydra's raw scores into probabilities (fitting a softmax "temperature"). Only the weights were skipped.
-  - The round-2 timing run measured that part: 15.1 min.
-  - So the equal-weights ensemble as we ran it costs **×5.0** QUANT's time, not ×4.2.
-  - The accuracies in round 1 are unaffected.
-- **The fix:**
-  - Ridge regression's built-in search for its regularisation strength already computes every training series' leave-one-out score, exactly and at no extra cost. We checked it against refitting without each series: identical.
-  - Fitting the temperature on those scores replaces the cross-validation.
-  - Over all 142 datasets this gives the **same accuracy: 87.25% against 87.25%** (−0.01 points). It costs ×4.1, which is the ensemble cost idea 18 starts from.
+Hydra's ridge classifier gives raw scores, not probabilities, so before averaging with QUANT they go through a softmax whose "temperature" has to be fitted on predictions for series the classifier has not seen.
+
+- **Round 1** got these predictions from a cross-validation on the training data. That is expensive: 15.1 min of the equal-weights ensemble's time, which made it ×5.0 QUANT's time.
+- **Round 2** gets them for free. Ridge regression's built-in search for its regularisation strength already computes every training series' leave-one-out score, exactly and at no extra cost. We checked it against refitting without each series: identical.
+- **Same accuracy, lower cost.** Over all 142 datasets this gives 87.25% against 87.25% (−0.01 points), at ×4.1 QUANT's time. This is the ensemble cost idea 18 starts from, and the equal-weights number we quote everywhere.
 
 ### What round 2 shows
 
@@ -337,31 +331,35 @@ Every test saves its results after each finished dataset and skips finished data
 ```bash
 python scripts/efficient_tests.py main warp shift   # accuracy (142 x 10) and both stress tests, ~4 h
 python scripts/efficient_tests.py timing            # one-core timing (~3 h); run it alone on the machine
-python scripts/efficient_analysis.py                # -> results/efficient/summary.txt, Papers/figures/efficient.pdf
+python scripts/efficient_analysis.py                # -> results/efficient/summary.txt, Papers/figures/efficient.png
 ```
 
 ## Round 3: the remaining ideas, and multivariate data
 
-*Status, 11 November 2026: complete. Ideas 7, 11, 12 and 13 on the 142 univariate datasets; ideas 18 and 19 on 19 multivariate datasets, with a rotation stress test.*
+Ideas 7, 11, 12 and 13 on the 142 univariate datasets; ideas 18 and 19 on 19 multivariate datasets, with a rotation stress test.
 
 ### Remaining univariate ideas (7, 11, 12, 13)
 
-**Test rules:** the same as rounds 1 and 2: 142 datasets × the first 10 resamples, same seeds, QUANT itself unchanged. Plain QUANT's accuracies (85.36%) come from `results/efficient/efficient.csv`.
-- These runs were done on a different computer (a MacBook) than rounds 1 and 2. Re-fitting plain QUANT there (round 4) gave the same mean, 85.36%, but tiny floating-point differences can flip a single test series: the largest difference on one split was 4.3 points. This can move a few W/D/L counts, not the means.
+**Test rules:** the same as rounds 1 and 2: 142 datasets × the first 10 resamples, same seeds, QUANT itself unchanged.
+- **A second computer.** Rounds 3 and 4 were run on a different computer (a MacBook) than rounds 1 and 2. Plain QUANT, re-fitted there in round 4 with the same splits and seeds, has the same mean accuracy (85.36%), but single results differ: 722 of the 1,420 splits changed, by up to 4.3 points, and one dataset's mean by 0.9 points.
+  - **The seed still works.** On one computer, repeated runs are identical, and re-running 8 datasets on the first laptop a month later reproduced all 80 splits exactly.
+  - **Both computers use the same random draws.** Five hard datasets (for example Beef at 79% and Earthquakes at 75%) are identical on all 10 splits on both computers, which would not happen with a different seed or library version.
+  - **The likely cause is rounding.** A seed fixes the random choices, not the arithmetic: different processors and maths libraries can round QUANT's features differently in the last digit, and one changed comparison in a tree changes everything below it. As a test, we nudged every feature by one rounding step (about 1e-7) on the first laptop with the seed unchanged: 12 of 80 splits changed. We could not check the features on the second computer directly, so this explanation is not proven.
+- **So every idea is compared with plain QUANT fitted on the same computer** (`results/pruning/pruning.csv`). Compared with the first computer's QUANT instead, the changes are the same and only W/D/L counts and p-values move a little (idea 7: p = 0.095 instead of 0.059); no conclusion changes.
 
 | Idea | What it adds | Accuracy | Change | W/D/L | p | Verdict |
 |---|---|---|---|---|---|---|
-| 7. Autocorrelation + AR view | the autocorrelation function (QUANT's windows and quantiles on it) and 10 AR coefficients | 85.61% | +0.25 | 70/13/59 | 0.095 | Did not help on average (but +4 to +15 on the Pig recordings) |
-| 11. Multi-scale differences | for scales 2, 4, 8: mean of the next s points minus mean of the previous s points (undecimated Haar wavelet) | 85.44% | +0.08 | 76/11/55 | 0.19 | Did not help |
-| 12. Order-aware counts | per window: mean crossings, local peaks, longest run above the mean, slope | 85.40% | +0.04 | 68/16/58 | 0.24 | Did not help |
-| 13. Random Forest instead of ExtraTrees | same features, QUANT's forest settings | 84.09% | −1.27 | 14/8/120 | 2e-18 | Worse, and 1.5× the training time |
-| 13. LightGBM instead of ExtraTrees | same features, 200 rounds, 10% of features per tree | 82.66% | −2.70 | 26/3/113 | 1e-14 | Worse, and about 4× the training time |
+| 7. Autocorrelation + AR view | the autocorrelation function (QUANT's windows and quantiles on it) and 10 AR coefficients | 85.61% | +0.25 | 74/13/55 | 0.059 | Did not help on average (but +4 to +14 on the Pig recordings) |
+| 11. Multi-scale differences | for scales 2, 4, 8: mean of the next s points minus mean of the previous s points (undecimated Haar wavelet) | 85.44% | +0.09 | 75/12/55 | 0.15 | Did not help |
+| 12. Order-aware counts | per window: mean crossings, local peaks, longest run above the mean, slope | 85.40% | +0.04 | 63/15/64 | 0.47 | Did not help |
+| 13. Random Forest instead of ExtraTrees | same features, QUANT's forest settings | 84.09% | −1.27 | 14/7/121 | 2e-18 | Worse, and about 5× the training time |
+| 13. LightGBM instead of ExtraTrees | same features, 200 rounds, 10% of features per tree | 82.66% | −2.70 | 29/4/109 | 3e-14 | Worse, and about 14× the training time |
 
-- **Idea 7** helps where series repeat and the beats start anywhere: PigCVP +14.5, PigAirwayPressure +5.8, PigArtPressure +4.3, ToeSegmentation1 +3.7. It hurts on PLAIDEq (−5.6) and DodgerLoopDayNmv (−4.2).
-- **Idea 11:** gains and losses are all within ±3.3 points (Lightning7 +3.3, GestureMidAirD3Eq +3.2; ToeSegmentation1 −2.2, BirdChicken −2.0). QUANT's differences and Fourier view already seem to cover medium-speed change.
-- **Idea 12:** all changes within ±2.3 points. QUANT's quantiles at several window sizes already capture enough of the order of values.
-- **Idea 13:** ExtraTrees' random split points suit QUANT's many correlated features and small training sets. LightGBM collapses with many classes and few examples per class: PigArtPressure −50.3, PigCVP −49.1, FiftyWords −34.6.
-  - On macOS, LightGBM and PyTorch bring two different OpenMP libraries that crash in one process, so `classifier_tests.py` runs LightGBM in a separate process. Its timing was measured partly in low-power mode and is only approximate.
+- **Idea 7** helps where series repeat and the beats start anywhere: PigCVP +14.3, PigAirwayPressure +5.6, ToeSegmentation1 +3.7, PigArtPressure +3.7. It hurts on PLAIDEq (−5.7) and DodgerLoopDayNmv (−4.2).
+- **Idea 11:** gains and losses are all within ±3.4 points (Lightning7 +3.4, GestureMidAirD3Eq +2.9; ToeSegmentation1 −2.2, BirdChicken −2.0). QUANT's differences and Fourier view already seem to cover medium-speed change.
+- **Idea 12:** all changes within ±2.5 points. QUANT's quantiles at several window sizes already capture enough of the order of values.
+- **Idea 13:** ExtraTrees' random split points suit QUANT's many correlated features and small training sets. LightGBM collapses with many classes and few examples per class: PigArtPressure −50.9, PigCVP −49.4, FiftyWords −34.8.
+  - On macOS, LightGBM and PyTorch bring two different OpenMP libraries that crash in one process, so `classifier_tests.py` runs LightGBM in a separate process. Its timing was measured partly in low-power mode and is only approximate. Both training times are relative to QUANT's forest on the same computer (from the pruning run), on all cores.
 
 ### Multivariate data (ideas 18 and 19)
 
@@ -408,8 +406,6 @@ A sanity check (`results/cross_channel/check.txt`) confirmed that rotating the s
 
 ## Round 4: pruning and stacking (ideas 9 and 1 + 14 + 18)
 
-*Status, 11 November 2026: complete.*
-
 ### Idea 9: feature pruning
 
 **What we did:** a small forest (50 trees, QUANT's settings) ranks the features on the training data only; QUANT's normal forest (200 trees) is then trained on the top 50%, 25% or 10%. Plain QUANT was re-fitted in the same run, on the same computer, so the times compare fairly (training time only, all cores).
@@ -418,8 +414,8 @@ A sanity check (`results/cross_channel/check.txt`) confirmed that rotating the s
 |---|---|---|---|---|---|
 | 100% (QUANT) | 85.36% | | | | 1× |
 | 50% | 85.43% | +0.07 | 82/14/46 | 0.019 | 1.2× faster |
-| **25%** | **85.65%** | **+0.29** | 87/14/41 | 5e-5 | **1.7× faster** |
-| 10% | 85.54% | +0.18 | 72/12/58 | 0.15 | 2.0× faster |
+| **25%** | **85.65%** | **+0.29** | 86/15/41 | 5e-5 | **1.7× faster** |
+| 10% | 85.54% | +0.18 | 72/13/57 | 0.15 | 2.0× faster |
 
 - **Keeping a quarter of the features makes QUANT both faster and slightly more accurate.** Three quarters of its features add cost but no accuracy.
 - At 10% a few datasets suffer (SmoothSubspace −7.0, Crop −3.5).
@@ -432,14 +428,14 @@ A sanity check (`results/cross_channel/check.txt`) confirmed that rotating the s
 | Method | Accuracy | Change vs QUANT | W/D/L | p |
 |---|---|---|---|---|
 | QUANT | 85.36% | | | |
-| Ideas 1 + 14 | 85.79% | +0.43 | 91/13/38 | 1e-6 |
+| Ideas 1 + 14 | 85.79% | +0.43 | 92/13/37 | 1e-6 |
 | Idea 18 (fixed setting) | 87.22% | +1.86 | 89/27/26 | 4e-11 |
-| **Ideas 1 + 14 + 18** | **87.47%** | **+2.11** | 105/11/26 | 1e-14 |
+| **Ideas 1 + 14 + 18** | **87.47%** | **+2.11** | 106/11/25 | 1e-14 |
 
-- **Yes, the gains stack:** +0.25 points over idea 18 at the same setting (91/14/37, p = 4e-8), and no dataset loses more than 0.5 points. Largest gains: FloodModeling3Discrete +4.2, PigAirwayPressure +3.0.
-- **That is 0.06 points below HIVE-COTE 2** (87.53% on the same splits), which needs weeks.
+- **Yes, the gains stack:** +0.25 points over idea 18 at the same setting (92/14/36, p = 4e-8), and no dataset loses more than 0.5 points. Largest gains: FloodModeling3Discrete +4.2, PigAirwayPressure +3.0.
+- **That is 0.06 points below HIVE-COTE 2** (87.53% on the same splits), which needs weeks. The difference is not significant (62/8/72, p = 0.55), so the two are statistically level; against MultiRocket+Hydra it is +0.41 points (68/7/67, p = 0.25).
+- **Two caveats.** The gate setting was fixed after round 2 and not picked on held-out datasets, which is why idea 18 scores 87.22% here against 87.16% in round 2. And the comparison with HIVE-COTE 2 is about accuracy only: the stacked version's compute time was not measured (from its parts it should be about 2.5–3× QUANT's).
 - Hydra was asked about 29% of the test series, in 73% of the datasets (idea 18: 30% and 76%).
-- Its compute time was not measured; from its parts it should be about 2.5–3× QUANT's.
 
 ### How to rerun rounds 3 and 4
 
@@ -447,10 +443,8 @@ Every test saves after each finished dataset and skips finished datasets when re
 
 ```bash
 # Round 3, univariate (142 x 10)
-python scripts/autocorr_tests.py main && python scripts/autocorr_tests.py summary          # idea 7
-python scripts/multiscale_tests.py main && python scripts/multiscale_tests.py summary      # idea 11
-python scripts/order_counts_tests.py main && python scripts/order_counts_tests.py summary  # idea 12
-python scripts/classifier_tests.py main rf lgbm && python scripts/classifier_tests.py summary  # idea 13
+python scripts/view_tests.py main                               # ideas 7, 11 and 12 (--ideas 7 for one of them)
+python scripts/classifier_tests.py main rf lgbm                 # idea 13
 
 # Round 3, multivariate (19 UEA datasets x 5)
 python scripts/multivariate_datasets.py                         # download, -> results/multivariate/datasets.csv
@@ -462,6 +456,10 @@ python scripts/cross_channel_tests.py rotate rotate_summary     # rotation stres
 # Round 4 (142 x 10)
 python scripts/pruning_tests.py main summary                    # idea 9
 python scripts/stacking_tests.py main summary                   # ideas 1 + 14 + 18
+
+# Summaries of ideas 7, 11, 12 and 13: after the pruning run, which provides plain QUANT on the same computer
+python scripts/view_tests.py summary && python scripts/classifier_tests.py summary
+python scripts/multiple_testing.py                              # Holm correction over all comparisons (see below)
 ```
 
 ## How this compares with the original QUANT
@@ -494,13 +492,13 @@ The bake-off used the same official splits, so these comparisons are like-for-li
 8. **On multivariate data, what QUANT misses is how channels move together.** It treats every channel on its own. Views built from several channels (idea 19) gave +2.6 points on 19 UEA datasets, more than the Hydra second opinion (+1.4), and the two stack (+3.6).
 9. **Robustness can be built in where the invariance is known.** For 3-axis sensors, the magnitude and the main direction of movement do not change when the device is tilted. With them QUANT lost a third less accuracy under random rotations (12.3 instead of 18.1 points), unlike in point 6, where robustness came without an accuracy gain.
 
-## What is left
+## Where the results are, and what could come next
 
-All four rounds are done, including the fresh-data checks. The raw results are in `results/improvements/` (round 1, and `varlen_fresh/` for idea 10's check), `results/efficient/` (round 2), `results/autocorr/`, `results/multiscale/`, `results/order_counts/`, `results/classifiers/`, `results/multivariate/`, `results/cross_channel/` (round 3), and `results/pruning/`, `results/stacking/` (round 4). `python scripts/improvement_analysis.py` and `python scripts/efficient_analysis.py` rebuild the summaries, and `python scripts/paper_figures.py` rebuilds the paper's Fig. 2.
+The raw results are in `results/improvements/` (round 1, and `varlen_fresh/` for idea 10's check), `results/efficient/` (round 2), `results/autocorr/`, `results/multiscale/`, `results/order_counts/`, `results/classifiers/`, `results/multivariate/`, `results/cross_channel/` (round 3), and `results/pruning/`, `results/stacking/` (round 4). The README lists the command that rebuilds each summary and figure from them.
 
-1. **The paper** (`Papers/documentation.tex`) contains all of these results: 6 pages of content, then the work plan page and the references.
-2. **Worth trying next:**
-   - ~~Do the gains stack?~~ Answered in round 4: yes, ideas 1 + 14 + 18 reach 87.47%.
-   - Augmentation could be switched on only for datasets with very few examples per class.
-   - Multivariate: the full UEA archive with official resamples, and a one-core timing of idea 19 and of the stacked version.
-   - The ideas we could not try on our hardware (paper, Section VII): a tabular foundation model (TabPFN or TabICL) on QUANT's features needs a GPU, and the large MONSTER datasets need far more than our 20 GB disk budget.
+Worth trying next:
+
+- A one-core timing of the stacked version (ideas 1 + 14 + 18) and of idea 19, so their cost can be set next to their accuracy.
+- Augmentation switched on only for datasets with very few examples per class.
+- Multivariate: the full UEA archive with official resamples.
+- The ideas we did not get to: a tabular foundation model on QUANT's features (idea 4, needs a GPU), aligning series before windowing (idea 6) and oblique trees (idea 8).

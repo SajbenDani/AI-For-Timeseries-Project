@@ -8,9 +8,9 @@ All datasets:
 
 The 6 3-axis sensor datasets:
   QUANT                                     85.63%
-  Idea 18 (QUANT + Hydra, gated)            88.29%   vs QUANT: +2.66 pts, 3/3/0, p=0.25
+  Idea 18 (QUANT + Hydra, gated)            88.29%   vs QUANT: +2.67 pts, 3/3/0, p=0.25
   Idea 19 (QUANT + cross-channel views)     85.92%   vs QUANT: +0.29 pts, 2/1/3, p=1
-  Ideas 18 + 19 (views + Hydra, gated)      88.27%   vs QUANT: +2.64 pts, 3/1/2, p=0.5   vs Idea 18: -0.02 pts, 2/1/3, p=0.94
+  Ideas 18 + 19 (views + Hydra, gated)      88.27%   vs QUANT: +2.64 pts, 3/1/2, p=0.5   vs Idea 18: -0.03 pts, 2/1/3, p=0.94
 
 Per dataset (%):
                             QUANT  Idea 18 (QUANT + Hydra, gated)  Idea 19 (QUANT + cross-channel views)  Ideas 18 + 19 (views + Hydra, gated)

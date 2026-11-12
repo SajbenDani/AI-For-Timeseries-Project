@@ -13,8 +13,6 @@ needed for a reproducibility study:
 
 import argparse
 import csv
-import importlib.util
-import os
 import sys
 import time
 from pathlib import Path

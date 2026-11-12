@@ -2,11 +2,8 @@
 
 Usage: python scripts/weakness_analysis.py
 Reads results/weaknesses/* (from scripts/weakness_tests.py), our reproduction results and the bake-off files.
-Writes results/weaknesses/summary.txt and Papers/figures/weaknesses.pdf.
+Writes results/weaknesses/summary.txt and Papers/figures/weaknesses.pdf (the paper's Fig. 1).
 """
-
-import re
-from pathlib import Path
 
 import matplotlib
 
@@ -16,9 +13,10 @@ import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 from scipy.stats import spearmanr, wilcoxon  # noqa: E402
 
-ROOT = Path(__file__).resolve().parents[1]
+from analysis_utils import NAMES, ROOT, bakeoff  # noqa: E402
+from analysis_utils import paired as paired_stats  # noqa: E402
+
 W = ROOT / "results" / "weaknesses"
-NAMES = (ROOT / "codebase" / "quant" / "code" / "ucr142.txt").read_text().split()
 REPRO = pd.read_csv(ROOT / "results" / "repro" / "quant_ucr142_30res.csv")
 ACC = REPRO.groupby("dataset").accuracy.mean()  # our QUANT, mean over 30 resamples
 STATS = pd.read_csv(ROOT / "results" / "checks" / "dataset_stats.csv", index_col=0)
@@ -32,17 +30,9 @@ def say(text=""):
     lines.append(str(text))
 
 
-def bakeoff(method, metric="accuracy"):
-    d = pd.read_csv(ROOT / "results" / "bakeoff_redux" / f"best_{method}_{metric}.csv", index_col=0)
-    d.index = [re.sub("_disc$", "Discrete", re.sub("_nmv$", "Nmv", re.sub("_eq$", "Eq", i))) for i in d.index]
-    return d.mean(axis=1)
-
-
 def paired(a, b):
-    """Mean difference, W/D/L and Wilcoxon p of per-dataset accuracies a vs b (W/D/L on 4 decimals)."""
-    d = a.round(4) - b.round(4)
-    p = wilcoxon(a, b, zero_method="pratt").pvalue if (d != 0).any() else 1.0
-    return f"diff {d.mean():+.4f}  W/D/L {(d > 0).sum()}/{(d == 0).sum()}/{(d < 0).sum()}  Wilcoxon p={p:.2g}"
+    diff, w, d, l_, p = paired_stats(a, b)
+    return f"diff {diff:+.4f}  W/D/L {w}/{d}/{l_}  Wilcoxon p={p:.2g}"
 
 
 results = {}
@@ -178,7 +168,7 @@ if (W / "normalise.csv").exists():
 # == 6. class imbalance (bake-off runs of QUANT and MultiRocket+Hydra) ================================
 say("== 6. Class imbalance: balanced accuracy vs accuracy gap to MultiRocket+Hydra (bake-off runs) ==")
 imbalance = STATS.imbalance[NAMES].rename(None)  # largest / smallest class in the original training split
-extra = (bakeoff("QUANT", "balacc") - bakeoff("MR-Hydra", "balacc")) - (bakeoff("QUANT") - bakeoff("MR-Hydra"))
+extra = (bakeoff("QUANT", metric="balacc") - bakeoff("MR-Hydra", metric="balacc")) - (bakeoff("QUANT") - bakeoff("MR-Hydra"))
 r = spearmanr(imbalance[extra.index], extra)
 say(f"Spearman(imbalance ratio, extra balanced-accuracy gap): rho={r.statistic:+.2f} p={r.pvalue:.2g}")
 say(extra.groupby(pd.cut(imbalance[extra.index], [0, 1.5, 3, np.inf], labels=["balanced (<=1.5)", "1.5-3", ">3"]),
@@ -239,5 +229,4 @@ if {"shift", "fewshot", "padding"} <= results.keys():
     out = ROOT / "Papers" / "figures" / "weaknesses.pdf"
     out.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(out)
-    fig.savefig(out.with_suffix(".png"), dpi=200)
     print(f"wrote {out}")

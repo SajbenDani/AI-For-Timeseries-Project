@@ -1,7 +1,7 @@
 """Idea 19 (ideas.md): cross-channel views for multivariate QUANT.
 
   python scripts/cross_channel_tests.py check     # sanity check of the views -> results/cross_channel/check.txt
-  python scripts/cross_channel_tests.py main      # QUANT + views (M4) and idea 18 on top (M5), 19 UEA datasets x 5
+  python scripts/cross_channel_tests.py main      # QUANT + views, and idea 18 on top, 19 UEA datasets x 5
   python scripts/cross_channel_tests.py summary   # -> results/cross_channel/summary.txt, vs results/multivariate
   python scripts/cross_channel_tests.py rotate          # rotation stress test: all 5 methods, 6 sensor datasets tilted
   python scripts/cross_channel_tests.py rotate_summary  # -> results/cross_channel/rotate_summary.txt
@@ -15,7 +15,8 @@ windows and quantiles (its code is not changed):
     difference shows how they move relative to each other; at most 15 fixed random pairs), and the signal along the
     main direction of all (standardised) channels.
 Everything is computed per series and never looks at the labels, so, like QUANT, it is computed once for all series.
-Same splits, seeds and forest as scripts/multivariate_tests.py, so M4/M5 compare directly with M1/M3 there.
+Same splits, seeds and forest as scripts/multivariate_tests.py, so the results compare directly with QUANT and
+idea 18 there.
 A dataset that fails is reported and skipped, so one error never stops the run.
 """
 
@@ -27,8 +28,9 @@ import warnings
 
 import numpy as np
 import pandas as pd
-from scipy.stats import wilcoxon
 
+from analysis_utils import KEY, paired
+from analysis_utils import two_level as gate_at
 from multivariate_tests import (
     MIN_ASKED,
     NAMES,
@@ -37,7 +39,6 @@ from multivariate_tests import (
     THRESHOLD,
     UEADataset,
     hydra_features,
-    paired,
     quant_features,
 )
 from weakness_tests import append, finished
@@ -209,11 +210,11 @@ def test_check(args):
     lines.append(pd.DataFrame(rows).set_index("dataset").to_string())
     text = "\n".join(lines)
     OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / "check.txt").write_text(text + "\n")
+    (OUT / "check.txt").write_text(text + "\n", encoding="utf-8")
     print(text)
 
 
-# == M4 and M5 ========================================================================================
+# == idea 19, and idea 18 on top ======================================================================
 
 
 def test_main(args):
@@ -270,18 +271,14 @@ def test_main(args):
 
 def two_level(df, method, quant):
     """Idea 18's two-level gate at the setting used in multivariate_tests.py."""
-    g = df[(df["method"] == method) & np.isclose(df["threshold"], THRESHOLD)].set_index(
-        ["dataset", "resample"]
-    )
-    return g["accuracy"].where(g["asked"] >= MIN_ASKED, quant.reindex(g.index))
+    return gate_at(df, method, quant, THRESHOLD, MIN_ASKED)
 
 
 def test_summary(args):
     old = pd.read_csv(MV_OUT / "main.csv")
     new = pd.read_csv(OUT / "main.csv")
-    key = ["dataset", "resample"]
-    q = old[old["method"] == "QUANT"].set_index(key)["accuracy"]
-    q4 = new[new["method"] == "QUANT + cross-channel views"].set_index(key)["accuracy"]
+    q = old[old["method"] == "QUANT"].set_index(KEY)["accuracy"]
+    q4 = new[new["method"] == "QUANT + cross-channel views"].set_index(KEY)["accuracy"]
     methods = {
         "QUANT": q,
         "Idea 18 (QUANT + Hydra, gated)": two_level(old, "QUANT + Hydra, gated", q),
@@ -319,7 +316,7 @@ def test_summary(args):
         lines.append("")
     lines += ["Per dataset (%):", (100 * per).round(2).to_string()]
     text = "\n".join(lines)
-    (OUT / "summary.txt").write_text(text + "\n")
+    (OUT / "summary.txt").write_text(text + "\n", encoding="utf-8")
     print(text)
 
 
@@ -397,12 +394,11 @@ def test_rotate(args):
 
 def five_methods(old, new):
     """Per (dataset, resample) accuracy of the five methods; old has QUANT/Hydra/idea 18, new idea 19 and 18 + 19."""
-    key = ["dataset", "resample"]
-    q = old[old["method"] == "QUANT"].set_index(key)["accuracy"]
-    q4 = new[new["method"] == "QUANT + cross-channel views"].set_index(key)["accuracy"]
+    q = old[old["method"] == "QUANT"].set_index(KEY)["accuracy"]
+    q4 = new[new["method"] == "QUANT + cross-channel views"].set_index(KEY)["accuracy"]
     return {
         "QUANT": q,
-        "Hydra": old[old["method"] == "Hydra"].set_index(key)["accuracy"],
+        "Hydra": old[old["method"] == "Hydra"].set_index(KEY)["accuracy"],
         "Idea 18 (QUANT + Hydra, gated)": two_level(old, "QUANT + Hydra, gated", q),
         "Idea 19 (QUANT + cross-channel views)": q4,
         "Ideas 18 + 19 (views + Hydra, gated)": two_level(
@@ -447,7 +443,7 @@ def test_rotate_summary(args):
             )
     lines += ["", "Per dataset at 180 deg (%):", (100 * worst).round(2).to_string()]
     text = "\n".join(lines)
-    (OUT / "rotate_summary.txt").write_text(text + "\n")
+    (OUT / "rotate_summary.txt").write_text(text + "\n", encoding="utf-8")
     print(text)
 
 

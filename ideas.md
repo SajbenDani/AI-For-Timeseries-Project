@@ -1,8 +1,8 @@
 # Ideas for improving QUANT
 
-The most promising ways to improve QUANT. Ideas 1–10 are ranked by expected impact. Ideas 11–13 came from the team's suggestions, and the verdict on every suggestion is at the end. Ideas 14–18 are **efficient approaches**: new ideas, added after our experiments, that should raise accuracy while keeping QUANT cheap. Each idea is backed by (a) something we **measured** in our weakness tests (paper Section IV, `results/weaknesses/summary.txt`) and (b) **published work** it builds on.
+Every idea we considered for improving QUANT, with the evidence behind it and what happened when we tested it. Ideas 1–10 are ranked by expected impact. Ideas 11–13 came out of our team discussions (the verdict on every suggestion is at the end). Ideas 14–18 are **efficient approaches**, added after the first round of experiments: they should raise accuracy while keeping QUANT cheap. Idea 19 is for multivariate data. Each idea is backed by (a) something we **measured** in our weakness tests (paper Section IV, `results/weaknesses/summary.txt`) and (b) **published work** it builds on.
 
-**Status (7 Oct 2026):** ideas 1, 2, 3, 5 and 10 have been implemented and tested on all 142 datasets, plus a stress test with patterns at random positions (`scripts/improvement_tests.py`). Results and explanations are in [report.md](report.md). The other ideas are not implemented. Ideas 14–18 (efficient approaches) were added on 7 Oct 2026. All five are implemented and tested on the 142 datasets, plus two stress tests (complete, 10 Oct). Results are in [report.md](report.md), "Round 2". The two choices we made after seeing results were then checked on data they had not seen (10 Oct): idea 18's two-level gate held up, while idea 10's "padded + native" version gave only +0.2 pts on three fresh datasets.
+**Status:** every idea except 4, 6 and 8 has been implemented and tested; the Status column below and the note under each idea give the result. Idea 4 needs a GPU, and ideas 6 and 8 were not tried. Full results and explanations are in [report.md](report.md). The two choices we made after seeing results were checked on data they had not seen: idea 18's two-level gate held up, while idea 10's "padded + native" version gave only +0.2 pts on three fresh datasets. Ideas 7, 9, 11–13 and the stacking were run on a second computer and are compared with plain QUANT fitted on that computer.
 
 **The one-sentence diagnosis behind most ideas:** QUANT describes "what values occur in a *fixed window*", so when the same pattern appears at a different time, it produces different features. When patterns moved to random positions, QUANT lost 5.6 accuracy points against Hydra's 2.4 (Hydra is position-free). The same cause most likely explains its large losses on gesture data (−5.1 points) and on many-class data with few examples (up to −27 points).
 
@@ -16,13 +16,13 @@ The most promising ways to improve QUANT. Ideas 1–10 are ranked by expected im
 | 4 | QUANT features + tabular foundation model (TabPFN / TabICL) | Few examples, many classes | Medium | Medium (GPU helps) | Yes (only ROCKET-style features tried) | Not done (needs a GPU) |
 | 5 | Shift/warp augmentation of training data + test-time augmentation | Patterns at different positions / speeds | Low | Low | For QUANT, yes | **Done: did not help** on average (−0.7 pts; −0.35 with test-time averaging), but +1.1 pts on many-class data and +2.0 under random shifts |
 | 6 | Align series before windowing (cross-correlation / phase alignment) | Position; periodic signals | Low-medium | Medium | For QUANT, yes | Not done |
-| 7 | Phase-invariant representations (autocorrelation, AR coefficients) | Periodic signals with random phase | Low | Low | Partly (rSTSF uses AR) | **Done: did not help on average** (+0.25 pts, 70/13/59, p = 0.095), but large gains on the periodic Pig datasets (PigCVP +14.5, PigAirwayPressure +5.8, PigArtPressure +4.3); worst PLAIDEq −5.6 |
+| 7 | Phase-invariant representations (autocorrelation, AR coefficients) | Periodic signals with random phase | Low | Low | Partly (rSTSF uses AR) | **Done: did not help on average** (+0.25 pts, 74/13/55, p = 0.059), but large gains on the periodic Pig datasets (PigCVP +14.3, PigAirwayPressure +5.6, PigArtPressure +3.7); worst PLAIDEq −5.7 |
 | 8 | Oblique / rotation trees for correlated quantile features | Few examples; wasted splits | Medium | Medium (speed) | For QUANT, yes | Not done |
-| 9 | Prune features + sample big windows more often (authors' own idea) | Training cost on long series | Low-medium | Low | Partly | **Done: success** (pruning only: keep the top 25% of features → +0.29 pts, 87/14/41, p = 5e-5, 1.7× faster training; 10% → +0.18, p = 0.15, 2.0× faster; 50% → +0.07, 1.2× faster) |
+| 9 | Prune features + sample big windows more often (authors' own idea) | Training cost on long series | Low-medium | Low | Partly | **Done: success** (pruning only: keep the top 25% of features → +0.29 pts, 86/15/41, p = 5e-5, 1.7× faster training; 10% → +0.18, p = 0.15, 2.0× faster; 50% → +0.07, 1.2× faster) |
 | 10 | Native variable-length QUANT (windows relative to each series' length) | Padding (costs ~8 points) | Medium | Low | Yes (aeon can't do it) | **Done: partial success** (padded + native: +2.0 pts on the 11 mostly-gesture datasets, but only +0.2 on 3 fresh datasets; native alone +0.1) |
-| 11 | Multi-scale differences ("wavelet-like" views) | Change at medium speeds, located in time | Low | Low | For QUANT, yes | **Done: did not help** (+0.08 pts, 76/11/55, p = 0.19; all per-dataset changes within ±3.3 pts) |
-| 12 | Order-aware counts per window (mean crossings, peaks, slope) | Quantiles ignore the order of values inside a window | Low | Low | For QUANT, yes | **Done: did not help** (+0.04 pts, 68/16/58, p = 0.24; all per-dataset changes within ±2.3 pts) |
-| 13 | Quick classifier check: Random Forest, LightGBM | Completes the "which classifier?" comparison | Low | Low (expect small gains) | No | **Done: did not help** (Random Forest −1.27 pts, 14/8/120, p = 2e-18; LightGBM −2.70 pts, 26/3/113, p = 1e-14, up to −50 pts on the many-class Pig datasets). ExtraTrees stays the best choice |
+| 11 | Multi-scale differences ("wavelet-like" views) | Change at medium speeds, located in time | Low | Low | For QUANT, yes | **Done: did not help** (+0.09 pts, 75/12/55, p = 0.15; all per-dataset changes within ±3.4 pts) |
+| 12 | Order-aware counts per window (mean crossings, peaks, slope) | Quantiles ignore the order of values inside a window | Low | Low | For QUANT, yes | **Done: did not help** (+0.04 pts, 63/15/64, p = 0.47; all per-dataset changes within ±2.5 pts) |
+| 13 | Quick classifier check: Random Forest, LightGBM | Completes the "which classifier?" comparison | Low | Low (expect small gains) | No | **Done: did not help** (Random Forest −1.27 pts, 14/7/121, p = 2e-18; LightGBM −2.70 pts, 29/4/109, p = 3e-14, up to −51 pts on the many-class Pig datasets). ExtraTrees stays the best choice |
 | 14 | *Efficient approach:* speed-invariant quantiles (values weighted by how much the series moves) | The same movement made at different speeds (gestures, handwriting) | Low-medium | Medium | Yes | **Done: success (small)** (+0.14 pts, p = 0.006; +0.5 where elastic methods win; ×1.33 runtime) |
 | 15 | *Efficient approach:* cycle view: fold repeating series into one typical cycle | Position and rate in repeating signals (Pig, appliances) | Medium | Medium | Yes (folding is done by hand in astronomy) | **Done: did not help** (±0.00; but +1.5 pts under random shifts; ×1.19 runtime) |
 | 16 | *Efficient approach:* shape-aware Fourier view (a slice of the bispectrum) | QUANT's position-free view is blind to shape | Low | Medium | Yes (bispectra used only as 2-D images for CNNs) | **Done: did not help** (+0.11, p = 0.24; but +1.0 on gestures; ×1.16 runtime) |
@@ -48,7 +48,7 @@ The most promising ways to improve QUANT. Ideas 1–10 are ranked by expected im
 | *MultiRocket+Hydra (bake-off redux, same splits)* | *87.06%* | *+1.70* | *≈5×* |
 | *HIVE-COTE 2 (bake-off redux, same splits)* | *87.53%* | *+2.17* | *weeks* |
 
-\*Fixed gate setting (gap < 0.4, Hydra only if ≥ 10% of a dataset's test series are unsure). At the same setting idea 18 alone gives 87.22%, so stacking adds +0.25 pts (91/14/37, p = 4e-8), and no dataset loses more than 0.5 pts. Code: `scripts/stacking_tests.py`; results: `results/stacking/summary.txt`.
+\*Fixed gate setting (gap < 0.4, Hydra only if ≥ 10% of a dataset's test series are unsure). At the same setting idea 18 alone gives 87.22%, so stacking adds +0.25 pts (92/14/36, p = 4e-8), and no dataset loses more than 0.5 pts. The stacked version is statistically level with HIVE-COTE 2 (−0.06 pts, p = 0.55). This setting was fixed after round 2 and not picked on held-out datasets, and the stacked version was not timed. Code: `scripts/stacking_tests.py`; results: `results/stacking/summary.txt`.
 
 Idea 10 (padded + native windows) is not in this table because it was tested only on the 11 variable-length datasets: +2.0 pts there, +0.2 on 3 fresh ones.
 
@@ -122,7 +122,7 @@ Rotation stress test (6 datasets with 3-axis sensors, every series tilted by up 
 
 **What.** Keep QUANT's features but replace the forest with **TabPFN** or **TabICL**. These models are pre-trained on millions of synthetic tables and classify a new dataset in a single forward pass, with no training.
 - They accept at most 500–2,000 features, so we reduce QUANT's ~3,000 features first, using idea 9's ranking or random feature groups as RocketPFN does.
-- For more classes than the model's built-in limit, use TabPFN's official [many-class extension](https://docs.priorlabs.ai/extensions/many-class), which splits the problem into smaller ones. This covers the 52-class Pig data.
+- For more classes than the model's built-in limit, use TabPFN's official [many-class extension](https://docs.priorlabs.ai/capabilities/many-class), which splits the problem into smaller ones. This covers the 52-class Pig data.
 
 **Why it should help.**
 - QUANT is weakest with many classes and few examples (−5.6 points vs Hydra on 18 datasets), and these models are built exactly for small data.
@@ -175,7 +175,7 @@ Rotation stress test (6 datasets with 3-axis sensors, every series tilted by up 
 **How to test.** Use the shift test, the Pig datasets and the gesture datasets. Check it doesn't hurt the already-aligned datasets.
 
 ## 7. Phase-invariant representations
-> **Status: done. Did not help on average.** 85.36% → 85.61% (+0.25 pts), better on 70 / worse on 59, p = 0.095 (not significant). Large gains where the series repeat: PigCVP +14.5, PigAirwayPressure +5.8, PigArtPressure +4.3, ToeSegmentation1 +3.7. Worst: PLAIDEq −5.6, DodgerLoopDayNmv −4.2. Code: `scripts/autocorr_tests.py`; results: `results/autocorr/summary.txt`.
+> **Status: done. Did not help on average.** 85.36% → 85.61% (+0.25 pts), better on 74 / worse on 55, p = 0.059 (not significant). Large gains where the series repeat: PigCVP +14.3, PigAirwayPressure +5.6, ToeSegmentation1 +3.7, PigArtPressure +3.7. Worst: PLAIDEq −5.7, DodgerLoopDayNmv −4.2. Code: `scripts/view_tests.py` (the view is in `scripts/quant_extensions.py`); results: `results/autocorr/summary.txt`.
 
 **What.** QUANT computes quantiles on four views of each series (raw, 1st and 2nd difference, Fourier magnitude). Add views that ignore *when* things happen:
 - the **autocorrelation function** (how similar the series is to itself shifted by k steps),
@@ -215,7 +215,7 @@ A log-spectrum would add little. Taking the log doesn't change the order of valu
 
 ## 9. Prune features and sample big windows more often (speed)
 
-> **Status: done (pruning part). Success.** A small forest (50 trees, QUANT's settings) ranks the features on the training data; QUANT's forest (200 trees) is then trained on the top 50%, 25% or 10% only. Plain QUANT was re-fitted in the same run for a fair time comparison (training time only, all cores). **25%:** 85.65% vs 85.36% (+0.29 pts), better on 87 / worse on 41, p = 5e-5, 1.7× faster training. **10%:** +0.18 pts, p = 0.15, 2.0× faster (worst: SmoothSubspace −7.0). **50%:** +0.07 pts, p = 0.019, 1.2× faster. "Sample big windows more often" was not tried. Code: `scripts/pruning_tests.py`; results: `results/pruning/summary.txt`.
+> **Status: done (pruning part). Success.** A small forest (50 trees, QUANT's settings) ranks the features on the training data; QUANT's forest (200 trees) is then trained on the top 50%, 25% or 10% only. Plain QUANT was re-fitted in the same run for a fair time comparison (training time only, all cores). **25%:** 85.65% vs 85.36% (+0.29 pts), better on 86 / worse on 41, p = 5e-5, 1.7× faster training. **10%:** +0.18 pts, p = 0.15, 2.0× faster (worst: SmoothSubspace −7.0). **50%:** +0.07 pts, p = 0.019, 1.2× faster. "Sample big windows more often" was not tried. Code: `scripts/pruning_tests.py`; results: `results/pruning/summary.txt`.
 
 **What.**
 1. Fit a small forest, keep only the most useful 10–50% of features, then fit the final forest.
@@ -267,7 +267,7 @@ A log-spectrum would add little. Taking the log doesn't change the order of valu
 
 ## 11. Multi-scale differences ("wavelet-like" views)
 
-> **Status: done. Did not help.** Three extra views: for scales 2, 4 and 8, the average of the next s points minus the average of the previous s points at every position (an undecimated Haar wavelet), each described by QUANT's windows and quantiles. 85.36% → 85.44% (+0.08 pts), better on 76 / worse on 55, p = 0.19. Largest gains: Lightning7 +3.3, GestureMidAirD3Eq +3.2; largest losses: ToeSegmentation1 −2.2, BirdChicken −2.0. QUANT's differences and Fourier view already seem to cover this. Code: `scripts/multiscale_tests.py`; results: `results/multiscale/summary.txt`.
+> **Status: done. Did not help.** Three extra views: for scales 2, 4 and 8, the average of the next s points minus the average of the previous s points at every position (an undecimated Haar wavelet), each described by QUANT's windows and quantiles. 85.36% → 85.44% (+0.09 pts), better on 75 / worse on 55, p = 0.15. Largest gains: Lightning7 +3.4, GestureMidAirD3Eq +2.9; largest losses: ToeSegmentation1 −2.2, BirdChicken −2.0. QUANT's differences and Fourier view already seem to cover this. Code: `scripts/view_tests.py` (the view is in `scripts/quant_extensions.py`); results: `results/multiscale/summary.txt`.
 
 **What.** QUANT's first difference shows step-to-step change, smoothed with one fixed moving average of width 5. Add a small stack of views that show change at several speeds: the difference between moving averages of widths 2, 4, 8 and 16 (this is what Haar wavelets compute), each kept at full length. QUANT then takes its usual window quantiles on each.
 
@@ -286,7 +286,7 @@ A log-spectrum would add little. Taking the log doesn't change the order of valu
 
 ## 12. Order-aware counts in each window
 
-> **Status: done. Did not help.** 85.36% → 85.40% (+0.04 pts), better on 68 / worse on 58, p = 0.24. Four counts per window of the raw series (mean crossings, local peaks, longest run above the mean, slope). Largest gains: Rock +1.8, GestureMidAirD2Eq +1.7; largest losses: Covid3MonthDiscrete −2.3, DodgerLoopDayNmv −2.0. QUANT's quantiles at several window sizes already seem to capture enough of the order. Code: `scripts/order_counts_tests.py`; results: `results/order_counts/summary.txt`.
+> **Status: done. Did not help.** 85.36% → 85.40% (+0.04 pts), better on 63 / worse on 64, p = 0.47. Four counts per window of the raw series (mean crossings, local peaks, longest run above the mean, slope). Largest gains: GestureMidAirD2Eq +1.9, Rock +1.8; largest losses: Covid3MonthDiscrete −2.5, DodgerLoopDayNmv −2.0. QUANT's quantiles at several window sizes already seem to capture enough of the order. Code: `scripts/view_tests.py` (the counts are in `scripts/quant_extensions.py`); results: `results/order_counts/summary.txt`.
 
 **What.** For every window QUANT already uses, add a few cheap counts:
 - how often the series crosses its window mean,
@@ -309,7 +309,7 @@ A log-spectrum would add little. Taking the log doesn't change the order of valu
 
 ## 13. Quick classifier check: Random Forest and LightGBM
 
-> **Status: done. Did not help.** Same QUANT features, only the classifier swapped (142 datasets × 10 resamples). **Random Forest** (QUANT's settings: 200 trees, 10% of features, entropy): 84.09% vs 85.36%, −1.27 pts, worse on 120 / better on 14, p = 2e-18; about 1.5× ExtraTrees' training time. Worst: PigAirwayPressure −12.2, PigCVP −8.7. **LightGBM** (200 rounds, 10% of features per tree, leaves of at least 2): 82.66%, −2.70 pts, worse on 113 / better on 26, p = 1e-14; much slower (about 4×, measured partly in low-power mode). It collapses where there are many classes and few examples: PigArtPressure −50.3, PigCVP −49.1, FiftyWords −34.6. ExtraTrees' random split points suit QUANT's many correlated features and small training sets best. Code: `scripts/classifier_tests.py`; results: `results/classifiers/summary.txt`.
+> **Status: done. Did not help.** Same QUANT features, only the classifier swapped (142 datasets × 10 resamples). **Random Forest** (QUANT's settings: 200 trees, 10% of features, entropy): 84.09% vs 85.36%, −1.27 pts, worse on 121 / better on 14, p = 2e-18; about 5× ExtraTrees' training time on the same computer. Worst: PigAirwayPressure −12.4, PigCVP −8.9. **LightGBM** (200 rounds, 10% of features per tree, leaves of at least 2): 82.66%, −2.70 pts, worse on 109 / better on 29, p = 3e-14; much slower (about 14× on the same computer, measured partly in low-power mode, so only approximate). It collapses where there are many classes and few examples: PigArtPressure −50.9, PigCVP −49.4, FiftyWords −34.8. ExtraTrees' random split points suit QUANT's many correlated features and small training sets best. Code: `scripts/classifier_tests.py`; results: `results/classifiers/summary.txt`.
 
 **What.** Keep QUANT's features and swap only the classifier: a Random Forest with the same settings, and LightGBM (gradient boosting).
 
@@ -328,7 +328,7 @@ A log-spectrum would add little. Taking the log doesn't change the order of valu
 
 ## Efficient approaches (ideas 14–18)
 
-*Added 7 Oct 2026, after our five experiments. Each idea should raise accuracy while keeping QUANT cheap: at most about 1.3× its runtime by our estimate. Idea 18 instead makes our best but slowest result cheaper. We searched the literature (Oct 2026) for each one; the closest published work is named under each idea. The supporting numbers come from `scripts/idea_checks.py` (output in `results/ideas/checks.txt`). That script trains no new model; it only measures the data, QUANT's features and results we already have.*
+*Added after round 1 (ideas 1, 2, 3, 5 and 10). Each idea should raise accuracy while keeping QUANT cheap: at most about 1.3× its runtime by our estimate. Idea 18 instead makes our best but slowest result cheaper. We searched the literature for each one; the closest published work is named under each idea. The supporting numbers come from `scripts/idea_checks.py` (output in `results/ideas/checks.txt`). That script trains no new model; it only measures the data, QUANT's features and results we already have.*
 
 **Why these five.** Three things we learned point the way:
 1. **Changing the statistic inside each window seems to have run its course.** Two 2026 follow-ups did exactly that. [AQ-QUANT](https://doi.org/10.1109/ACCESS.2026.3712607) replaced the quantiles with area-based ones and matched QUANT's mean accuracy. [MomentQuant](https://arxiv.org/abs/2609.05136) approximated them faster, with a tiny loss. Neither raised the mean, so none of the ideas below changes the statistic inside a window.
@@ -475,7 +475,7 @@ Almost everything QUANT computes depends on *when* things happen. The exceptions
 **What.** On multivariate data, QUANT computes its features on each channel alone and joins them. Add views that mix channels, next to QUANT's own, with QUANT's usual windows and quantiles on top:
 - **Magnitude** √(x² + y² + z²) for each 3-axis sensor: unchanged when the sensor is rotated.
 - **Pairwise channel differences**: how channels move relative to each other (with many channels, 15 fixed random pairs).
-- **Main direction**: the series projected on its first PCA component, fitted on the training data.
+- **Main direction**: every series projected on its own first principal axis (for each 3-axis sensor, and for all channels together). It is computed per series, so nothing is fitted on the training data, and for a 3-axis sensor it does not change when the sensor is rotated.
 
 **Why it should help.**
 - Most UEA datasets are motion sensors (X/Y/Z axes), where the class depends on how the axes move *together*. QUANT never sees that.
@@ -488,24 +488,24 @@ Almost everything QUANT computes depends on *when* things happen. The exceptions
 
 ---
 
-## Your suggestions: verdicts
+## Suggestions from our team discussions: verdicts
 
 **The rule we used:** add only what quantiles *can't* see (the order inside a window, patterns anywhere in the series, change at several scales) and keep QUANT's recipe of a fixed, cheap feature set plus a forest. Importing whole feature sets from other methods would just rebuild those methods, not improve QUANT.
 
 | Suggestion | Verdict | Why |
 |---|---|---|
-| XGBoost / LightGBM | Quick check (idea 13) | FreshPRINCE found Rotation Forest significantly better than XGBoost on time series features; slow with many classes; may help the largest datasets |
-| Random Forest | Quick check (idea 13) | Usually about as accurate as ExtraTrees but slower; a cheap drop-in test |
+| XGBoost / LightGBM | Tested as idea 13 (LightGBM): clearly worse | FreshPRINCE found Rotation Forest significantly better than XGBoost on time series features; slow with many classes; may help the largest datasets |
+| Random Forest | Tested as idea 13: worse | Usually about as accurate as ExtraTrees but slower; a cheap drop-in test |
 | Ridge regression | No | Already measured: 3–5 points worse with few examples and 11.7 points worse on many-class data |
 | DeepSurv | No | It's a survival-analysis model: it predicts *how long until an event* (e.g. patient survival) from tabular data. It isn't a classifier and isn't built for time series |
-| A new view beside raw, 1st/2nd difference and DFT | Yes | Autocorrelation and AR coefficients (idea 7); multi-scale differences / wavelets (idea 11). QUANT already uses four views: the raw series counts as one |
-| Different moving averages | Yes, as a multi-scale stack (idea 11) | The paper tried only width 5 on the first difference; one other width would just be tuning |
+| A new view beside raw, 1st/2nd difference and DFT | Yes (tested: no significant gain) | Autocorrelation and AR coefficients (idea 7); multi-scale differences / wavelets (idea 11). QUANT already uses four views: the raw series counts as one |
+| Different moving averages | Yes, as a multi-scale stack (idea 11; tested: no gain) | The paper tried only width 5 on the first difference; one other width would just be tuning |
 | Simple stats (mean, std, slope, min/max, IQR, skewness, kurtosis) | Only the slope (idea 12) | Min, max, median and IQR *are* quantiles; std, skewness and kurtosis are nearly implied by them ([MomentQuant](https://arxiv.org/abs/2609.05136) even goes the other way) |
 | catch22 | No, but borrow its ideas | It would turn QUANT into DrCIF, which QUANT already matches; slow. Its useful parts (autocorrelation, order) are in ideas 7 and 12 |
 | TSFresh | No | Hundreds of features would make it FreshPRINCE, which QUANT already beats by about 0.9 points; very slow |
-| Counts (mean crossings, peaks, values above the mean) | Yes (idea 12) | Order-aware and cheap. "Values above the mean" is mostly already covered by the quantiles |
+| Counts (mean crossings, peaks, values above the mean) | Yes (idea 12; tested: no gain) | Order-aware and cheap. "Values above the mean" is mostly already covered by the quantiles |
 | Spectral band power, autocorrelation at lags | Autocorrelation yes (idea 7); band power no | The quantiles of QUANT's Fourier view already describe each frequency band |
-| Wavelets | Yes (idea 11) | Adds frequency content that is located in time |
+| Wavelets | Yes (idea 11; tested: no gain) | Adds frequency content that is located in time |
 | Convolutional features (ROCKET's proportion of positive values) | Yes, QUANT-style (idea 2) | Take quantiles of the convolution output instead of copying ROCKET's statistic |
 | Shapelets, dictionary words, DTW distances to prototypes | No, as features | These are separate method families and slow. Combine their *predictions* instead (idea 3) |
 | Learned embeddings (CNN / self-supervised) | No | Needs a GPU, and [RocketPFN](https://arxiv.org/abs/2606.21786) found such embeddings lose to random features on UCR. That would be a different research project |
@@ -518,7 +518,7 @@ Almost everything QUANT computes depends on *when* things happen. The exceptions
 - **Raw + normalised quantiles side by side.** Normalising costs 3.1 points on average but gains 2–6 points on gesture data.
 - **De-duplicated evaluation.** 25 datasets have train/test copies, so results should be reported with and without them. This fixes the *evaluation*, not QUANT.
 - **Faster quantile computation.** Already published as [MomentQuant](https://arxiv.org/abs/2609.05136) (2026), and the transform is only ~22% of the runtime.
-- **Multivariate QUANT and regression.** Already exist (authors' code and aeon's `QUANTRegressor`), so there's little novelty.
+- **Regression.** Already exists (aeon's `QUANTRegressor`), so there's little novelty. Plain multivariate QUANT also exists in the authors' code; what it lacks, views that combine channels, became idea 19.
 - **Deep foundation models as feature extractors (Mantis, MOMENT).** [RocketPFN](https://arxiv.org/abs/2606.21786) shows they lose to simple random features on UCR.
 - **"When" features: where inside a window the area builds up.** Already published as part of [AQ-QUANT](https://doi.org/10.1109/ACCESS.2026.3712607) (IEEE Access 2026). It replaced QUANT's quantiles with area quantiles and matched QUANT's mean accuracy, but did not beat it.
 - **A more compact summary per window (e.g. L-moments instead of hundreds of quantiles).** This would make long series cheaper. But like AQ-QUANT and MomentQuant, it only changes the statistic inside each window, and that hasn't raised mean accuracy so far.

@@ -1,22 +1,22 @@
 Idea 7: QUANT + autocorrelation view + AR (idea 7)
-142 datasets x 10 resamples, same splits and seeds
+142 datasets x 10 resamples, same splits and seeds; plain QUANT fitted on the same computer (results/pruning/pruning.csv)
 
-QUANT        85.36%
-QUANT + idea 7 85.61%
-change       +0.25 pts   W/D/L 70/13/59   Wilcoxon p=0.095
+QUANT           85.36%
+QUANT + idea 7  85.61%
+change          +0.25 pts   W/D/L 74/13/55   Wilcoxon p=0.059
 
 Largest gains (pts):
 dataset
-PigCVP               14.52
-PigAirwayPressure     5.82
-PigArtPressure        4.28
+PigCVP               14.28
+PigAirwayPressure     5.57
 ToeSegmentation1      3.68
-ToeSegmentation2      2.77
+PigArtPressure        3.66
+ToeSegmentation2      3.00
 
 Largest losses (pts):
 dataset
-PLAIDEq                        -5.64
-DodgerLoopDayNmv               -4.16
-DodgerLoopGameNmv              -2.60
-WormsTwoClass                  -1.69
-DistalPhalanxOutlineAgeGroup   -1.65
+PLAIDEq                   -5.74
+DodgerLoopDayNmv          -4.16
+DodgerLoopGameNmv         -2.60
+WormsTwoClass             -1.82
+PickupGestureWiimoteZEq   -1.60

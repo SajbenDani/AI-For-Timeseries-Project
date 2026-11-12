@@ -6,7 +6,6 @@ every dataset), of QUANT's features, and of results we already have (bake-off re
 Writes results/ideas/checks.txt and results/ideas/per_dataset.csv.
 """
 
-import re
 import sys
 from pathlib import Path
 
@@ -16,6 +15,7 @@ import torch
 from scipy.stats import mannwhitneyu, spearmanr
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from analysis_utils import bakeoff  # noqa: E402
 from weakness_tests import NAMES, ROOT, Dataset  # noqa: E402  (same loader as every other test)
 from quant import IntervalModel, Quant  # noqa: E402  (on the path once weakness_tests has imported run_repro)
 
@@ -29,13 +29,6 @@ lines = []
 def say(text=""):
     print(text)
     lines.append(str(text))
-
-
-def bakeoff(method, resamples=30):
-    """Bake-off redux accuracy per dataset, mean over its first `resamples` resamples (the same official splits)."""
-    d = pd.read_csv(ROOT / "results" / "bakeoff_redux" / f"best_{method}_accuracy.csv", index_col=0)
-    d.index = [re.sub("_disc$", "Discrete", re.sub("_nmv$", "Nmv", re.sub("_eq$", "Eq", i))) for i in d.index]
-    return d.iloc[:, :resamples].mean(axis=1)
 
 
 # == per-dataset measurements ==========================================================================

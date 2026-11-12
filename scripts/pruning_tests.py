@@ -7,9 +7,10 @@ Training the forest takes about 78% of QUANT's time, and that time grows with th
 forest (50 trees, otherwise QUANT's settings) on the training data, keep only the 50%, 25% or 10% of features it
 finds most important, and fit QUANT's normal forest (200 trees) on those. Only training data is used to choose them.
 
-For a fair time comparison, plain QUANT's forest is fitted again in the same run on the same machine; its accuracies
-must equal those in results/efficient/efficient.csv (the summary checks this). Times are training only (selection
-forest + final forest), on all cores, relative to plain QUANT's forest in the same run.
+For a fair comparison, plain QUANT's forest is fitted again in the same run on the same computer. This run was made on
+a second computer: QUANT's mean accuracy there equals the first computer's (results/efficient/efficient.csv), but
+single splits differ (the summary prints the largest difference). Times are training only (selection forest + final
+forest), on all cores, relative to plain QUANT's forest in the same run.
 Same splits and seeds as improvement_tests.py and efficient_tests.py; finished datasets are skipped when the test is
 re-run, and a dataset that fails is reported and skipped.
 """
@@ -21,8 +22,8 @@ import warnings
 
 import numpy as np
 import pandas as pd
-from scipy.stats import wilcoxon
 
+from analysis_utils import paired
 from weakness_tests import NAMES, ROOT, Dataset, append, finished, quant_features
 from improvement_tests import forest
 
@@ -102,12 +103,14 @@ def test_summary(args):
     q = df[df["method"] == "QUANT"].set_index(["dataset", "resample"])
     ref = pd.read_csv(ROOT / "results" / "efficient" / "efficient.csv")
     ref = ref[ref["method"] == "QUANT"].set_index(["dataset", "resample"])["accuracy"]
-    check = (q["accuracy"] - ref.reindex(q.index)).abs().max()
+    differ = (q["accuracy"] - ref.reindex(q.index)).abs()
+    check = differ.max()
     per_q = q.groupby(level="dataset")[["accuracy", "fit_seconds"]].mean()
     lines = [
         "Idea 9: feature pruning (selection forest of 50 trees, then QUANT's forest on the kept features)",
         f"{len(per_q)} datasets x {q.index.get_level_values('resample').nunique()} resamples; "
-        f"plain QUANT re-fitted in the same run (largest difference to efficient.csv: {check:.4f})",
+        f"plain QUANT re-fitted in the same run (largest difference on one split to the first computer's "
+        f"results/efficient/efficient.csv: {check:.4f}; {(differ > 1e-9).sum()} of {len(differ)} splits differ)",
         "",
         f"QUANT, all features      {100 * per_q['accuracy'].mean():.2f}%   training time x1.00",
         "",
@@ -119,16 +122,12 @@ def test_summary(args):
             .mean()
             .loc[per_q.index]
         )
-        d = np.round(per["accuracy"] - per_q["accuracy"], 4)
-        p = (
-            wilcoxon(per["accuracy"], per_q["accuracy"], zero_method="pratt").pvalue
-            if (d != 0).any()
-            else 1.0
-        )
+        diff, w, dr, l_, p = paired(per["accuracy"], per_q["accuracy"])
+        d = per["accuracy"].round(4) - per_q["accuracy"].round(4)
         speed = per_q["fit_seconds"].sum() / per["fit_seconds"].sum()
         lines += [
             f"QUANT, {keep:.0%} of features   {100 * per['accuracy'].mean():.2f}%   "
-            f"change {100 * d.mean():+.2f} pts   W/D/L {(d > 0).sum()}/{(d == 0).sum()}/{(d < 0).sum()}   "
+            f"change {100 * diff:+.2f} pts   W/D/L {w}/{dr}/{l_}   "
             f"Wilcoxon p={p:.2g}   training {speed:.1f}x faster",
             "   largest losses (pts): "
             + ", ".join(
@@ -137,7 +136,7 @@ def test_summary(args):
             "",
         ]
     text = "\n".join(lines)
-    (OUT / "summary.txt").write_text(text + "\n")
+    (OUT / "summary.txt").write_text(text + "\n", encoding="utf-8")
     print(text)
 
 

@@ -1,22 +1,22 @@
 Idea 11: QUANT + multi-scale differences (idea 11)
-142 datasets x 10 resamples, same splits and seeds
+142 datasets x 10 resamples, same splits and seeds; plain QUANT fitted on the same computer (results/pruning/pruning.csv)
 
 QUANT           85.36%
 QUANT + idea 11 85.44%
-change          +0.08 pts   W/D/L 76/11/55   Wilcoxon p=0.19
+change          +0.09 pts   W/D/L 75/12/55   Wilcoxon p=0.15
 
 Largest gains (pts):
 dataset
-Lightning7                3.29
-GestureMidAirD3Eq         3.15
-Ham                       2.38
-DodgerLoopGameNmv         2.28
-LargeKitchenAppliances    1.65
+Lightning7           3.42
+GestureMidAirD3Eq    2.93
+Ham                  2.48
+DodgerLoopGameNmv    2.28
+GestureMidAirD2Eq    1.62
 
 Largest losses (pts):
 dataset
-ToeSegmentation1      -2.19
-BirdChicken           -2.00
-DodgerLoopDayNmv      -1.82
-Covid3MonthDiscrete   -1.64
-Car                   -1.50
+ToeSegmentation1               -2.19
+BirdChicken                    -2.00
+DodgerLoopDayNmv               -1.82
+Covid3MonthDiscrete            -1.81
+MiddlePhalanxOutlineAgeGroup   -1.69

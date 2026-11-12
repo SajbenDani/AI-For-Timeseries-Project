@@ -49,7 +49,7 @@ We planned the project, discussed every result and wrote the paper together. The
 | QUANT + speed-invariant quantiles (idea 14) | 85.50% | +0.14 | 1.3× |
 | MultiRocket+Hydra / HIVE-COTE 2 (from the bake-off redux) | 87.06% / 87.53% | | ≈5× / weeks |
 
-\*With one fixed gate setting; idea 18 alone at that setting gives 87.22%, so stacking adds +0.25 points (p = 4e-8).
+\*With one fixed gate setting (not picked on held-out datasets, unlike the 87.16% row); idea 18 alone at that setting gives 87.22%, so stacking adds +0.25 points (p = 4e-8). The stacked version is statistically level with HIVE-COTE 2 (−0.06 points, p = 0.55).
 
 **Multivariate data** (19 UEA datasets × 5 resamples):
 
@@ -62,16 +62,21 @@ We planned the project, discussed every result and wrote the paper together. The
 
 With the sensors of the 6 accelerometer/gyroscope datasets tilted at random by up to 180°, QUANT loses 18.1 points and idea 19 only 12.3.
 
-**Ideas that did not help on average:** shift/stretch augmentation (idea 5), the cycle view (15), the bispectrum view (16), rank-uniform splits (17), autocorrelation and AR features (7, although they gave +4 to +15 points on the Pig heartbeat recordings), multi-scale differences (11), order-aware counts per window (12), and other classifiers instead of ExtraTrees (13: Random Forest −1.3 and LightGBM −2.7 points). Details are in the paper and in [report.md](report.md).
+**Ideas that did not help on average:** shift/stretch augmentation (idea 5), the cycle view (15), the bispectrum view (16), rank-uniform splits (17), autocorrelation and AR features (7, although they gave +4 to +14 points on the Pig heartbeat recordings), multi-scale differences (11), order-aware counts per window (12), and other classifiers instead of ExtraTrees (13: Random Forest −1.3 and LightGBM −2.7 points). Details are in the paper and in [report.md](report.md).
 
 ## Repository layout
 
 ```
 codebase/quant, codebase/hydra   original QUANT and Hydra code (git submodules, unmodified)
 scripts/                         all our code, run in the order given below
+  quant_extensions.py              every new view or feature we add to QUANT (ideas 1, 2, 5, 7, 10-12, 14-16)
+  *_tests.py                       the experiments (they need data/); most also have a "summary" step
+  *_analysis.py, compare_*.py      turn saved results into the summaries, tables and figures (no data needed)
+  analysis_utils.py                helpers shared by the analysis steps (paired test, bake-off results)
 results/                         raw results (CSV) and text summaries of every experiment
   repro/                           the reproduction and its comparison with the paper
-  checks/                          which resample indices the paper used; table of the 142 datasets
+  checks/                          which resample indices the paper used; table of the 142 datasets;
+                                   Holm correction over all comparisons of the paper's Table III
   weaknesses/                      where QUANT is weak
   improvements/                    round 1: ideas 1, 2, 3, 5, 10 (varlen_fresh/: idea 10 on unseen data)
   ideas/                           read-only checks behind ideas 14-18
@@ -82,7 +87,7 @@ results/                         raw results (CSV) and text summaries of every e
   cross_channel/                   round 3: idea 19 and the rotation stress test
   pruning/, stacking/              round 4: idea 9, ideas 1 + 14 + 18 stacked
   bakeoff_redux/                   published results of other methods, used for comparison
-Papers/                          the paper (documentation.tex) and its figures
+Papers/                          the paper (documentation.tex, documentation.pdf) and its figures
 report.md, ideas.md              detailed write-up and idea catalogue
 data/                            created by the download steps (not in git, ~4 GB)
 ```
@@ -111,10 +116,10 @@ python scripts/improvement_analysis.py
 python scripts/idea_checks.py
 python scripts/efficient_analysis.py
 python scripts/paper_figures.py
-python scripts/autocorr_tests.py summary && python scripts/multiscale_tests.py summary && python scripts/order_counts_tests.py summary
-python scripts/classifier_tests.py summary
+python scripts/view_tests.py summary && python scripts/classifier_tests.py summary
 python scripts/pruning_tests.py summary && python scripts/stacking_tests.py summary
 python scripts/multivariate_tests.py summary && python scripts/cross_channel_tests.py summary rotate_summary
+python scripts/multiple_testing.py
 ```
 
 | Paper | Script | Output |
@@ -123,17 +128,18 @@ python scripts/multivariate_tests.py summary && python scripts/cross_channel_tes
 | Section IV, Fig. 1 | `weakness_analysis.py` | `results/weaknesses/summary.txt`, `Papers/figures/weaknesses.pdf` |
 | Section V, Table III (ideas 1, 2, 3, 5, 10) | `improvement_analysis.py` | `results/improvements/summary.txt` |
 | Section V, Table III (ideas 14-18) | `idea_checks.py`, `efficient_analysis.py` | `results/ideas/checks.txt`, `results/efficient/summary.txt` |
-| Section V, Table III (ideas 7, 11, 12, 13) | `autocorr_tests.py`, `multiscale_tests.py`, `order_counts_tests.py`, `classifier_tests.py` | `results/autocorr/summary.txt`, `results/multiscale/summary.txt`, `results/order_counts/summary.txt`, `results/classifiers/summary.txt` |
+| Section V, Table III (ideas 7, 11, 12, 13) | `view_tests.py`, `classifier_tests.py` | `results/autocorr/summary.txt`, `results/multiscale/summary.txt`, `results/order_counts/summary.txt`, `results/classifiers/summary.txt` |
 | Section V, Table III (idea 9, stacking 1 + 14 + 18) | `pruning_tests.py`, `stacking_tests.py` | `results/pruning/summary.txt`, `results/stacking/summary.txt` |
 | Section VI, Table IV (multivariate, ideas 18 and 19, rotation test) | `multivariate_tests.py`, `cross_channel_tests.py` | `results/multivariate/summary.txt`, `results/cross_channel/summary.txt`, `results/cross_channel/rotate_summary.txt` |
+| Section V-A, Holm correction over Table III | `multiple_testing.py` | `results/checks/multiple_testing.txt` |
 | Fig. 2 | `paper_figures.py` | `Papers/figures/main_results.pdf` |
 
 ## Reproducing everything from scratch
 
-Run these steps in order, because later steps read earlier results. Steps 1–6 take about 30 h of compute in total on our laptop (Ryzen 5 5600H, 6 cores, 16 GB RAM). Steps 7–9 were run on a MacBook; their times are wall-clock times of our runs, about 13 h in total.
+Run these steps in order, because later steps read earlier results. Steps 1–5 take about 30 h of compute in total on our first laptop (Ryzen 5 5600H, 6 cores, 16 GB RAM). Steps 6–8 were run on a second laptop (a MacBook); their times are wall-clock times of our runs, about 13 h in total.
 
 - **Resumable:** every run saves after each finished dataset and skips finished datasets when restarted, so it can be stopped at any time. To redo a step, delete its output files first.
-- **Same numbers as ours:** all runs use the official resamples and seed = resample index, so accuracies come out exactly as ours, up to tiny floating-point differences between machines (the largest we saw: one test series on one split). Only timings depend on the machine.
+- **Same numbers as ours?** All runs use the official resamples and seed = resample index. On the same computer this reproduces our accuracies exactly. On another computer, single splits can differ: between our two laptops, plain QUANT differed on 722 of 1,420 splits (by up to 4.3 points on one split and 0.9 points on one dataset's mean), while the mean over the 142 datasets was the same (85.36%). So expect the same means and conclusions, but not every digit. This is why steps 6 and 8 are compared with plain QUANT fitted on the same computer (in the pruning run of step 8). Timings always depend on the machine.
 - **Timing runs:** run the one-core timing steps alone on the machine.
 
 ```bash
@@ -164,24 +170,25 @@ python scripts/efficient_tests.py main warp shift
 python scripts/efficient_tests.py timing        # one-core timing
 python scripts/efficient_analysis.py
 
-# 6. The paper's Fig. 2 and the PDF (needs a TeX distribution with IEEEtran, e.g. TeX Live or MiKTeX)
-python scripts/paper_figures.py
-cd Papers && pdflatex documentation.tex && pdflatex documentation.tex && cd ..
+# 6. Round 3: the remaining ideas 7, 11, 12, 13 (142 x 10; ideas 7 and 12 ~15 min each, idea 11 ~45 min, idea 13 ~6 h)
+python scripts/view_tests.py main               # ideas 7, 11 and 12
+python scripts/classifier_tests.py main rf lgbm # idea 13
 
-# 7. Round 3: the remaining ideas 7, 11, 12, 13 (142 x 10; ideas 7 and 12 ~15 min each, idea 11 ~45 min, idea 13 ~6 h)
-python scripts/autocorr_tests.py main && python scripts/autocorr_tests.py summary
-python scripts/multiscale_tests.py main && python scripts/multiscale_tests.py summary
-python scripts/order_counts_tests.py main && python scripts/order_counts_tests.py summary
-python scripts/classifier_tests.py main rf lgbm && python scripts/classifier_tests.py summary
-
-# 8. Round 3: multivariate data (19 UEA datasets x 5; downloads the UEA files into data/UEA/; ~20 min in total)
+# 7. Round 3: multivariate data (19 UEA datasets x 5; downloads the UEA files into data/UEA/; ~20 min in total)
 python scripts/multivariate_datasets.py
 python scripts/multivariate_tests.py main summary
 python scripts/cross_channel_tests.py check main summary rotate rotate_summary
 
-# 9. Round 4: feature pruning (~1 h) and stacking (~4.5 h) (142 x 10)
+# 8. Round 4: feature pruning (~1 h) and stacking (~4.5 h) (142 x 10), then the summaries of step 6
+#    (they compare with plain QUANT from the pruning run, on the same computer)
 python scripts/pruning_tests.py main summary
 python scripts/stacking_tests.py main summary
+python scripts/view_tests.py summary && python scripts/classifier_tests.py summary
+python scripts/multiple_testing.py              # Holm correction over all comparisons of Table III
+
+# 9. The paper's Fig. 2 and the PDF (needs a TeX distribution with IEEEtran, e.g. TeX Live or MiKTeX)
+python scripts/paper_figures.py
+cd Papers && pdflatex documentation.tex && pdflatex documentation.tex && cd ..
 ```
 
 ## Credits

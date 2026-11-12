@@ -4,11 +4,8 @@ Usage: python scripts/improvement_analysis.py
 Reads results/improvements/* (from scripts/improvement_tests.py). Plain QUANT's results come from our reproduction
 (same resamples and seeds), Hydra's from the ensemble test, QUANT's and Hydra's misalignment results from the
 weakness tests, and MultiRocket+Hydra's and HC2's from the bake-off redux (30 resamples; for reference only).
-Writes results/improvements/summary.txt and Papers/figures/improvements.pdf/.png.
+Writes results/improvements/summary.txt and Papers/figures/improvements.png (shown in report.md).
 """
-
-import re
-from pathlib import Path
 
 import matplotlib
 
@@ -18,9 +15,9 @@ import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 from scipy.stats import wilcoxon  # noqa: E402
 
-ROOT = Path(__file__).resolve().parents[1]
+from analysis_utils import NAMES, ROOT, bakeoff, fmt, paired  # noqa: E402
+
 R = ROOT / "results" / "improvements"
-NAMES = (ROOT / "codebase" / "quant" / "code" / "ucr142.txt").read_text().split()
 REPRO = pd.read_csv(ROOT / "results" / "repro" / "quant_ucr142_30res.csv")
 MANYCLASS = sorted(pd.read_csv(ROOT / "results" / "weaknesses" / "manyclass.csv").dataset.unique())
 GESTURES = [n for n in NAMES if "Gesture" in n and n.endswith("Eq")]
@@ -30,25 +27,6 @@ lines = []
 def say(text=""):
     print(text)
     lines.append(str(text))
-
-
-def bakeoff(method, resamples=30):
-    """Bake-off redux accuracy per dataset, mean over its first `resamples` resamples (the same official splits)."""
-    d = pd.read_csv(ROOT / "results" / "bakeoff_redux" / f"best_{method}_accuracy.csv", index_col=0)
-    d.index = [re.sub("_disc$", "Discrete", re.sub("_nmv$", "Nmv", re.sub("_eq$", "Eq", i))) for i in d.index]
-    return d.iloc[:, :resamples].mean(axis=1)
-
-
-def paired(a, b):
-    """Mean difference, W/D/L and Wilcoxon p of per-dataset accuracies a vs b (W/D/L on 4 decimals)."""
-    d = a.round(4) - b.round(4)
-    p = wilcoxon(a, b, zero_method="pratt").pvalue if (d != 0).any() else 1.0
-    return d.mean(), (d > 0).sum(), (d == 0).sum(), (d < 0).sum(), p
-
-
-def fmt(stats):
-    diff, w, d, l_, p = stats
-    return f"diff {100 * diff:+.2f} pts  W/D/L {w}/{d}/{l_}  Wilcoxon p={p:.2g}"
 
 
 def quant_reference(resamples):
@@ -331,8 +309,7 @@ if {"benchmark", "shift", "varlen"} <= results.keys():
     ax.grid(axis="x", color=GRID, lw=0.6)
     tidy(ax, "(c) 11 variable-length sets")
     fig.tight_layout()
-    out = ROOT / "Papers" / "figures" / "improvements.pdf"
+    out = ROOT / "Papers" / "figures" / "improvements.png"
     out.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(out)
-    fig.savefig(out.with_suffix(".png"), dpi=200)
+    fig.savefig(out, dpi=200)
     print(f"wrote {out}")

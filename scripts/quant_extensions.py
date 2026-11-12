@@ -1,4 +1,5 @@
-"""Additions to QUANT used by the improvement tests (scripts/improvement_tests.py, ideas from ideas.md).
+"""Additions to QUANT used by the improvement tests (improvement_tests.py, efficient_tests.py, view_tests.py and
+stacking_tests.py; ideas from ideas.md).
 
 QUANT itself (codebase/quant) is not changed. Like QUANT's transform, nothing here looks at the labels, so features
 can be computed once for all series of a dataset.
@@ -10,6 +11,9 @@ can be computed once for all series of a dataset.
   idea 14  speed_quantiles   window quantiles weighted by how much the series moves (ignores speed)
   idea 15  cycle_view        QUANT on the typical cycle of a repeating series (ignores where the recording starts)
   idea 16  bispectrum_view   a slice of the bispectrum: like the Fourier magnitudes, but it sees shape
+  idea 7   autocorr_view     the autocorrelation function and AR coefficients (ignore where a repeating pattern starts)
+  idea 11  multiscale_view   differences between moving averages: change at medium speeds, located in time
+  idea 12  order_counts      per-window counts that depend on the order of the values, which quantiles ignore
 """
 
 import itertools
@@ -294,3 +298,97 @@ def bispectrum_view(X, depth=6, div=4):
         return torch.cat([IntervalModel(len(f), depth, div).fit_transform(v, None) for v in views], -1)
 
     return batched(bispectrum, X, 512)
+
+
+# == idea 7: autocorrelation and AR coefficients ======================================================
+
+def levinson(r, order):
+    """AR coefficients from autocorrelations r (rows: series; r[:, 0] = 1) by the Levinson-Durbin recursion,
+    vectorised over series. Reflection coefficients are kept inside (-1, 1) so flat series stay finite."""
+    a = torch.zeros(r.shape[0], order, dtype=r.dtype)
+    e = r[:, 0].clone()
+    for k in range(order):
+        acc = r[:, k + 1] - (a[:, :k] * r[:, 1:k + 1].flip(1)).sum(1)
+        kappa = (acc / e.clamp_min(1e-12)).clamp(-0.999, 0.999)
+        previous = a[:, :k].clone()
+        a[:, :k] = previous - kappa[:, None] * previous.flip(1)
+        a[:, k] = kappa
+        e = e * (1 - kappa**2)
+    return a
+
+
+def autocorr_view(X, depth=6, div=4, max_order=10):
+    """Two views that ignore *when* things happen: the autocorrelation function (how similar the series is to
+    itself shifted by 1, 2, ... steps, up to half its length) summarised by QUANT's own windows and quantiles, and
+    the AR coefficients of order min(10, length / 4). X: (n_series, length) -> (n_series, about length) features."""
+    length = X.shape[-1]
+    lags = min(length - 1, max(4, length // 2))
+    order = max(1, min(max_order, length // 4))
+    size = 1 << int(np.ceil(np.log2(2 * length)))
+
+    def view(X):
+        Xc = (X - X.mean(-1, keepdim=True)).double()
+        acf = torch.fft.irfft(torch.fft.rfft(Xc, size).abs() ** 2, size)[:, :length]
+        acf = acf / acf[:, :1].clamp_min(1e-12)
+        quantiles = IntervalModel(lags, depth, div).fit_transform(acf[:, 1:lags + 1].float().unsqueeze(1), None)
+        return torch.cat([quantiles, levinson(acf[:, :order + 1], order).float()], -1)
+
+    return batched(view, X, 512)
+
+
+# == idea 11: multi-scale differences ==================================================================
+
+SCALES = (2, 4, 8)  # only three: each scale adds about as many features as the series is long
+
+
+def haar(X, s):
+    """Average of the next s points minus average of the previous s points, at every position (an undecimated Haar
+    wavelet). X: (n, length) -> (n, length - 2s + 1)."""
+    c = F.pad(X.double().cumsum(-1), (1, 0))
+    mean = (c[:, s:] - c[:, :-s]) / s  # moving average of width s, length - s + 1 values
+    return (mean[:, s:] - mean[:, :-s]).float()
+
+
+def multiscale_view(X, depth=6, div=4, min_length=8):
+    """QUANT sees change step by step (its differences) or at all speeds but without time (its Fourier view). This
+    adds change at medium speeds, located in time: QUANT's windows and quantiles on haar(X, s) for every scale s
+    (a scale is skipped when the series is too short for it). X: (n_series, length) -> features."""
+    scales = [s for s in SCALES if X.shape[-1] - 2 * s + 1 >= min_length]
+
+    def view(X):
+        out = []
+        for s in scales:
+            D = haar(X, s)
+            out.append(IntervalModel(D.shape[-1], depth, div).fit_transform(D.unsqueeze(1), None))
+        return torch.cat(out, -1)
+
+    return batched(view, X, 512)
+
+
+# == idea 12: order-aware counts =======================================================================
+
+def window_counts(W):
+    """Four order-aware numbers for every row of W (n_series, window_length >= 3): how often the series crosses the
+    window mean, how many local peaks it has, its longest run above the mean, and its slope."""
+    m = W.shape[1]
+    mean = W.mean(1, keepdim=True)
+    above = (W > mean).long()
+    crossings = (above[:, 1:] != above[:, :-1]).sum(1)
+    peaks = ((W[:, 1:-1] > W[:, :-2]) & (W[:, 1:-1] > W[:, 2:])).sum(1)
+    count = above.cumsum(1)  # length of the current run above the mean, at every position
+    run = count - torch.where(above == 0, count, torch.zeros_like(count)).cummax(1).values
+    t = torch.arange(m, dtype=W.dtype) - (m - 1) / 2
+    slope = ((W - mean) * t).sum(1) / (t**2).sum()
+    return torch.stack([crossings.float(), peaks.float(), run.max(1).values.float(), slope.float()], 1)
+
+
+def order_counts(X, depth=6, min_length=3):
+    """Quantiles ignore the order of the values inside a window: shuffle a window and QUANT's features stay the
+    same. This adds window_counts for every window QUANT uses on the raw series (its own make_intervals), skipping
+    windows shorter than `min_length`, where order means nothing. X: (n_series, length) -> (n_series, up to 4 x 120)."""
+    windows = [(a, b) for a, b in make_intervals(X.shape[-1], depth).tolist() if b - a >= min_length]
+
+    def counts(X):
+        return torch.cat([window_counts(X[:, a:b]) for a, b in windows], 1)
+
+    return batched(counts, X, 512)

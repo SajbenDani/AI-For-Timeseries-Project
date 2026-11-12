@@ -1,6 +1,6 @@
-"""Multivariate QUANT on UEA datasets (plan steps 3 and 6; ideas.md idea 19 comes later).
+"""Multivariate QUANT on UEA datasets (idea 19, the cross-channel views, is in cross_channel_tests.py).
 
-  python scripts/multivariate_tests.py main      # M1-M3: QUANT, Hydra, QUANT + Hydra gated (idea 18), 5 resamples
+  python scripts/multivariate_tests.py main      # QUANT, Hydra, QUANT + Hydra gated (idea 18), 5 resamples
   python scripts/multivariate_tests.py summary   # -> results/multivariate/summary.txt
 
 Datasets: results/multivariate/datasets.csv (made by multivariate_datasets.py; data in data/UEA/).
@@ -20,14 +20,10 @@ import warnings
 import numpy as np
 import pandas as pd
 import torch
-from scipy.stats import wilcoxon
 from sklearn.preprocessing import LabelEncoder
 
-from weakness_tests import (
-    ROOT,
-    append,
-    finished,
-)  # also puts codebase/hydra/code on the path
+from analysis_utils import KEY, paired, two_level
+from weakness_tests import ROOT, append, finished  # also puts codebase/hydra/code on the path
 import run_repro
 from improvement_tests import forest, proba, timed
 from efficient_tests import gate, hydra_loo
@@ -40,12 +36,8 @@ OUT = ROOT / "results" / "multivariate"
 NAMES = pd.read_csv(OUT / "datasets.csv").dataset.tolist()
 
 # idea 18's two-level gate, as chosen on the univariate benchmark (report.md: gap 0.3-0.4, share 10-20%)
-THRESHOLD = (
-    0.4  # ask Hydra when the gap between QUANT's two most likely classes is below this
-)
-MIN_ASKED = (
-    0.1  # ... and only if at least this share of a dataset's test series is unsure
-)
+THRESHOLD = 0.4  # ask Hydra when the gap between QUANT's two most likely classes is below this
+MIN_ASKED = 0.1  # ... and only if at least this share of a dataset's test series is unsure
 
 
 # == data =============================================================================================
@@ -98,7 +90,7 @@ def hydra_features(X, seed=0):
         return HydraMultivariate(X.shape[-1], X.shape[1]).batch(torch.from_numpy(X))
 
 
-# == M1-M3 ============================================================================================
+# == QUANT, Hydra and idea 18 =========================================================================
 
 
 def test_main(args):
@@ -163,32 +155,19 @@ def test_main(args):
 # == summary ==========================================================================================
 
 
-def paired(a, b):
-    """Mean difference, W/D/L and Wilcoxon p of per-dataset accuracies a vs b (as in efficient_analysis.py)."""
-    d = np.round(np.asarray(a) - np.asarray(b), 4)
-    p = (
-        wilcoxon(a, b, zero_method="pratt").pvalue
-        if (d != 0).any() and len(d) > 1
-        else 1.0
-    )
-    return d.mean(), int((d > 0).sum()), int((d == 0).sum()), int((d < 0).sum()), p
-
-
 def test_summary(args):
     df = pd.read_csv(OUT / "main.csv")
-    q = df[df.method == "QUANT"].set_index(["dataset", "resample"]).accuracy
-    h = df[df.method == "Hydra"].set_index(["dataset", "resample"]).accuracy
+    q = df[df.method == "QUANT"].set_index(KEY).accuracy
+    h = df[df.method == "Hydra"].set_index(KEY).accuracy
     g = df[df.method == "QUANT + Hydra, gated"]
-    full = (
-        g[g.threshold == g.threshold.max()].set_index(["dataset", "resample"]).accuracy
-    )
-    at = g[np.isclose(g.threshold, THRESHOLD)].set_index(["dataset", "resample"])
-    two_level = at.accuracy.where(at.asked >= MIN_ASKED, q.reindex(at.index))
+    full = g[g.threshold == g.threshold.max()].set_index(KEY).accuracy
+    at = g[np.isclose(g.threshold, THRESHOLD)].set_index(KEY)
     methods = {
-        "M1 QUANT": q,
-        "M2 Hydra": h,
+        "QUANT": q,
+        "Hydra": h,
         "QUANT + Hydra, always (full ensemble)": full,
-        f"M3 QUANT + Hydra, two-level gate (gap < {THRESHOLD}, >= {MIN_ASKED:.0%} unsure)": two_level,
+        f"Idea 18: QUANT + Hydra, two-level gate (gap < {THRESHOLD}, >= {MIN_ASKED:.0%} unsure)":
+            two_level(df, "QUANT + Hydra, gated", q, THRESHOLD, MIN_ASKED),
     }
     per_dataset = pd.DataFrame(
         {m: s.groupby(level="dataset").mean() for m, s in methods.items()}
@@ -200,10 +179,10 @@ def test_summary(args):
         f"(mean accuracy per dataset, then over datasets)",
         "",
     ]
-    base = per_dataset["M1 QUANT"]
+    base = per_dataset["QUANT"]
     for m in per_dataset:
         line = f"{m:<70} {100 * per_dataset[m].mean():6.2f}%"
-        if m != "M1 QUANT":
+        if m != "QUANT":
             diff, w, dr, l_, p = paired(per_dataset[m], base)
             line += f"   vs QUANT {100 * diff:+.2f} pts  W/D/L {w}/{dr}/{l_}  Wilcoxon p={p:.2g}"
         lines.append(line)
@@ -217,7 +196,7 @@ def test_summary(args):
         (100 * per_dataset).round(2).to_string(),
     ]
     text = "\n".join(lines)
-    (OUT / "summary.txt").write_text(text + "\n")
+    (OUT / "summary.txt").write_text(text + "\n", encoding="utf-8")
     print(text)
 
 

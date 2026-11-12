@@ -4,11 +4,8 @@ Usage: python scripts/efficient_analysis.py
 Reads results/efficient/* (from scripts/efficient_tests.py; partial results are fine). Plain QUANT's results come
 from our reproduction (same resamples and seeds), QUANT's and Hydra's misalignment results from the weakness tests,
 MultiRocket+Hydra's and HC2's from the bake-off redux, and the dataset groups from results/ideas/per_dataset.csv.
-Writes results/efficient/summary.txt and Papers/figures/efficient.pdf/.png.
+Writes results/efficient/summary.txt and Papers/figures/efficient.png (shown in report.md).
 """
-
-import re
-from pathlib import Path
 
 import matplotlib
 
@@ -16,11 +13,11 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
-from scipy.stats import spearmanr, wilcoxon  # noqa: E402
+from scipy.stats import spearmanr  # noqa: E402
 
-ROOT = Path(__file__).resolve().parents[1]
+from analysis_utils import NAMES, ROOT, bakeoff, fmt, paired  # noqa: E402
+
 R = ROOT / "results" / "efficient"
-NAMES = (ROOT / "codebase" / "quant" / "code" / "ucr142.txt").read_text().split()
 REPRO = pd.read_csv(ROOT / "results" / "repro" / "quant_ucr142_30res.csv")
 STATS = pd.read_csv(ROOT / "results" / "checks" / "dataset_stats.csv", index_col="dataset")
 IDEAS = pd.read_csv(ROOT / "results" / "ideas" / "per_dataset.csv", index_col="dataset")
@@ -30,25 +27,6 @@ lines = []
 def say(text=""):
     print(text)
     lines.append(str(text))
-
-
-def bakeoff(method, resamples=30):
-    """Bake-off redux accuracy per dataset, mean over its first `resamples` resamples (the same official splits)."""
-    d = pd.read_csv(ROOT / "results" / "bakeoff_redux" / f"best_{method}_accuracy.csv", index_col=0)
-    d.index = [re.sub("_disc$", "Discrete", re.sub("_nmv$", "Nmv", re.sub("_eq$", "Eq", i))) for i in d.index]
-    return d.iloc[:, :resamples].mean(axis=1)
-
-
-def paired(a, b):
-    """Mean difference, W/D/L and Wilcoxon p of per-dataset accuracies a vs b (W/D/L on 4 decimals)."""
-    d = a.round(4) - b.round(4)
-    p = wilcoxon(a, b, zero_method="pratt").pvalue if (d != 0).any() else 1.0
-    return d.mean(), (d > 0).sum(), (d == 0).sum(), (d < 0).sum(), p
-
-
-def fmt(stats):
-    diff, w, d, l_, p = stats
-    return f"diff {100 * diff:+.2f} pts  W/D/L {w}/{d}/{l_}  Wilcoxon p={p:.2g}"
 
 
 def load(name):
@@ -424,7 +402,6 @@ if {"benchmark", "gating", "warp", "shift"} <= results.keys():
     ax.legend(frameon=False, fontsize=6.5, loc="lower left")
     tidy(ax, "(d) Patterns at random positions")
     fig.tight_layout()
-    out = ROOT / "Papers" / "figures" / "efficient.pdf"
-    fig.savefig(out)
-    fig.savefig(out.with_suffix(".png"), dpi=200)
+    out = ROOT / "Papers" / "figures" / "efficient.png"
+    fig.savefig(out, dpi=200)
     print(f"wrote {out}")

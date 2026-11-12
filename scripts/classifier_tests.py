@@ -14,9 +14,11 @@ LightGBM runs in a separate Python process that never loads torch: torch and Lig
 library, and on macOS the two crash when they are loaded in the same process. QUANT's features (computed with torch)
 are handed over in a temporary file.
 
-Same splits and seeds as improvement_tests.py and efficient_tests.py; plain QUANT is not re-run (its accuracies are in
-results/efficient/efficient.csv). Each classifier writes its own file, so they can run separately; finished
-datasets are skipped when a run is restarted, and a dataset that fails is reported and skipped.
+Same splits and seeds as improvement_tests.py and efficient_tests.py. Plain QUANT is not re-run: the summary compares
+with plain QUANT fitted on the same computer (analysis_utils.quant_second_machine), for accuracy and for training
+time. The time ratio is approximate: it comes from two separate runs, and part of the LightGBM run was in low-power
+mode. Each classifier writes its own file, so they can run separately; finished datasets are skipped when a run is
+restarted, and a dataset that fails is reported and skipped.
 """
 
 import argparse
@@ -173,38 +175,29 @@ def test_main(args):
 
 
 def test_summary(args):
-    from scipy.stats import wilcoxon
+    from analysis_utils import KEY, paired, quant_second_machine
 
-    base = pd.read_csv(ROOT / "results" / "efficient" / "efficient.csv")
-    base = base[base["method"] == "QUANT"][
-        ["dataset", "resample", "accuracy", "fit_seconds"]
-    ]
+    base = quant_second_machine()
     lines = [
-        "Idea 13: QUANT's features with another classifier (ExtraTrees = plain QUANT)",
+        "Idea 13: QUANT's features with another classifier (ExtraTrees = plain QUANT, fitted on the same computer:",
+        "results/pruning/pruning.csv)",
         "",
     ]
     for key, method in CLASSIFIERS.items():
         path = OUT / f"{key}.csv"
         if not path.exists():
             continue
-        new = pd.read_csv(path)
-        both = new.merge(base, on=["dataset", "resample"], suffixes=("", "_quant"))
-        per = both.groupby("dataset")[
-            ["accuracy", "accuracy_quant", "fit_seconds", "fit_seconds_quant"]
-        ].mean()
-        d = np.round(per["accuracy"] - per["accuracy_quant"], 4)
-        p = (
-            wilcoxon(per["accuracy"], per["accuracy_quant"], zero_method="pratt").pvalue
-            if (d != 0).any()
-            else 1.0
-        )
+        new = pd.read_csv(path).set_index(KEY)[["accuracy", "fit_seconds"]]
+        both = new.join(base, rsuffix="_quant", how="inner")
+        per = both.groupby(level="dataset").mean()
+        diff, w, dr, l_, p = paired(per["accuracy"], per["accuracy_quant"])
+        d = per["accuracy"].round(4) - per["accuracy_quant"].round(4)
         lines += [
-            f"{method}: {len(per)} datasets x {both['resample'].nunique()} resamples",
+            f"{method}: {len(per)} datasets x {both.index.get_level_values('resample').nunique()} resamples",
             f"  QUANT (ExtraTrees) {100 * per['accuracy_quant'].mean():.2f}%   "
             f"{method.split(' + ')[1]} {100 * per['accuracy'].mean():.2f}%",
-            f"  change {100 * d.mean():+.2f} pts   W/D/L {(d > 0).sum()}/{(d == 0).sum()}/{(d < 0).sum()}   "
-            f"Wilcoxon p={p:.2g}",
-            f"  training time vs ExtraTrees (total over datasets): "
+            f"  change {100 * diff:+.2f} pts   W/D/L {w}/{dr}/{l_}   Wilcoxon p={p:.2g}",
+            f"  training time vs ExtraTrees, same computer, all cores (total over datasets, approximate): "
             f"x{per['fit_seconds'].sum() / per['fit_seconds_quant'].sum():.1f}",
             "  largest gains (pts): "
             + ", ".join(
@@ -219,7 +212,7 @@ def test_summary(args):
         ]
     text = "\n".join(lines)
     OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / "summary.txt").write_text(text + "\n")
+    (OUT / "summary.txt").write_text(text + "\n", encoding="utf-8")
     print(text)
 
 
