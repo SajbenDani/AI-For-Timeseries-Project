@@ -20,7 +20,7 @@ Everything runs on a laptop CPU, with no GPU needed.
 We planned the project, discussed every result and wrote the paper together. The experiments were split by time:
 
 - **Dániel Sajben:** the reproduction, the weakness tests, round 1 (ideas 1, 2, 3, 5, 10) and round 2 (ideas 14–18), the first draft of the paper and report, and the repository setup.
-- **Tymur Sukhariev:** round 3 (ideas 7, 11, 12, 13, and multivariate data: ideas 18 and 19 on 19 UEA datasets, with the rotation stress test) and round 4 (idea 9, feature pruning, and the stacking of ideas 1 + 14 + 18), the paper's multivariate section, fitting the new results into its six pages, and macOS support.
+- **Tymur Sukhariev:** round 3 (ideas 7, 11, 12, 13, and multivariate data: ideas 18 and 19 on 19 UEA datasets, with the rotation stress test) and round 4 (idea 9, feature pruning, and the stacking of ideas 1 + 14 + 18), the paper's multivariate section, merging the new results into the paper, and macOS support.
 
 ## Main results
 
