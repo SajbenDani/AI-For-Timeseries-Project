@@ -8,7 +8,8 @@ Every split trains, on the same machine and with the same seeds:
   * Hydra (efficient_tests.py's leave-one-out calibration), asked about the test series where each of the two
     forests is unsure (efficient_tests.gate, every threshold).
 The summary compares idea 18 and the stacked version at one fixed two-level gate setting (gap < 0.4, Hydra used only
-when at least 10% of a dataset's test series are unsure; inside the range chosen in report.md), so both are scored
+when at least 10% of a dataset's test series are unsure; inside the range chosen in
+results/efficient/summary.txt), so both are scored
 exactly the same way; plain QUANT and idea 18 are re-run here rather than read from efficient.csv. This setting was
 fixed after round 2, not picked on held-out datasets as in efficient_analysis.py, so idea 18 scores 87.22% here
 against 87.16% there. The stacked version is also compared with MultiRocket+Hydra and HIVE-COTE 2 (bake-off redux,

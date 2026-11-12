@@ -1,4 +1,4 @@
-"""Summarise the weakness tests into the numbers quoted in the report, plus one figure.
+"""Summarise the weakness tests into the numbers quoted in the paper, plus one figure.
 
 Usage: python scripts/weakness_analysis.py
 Reads results/weaknesses/* (from scripts/weakness_tests.py), our reproduction results and the bake-off files.

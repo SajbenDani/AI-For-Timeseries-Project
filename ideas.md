@@ -2,7 +2,7 @@
 
 Every idea we considered for improving QUANT, with the evidence behind it and what happened when we tested it. Ideas 1–10 are ranked by expected impact. Ideas 11–13 came out of our team discussions (the verdict on every suggestion is at the end). Ideas 14–18 are **efficient approaches**, added after the first round of experiments: they should raise accuracy while keeping QUANT cheap. Idea 19 is for multivariate data. Each idea is backed by (a) something we **measured** in our weakness tests (paper Section IV, `results/weaknesses/summary.txt`) and (b) **published work** it builds on.
 
-**Status:** every idea except 4, 6 and 8 has been implemented and tested; the Status column below and the note under each idea give the result. Idea 4 needs a GPU, and ideas 6 and 8 were not tried. Full results and explanations are in [report.md](report.md). The two choices we made after seeing results were checked on data they had not seen: idea 18's two-level gate held up, while idea 10's "padded + native" version gave only +0.2 pts on three fresh datasets. Ideas 7, 9, 11–13 and the stacking were run on a second computer and are compared with plain QUANT fitted on that computer.
+**Status:** every idea except 4, 6 and 8 has been implemented and tested; the Status column below and the note under each idea give the result. Idea 4 needs a GPU, and ideas 6 and 8 were not tried. The paper has the main results and explanations, and the `summary.txt` files in `results/` have the full numbers. The two choices we made after seeing results were checked on data they had not seen: idea 18's two-level gate held up, while idea 10's "padded + native" version gave only +0.2 pts on three fresh datasets. Ideas 7, 9, 11–13 and the stacking were run on a second computer and are compared with plain QUANT fitted on that computer.
 
 **The one-sentence diagnosis behind most ideas:** QUANT describes "what values occur in a *fixed window*", so when the same pattern appears at a different time, it produces different features. When patterns moved to random positions, QUANT lost 5.6 accuracy points against Hydra's 2.4 (Hydra is position-free). The same cause most likely explains its large losses on gesture data (−5.1 points) and on many-class data with few examples (up to −27 points).
 
@@ -30,7 +30,7 @@ Every idea we considered for improving QUANT, with the evidence behind it and wh
 | 18 | *Efficient approach:* second opinion only when needed (gated QUANT + Hydra) | The ensemble's 4–6× cost | Low-medium | Low | For TSC, yes | **Done: success** (87.16%, +1.8 pts: 95% of the ensemble's gain at ×2.1 QUANT's time; smaller Hydra: +1.3 at ×1.27). **Multivariate** (19 UEA datasets × 5 resamples): 75.59% vs QUANT's 74.18%, +1.4 pts, 11/5/3, p = 0.033 |
 | 19 | *Multivariate:* cross-channel views (magnitude, channel differences, main PCA direction) | QUANT treats each channel alone: blind to how channels move together and to sensor rotation | Low-medium | Medium | Yes | **Done: success** (19 UEA datasets × 5: 76.80% vs QUANT's 74.18%, +2.6 pts, 13/1/5, p = 0.031; with idea 18: 77.78%, +3.6 pts, p = 0.001. Rotation stress test, 6 sensor datasets: loses 12.3 pts at 180° instead of QUANT's 18.1, +6.1 pts ahead, 6/0/0) |
 
-**Where things stand:** every idea except 4, 6 and 8 has been tested; results and explanations are in [report.md](report.md) and the paper.
+**Where things stand:** every idea except 4, 6 and 8 has been tested; results and explanations are in the paper, and the full numbers in the `summary.txt` files in `results/`.
 
 | What worked (142 datasets × first 10 resamples) | Accuracy | vs QUANT | Cost vs QUANT |
 |---|---|---|---|
@@ -65,7 +65,7 @@ Rotation stress test (6 datasets with 3-axis sensors, every series tilted by up 
 
 ## 1. Position-free QUANT: pooled sliding-window quantiles
 
-> **Status: done. Success (small).** 85.36% → 85.75% (+0.39 pts) on 142 datasets × 10 splits, better on 84 / worse on 39, p = 2e-6; +1.0 pts on the 18 many-class datasets (PigAirwayPressure +10.8). Cheap: 1.4× QUANT's runtime on one core (21.5 vs 15.7 min). Under random shifts (stress test, 50%) it loses 4.1 pts instead of QUANT's 5.7, and beats QUANT by +1.8 pts. Details in [report.md](report.md).
+> **Status: done. Success (small).** 85.36% → 85.75% (+0.39 pts) on 142 datasets × 10 splits, better on 84 / worse on 39, p = 2e-6; +1.0 pts on the 18 many-class datasets (PigAirwayPressure +10.8). Cheap: 1.4× QUANT's runtime on one core (21.5 vs 15.7 min). Under random shifts (stress test, 50%) it loses 4.1 pts instead of QUANT's 5.7, and beats QUANT by +1.8 pts. Details: `results/improvements/summary.txt`.
 
 **What.** QUANT currently takes quantiles in fixed windows (first half, second quarter, ...). Instead, slide a window of each size across the *whole* series, compute the quantiles at every position, and then summarise those values over all positions (maximum, mean, and a few quantiles). A feature then reads "somewhere in the series there is a stretch whose 90th percentile is this high", which no longer depends on *where* it happens. Keep the original fixed-window features too, so location information isn't lost; the forest picks what helps.
 
@@ -347,7 +347,7 @@ Almost everything QUANT computes depends on *when* things happen. The exceptions
 
 ## 14. Speed-invariant quantiles *(efficient approach)*
 
-> **Status: done. Success (small).** 85.36% → 85.50% (+0.14 pts), better on 81 / worse on 52, p = 0.006. On the 23 datasets where an elastic method beats QUANT: +0.51 pts (18 better, 4 worse, p = 0.002); gestures +0.4. In the speed stress test (random time warps) it loses 7.9 pts instead of QUANT's 9.9 and is +2.2 pts ahead at the strongest warp (p = 6e-5). Cost: ×1.33 QUANT's one-core runtime. Details in [report.md](report.md).
+> **Status: done. Success (small).** 85.36% → 85.50% (+0.14 pts), better on 81 / worse on 52, p = 0.006. On the 23 datasets where an elastic method beats QUANT: +0.51 pts (18 better, 4 worse, p = 0.002); gestures +0.4. In the speed stress test (random time warps) it loses 7.9 pts instead of QUANT's 9.9 and is +2.2 pts ahead at the strongest warp (p = 6e-5). Cost: ×1.33 QUANT's one-core runtime. Details: `results/efficient/summary.txt`.
 
 **What.** For every window QUANT already uses, add a second set of quantiles in which each moment counts by *how much the series moves* there, not by *how long it lasts*. A stretch where the series stands still adds nothing, and a quick sweep through a range of values counts each value in that range once. Technically, these are quantiles of the values weighted by the size of each step: a level counts as often as the series passes through it.
 

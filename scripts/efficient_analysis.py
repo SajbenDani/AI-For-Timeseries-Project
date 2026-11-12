@@ -1,21 +1,17 @@
-"""Summarise the tests of the efficient approaches (ideas 14-18) into the numbers quoted in report.md, plus one figure.
+"""Summarise the tests of the efficient approaches (round 2: ideas 14-18) into the numbers quoted in the paper.
 
 Usage: python scripts/efficient_analysis.py
 Reads results/efficient/* (from scripts/efficient_tests.py; partial results are fine). Plain QUANT's results come
 from our reproduction (same resamples and seeds), QUANT's and Hydra's misalignment results from the weakness tests,
 MultiRocket+Hydra's and HC2's from the bake-off redux, and the dataset groups from results/ideas/per_dataset.csv.
-Writes results/efficient/summary.txt and Papers/figures/efficient.png (shown in report.md).
+Writes results/efficient/summary.txt (and summary_142.csv, timing_1core_summary.csv).
 """
 
-import matplotlib
+import numpy as np
+import pandas as pd
+from scipy.stats import spearmanr
 
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt  # noqa: E402
-import numpy as np  # noqa: E402
-import pandas as pd  # noqa: E402
-from scipy.stats import spearmanr  # noqa: E402
-
-from analysis_utils import NAMES, ROOT, bakeoff, fmt, paired  # noqa: E402
+from analysis_utils import NAMES, ROOT, bakeoff, fmt, paired
 
 R = ROOT / "results" / "efficient"
 REPRO = pd.read_csv(ROOT / "results" / "repro" / "quant_ucr142_30res.csv")
@@ -311,97 +307,3 @@ R.mkdir(parents=True, exist_ok=True)
 (R / "summary.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
 if len(table):
     table.round(5).to_csv(R / "summary_142.csv", index=False)
-
-# == figure ===========================================================================================
-if {"benchmark", "gating", "warp", "shift"} <= results.keys():
-    INK, MUTED, GRID = "#0b0b0b", "#52514e", "#e4e3df"
-    BLUE, ORANGE, GREEN, GREY, PURPLE = "#2a78d6", "#eb6834", "#1baf7a", "#9a9893", "#8a4fd1"
-    plt.rcParams.update({"font.family": "serif", "font.serif": ["Times New Roman", "STIX Two Text", "DejaVu Serif"],
-                         "font.size": 8, "axes.edgecolor": GRID, "axes.labelcolor": MUTED, "xtick.color": MUTED,
-                         "ytick.color": MUTED, "text.color": INK})
-    fig, axes = plt.subplots(2, 2, figsize=(7.16, 4.9))
-
-    def tidy(ax, title):
-        ax.set_title(title, fontsize=8.5, color=INK, loc="left")
-        for side in ("top", "right"):
-            ax.spines[side].set_visible(False)
-        ax.tick_params(length=0)
-        ax.set_axisbelow(True)
-
-    # (a) change in accuracy: all datasets and each idea's target group
-    tb = results["benchmark"].set_index("method")
-    op = results["gating"][("QUANT + Hydra, gated", "two-level gate")]
-    labels = [f"{tb.idea[m]}. {m.replace('QUANT + ', '+ ').replace('QUANT, ', '')}\n(target: {tb.target[m]})"
-              for m in tb.index] + ["18. + Hydra, two-level gate\n(target: many-class)"]
-    all_diff = list(100 * tb["diff"]) + [100 * (op["accuracy"] - q10[complete].mean())]
-    target_diff = list(100 * tb["target_diff"]) + [100 * op["manyclass"]]
-    y = np.arange(len(labels))[::-1]
-    ax = axes[0, 0]
-    ax.barh(y + 0.18, all_diff, 0.36, color=BLUE, label="142 datasets")
-    ax.barh(y - 0.18, target_diff, 0.36, color=ORANGE, label="target group")
-    ax.axvline(0, color=MUTED, lw=0.8)
-    ax.set_yticks(y, labels, fontsize=6.5)
-    ax.set_xlabel("accuracy change vs QUANT (points)")
-    ax.grid(axis="x", color=GRID, lw=0.6)
-    ax.legend(frameon=False, loc="center right", fontsize=6.5)
-    tidy(ax, "(a) Change in accuracy")
-
-    # (b) idea 18: accuracy against one-core time
-    ax = axes[0, 1]
-    for label, color in (("QUANT + Hydra, gated", PURPLE), ("QUANT + Hydra-16, gated", GREEN)):
-        if label not in results["gating"]:
-            continue
-        curve, front = results["gating"][label]
-        name = label.replace("QUANT + ", "+ ").replace(", gated", "")
-        ax.plot(curve.minutes, 100 * curve.accuracy, "-o", color=color, ms=3, lw=1.2, mec="white", mew=0.5,
-                label=f"{name}: ask when unsure")
-        ax.plot(front.minutes, 100 * front.accuracy, "--", color=color, lw=1.0, label=f"{name}: two-level gate")
-        o = results["gating"][(label, "two-level gate")]
-        ax.plot(o["minutes"], 100 * o["accuracy"], "*", color=color, ms=10, mec="white", mew=0.5)
-    ax.plot(quant_minutes, 100 * q10[complete].mean(), "o", color=BLUE, ms=5)
-    ax.annotate("QUANT", (quant_minutes, 100 * q10[complete].mean()), xytext=(4, -9), textcoords="offset points",
-                fontsize=7, color=BLUE)
-    mr = 100 * bakeoff("MR-Hydra", 10)[complete].mean()
-    ax.axhline(mr, color=ORANGE, lw=1, ls=":")
-    ax.annotate("MultiRocket+Hydra (about 1 h)", (1, mr), xycoords=("axes fraction", "data"), xytext=(-2, 2),
-                textcoords="offset points", ha="right", va="bottom", fontsize=6.5, color=ORANGE)
-    ax.set_xlabel("minutes on one core (all 142 datasets, one split)")
-    ax.set_ylabel("mean accuracy (%)")
-    ax.grid(color=GRID, lw=0.6)
-    ax.legend(frameon=False, fontsize=6, loc="lower right")
-    tidy(ax, "(b) Idea 18: accuracy vs cost (star: chosen setting)")
-
-    # (c) speed stress test
-    ax = axes[1, 0]
-    c = results["warp"]
-    x = np.arange(len(c))
-    for m, color, marker in (("QUANT", BLUE, "o"), ("QUANT + speed quantiles", GREEN, "D")):
-        ax.plot(x, 100 * c[m].values, "-", marker=marker, color=color, lw=1.3, ms=4, mec="white", mew=0.6,
-                label=m.replace("QUANT + ", "+ "))
-    ax.set_xticks(x, ["none"] + [f"±{v:.1f}" for v in c.index[1:]])
-    ax.set_xlabel("random time warp (largest change of log-speed)")
-    ax.set_ylabel("mean accuracy (%)")
-    ax.grid(axis="y", color=GRID, lw=0.6)
-    ax.legend(frameon=False, fontsize=6.5, loc="lower left")
-    tidy(ax, "(c) Series played at different speeds")
-
-    # (d) misalignment stress test
-    ax = axes[1, 1]
-    c = results["shift"]
-    x = np.arange(len(c))
-    styles = {"QUANT": (BLUE, "o", "-"), "Hydra": (ORANGE, "s", "-"), "QUANT + cycle view": (GREEN, "D", "--"),
-              "QUANT + bispectrum view": (PURPLE, "^", "--")}
-    for m, (color, marker, ls) in styles.items():
-        if m in c.columns:
-            ax.plot(x, 100 * c[m].values, ls=ls, color=color, marker=marker, lw=1.3, ms=4, mec="white", mew=0.6,
-                    label=m.replace("QUANT + ", "+ "))
-    ax.set_xticks(x, [f"{int(100 * v)}%" for v in c.index])
-    ax.set_xlabel("extra window length (random offset)")
-    ax.set_ylabel("mean accuracy (%)")
-    ax.grid(axis="y", color=GRID, lw=0.6)
-    ax.legend(frameon=False, fontsize=6.5, loc="lower left")
-    tidy(ax, "(d) Patterns at random positions")
-    fig.tight_layout()
-    out = ROOT / "Papers" / "figures" / "efficient.png"
-    fig.savefig(out, dpi=200)
-    print(f"wrote {out}")

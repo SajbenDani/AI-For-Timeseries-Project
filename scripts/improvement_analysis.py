@@ -1,21 +1,16 @@
-"""Summarise the improvement tests into the numbers quoted in report.md, plus one figure.
+"""Summarise the improvement tests (round 1: ideas 1, 2, 3, 5, 10) into the numbers quoted in the paper.
 
 Usage: python scripts/improvement_analysis.py
 Reads results/improvements/* (from scripts/improvement_tests.py). Plain QUANT's results come from our reproduction
 (same resamples and seeds), Hydra's from the ensemble test, QUANT's and Hydra's misalignment results from the
 weakness tests, and MultiRocket+Hydra's and HC2's from the bake-off redux (30 resamples; for reference only).
-Writes results/improvements/summary.txt and Papers/figures/improvements.png (shown in report.md).
+Writes results/improvements/summary.txt (and summary_142.csv, timing_1core_summary.csv).
 """
 
-import matplotlib
+import pandas as pd
+from scipy.stats import wilcoxon
 
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt  # noqa: E402
-import numpy as np  # noqa: E402
-import pandas as pd  # noqa: E402
-from scipy.stats import wilcoxon  # noqa: E402
-
-from analysis_utils import NAMES, ROOT, bakeoff, fmt, paired  # noqa: E402
+from analysis_utils import NAMES, ROOT, bakeoff, fmt, paired
 
 R = ROOT / "results" / "improvements"
 REPRO = pd.read_csv(ROOT / "results" / "repro" / "quant_ucr142_30res.csv")
@@ -238,78 +233,3 @@ if t is not None:
 
 R.mkdir(parents=True, exist_ok=True)
 (R / "summary.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
-
-# == figure ===========================================================================================
-if {"benchmark", "shift", "varlen"} <= results.keys():
-    INK, MUTED, GRID = "#0b0b0b", "#52514e", "#e4e3df"
-    BLUE, ORANGE, GREEN, GREY = "#2a78d6", "#eb6834", "#1baf7a", "#9a9893"
-    plt.rcParams.update({"font.family": "serif", "font.serif": ["Times New Roman", "STIX Two Text", "DejaVu Serif"],
-                         "font.size": 8, "axes.edgecolor": GRID, "axes.labelcolor": MUTED, "xtick.color": MUTED,
-                         "ytick.color": MUTED, "text.color": INK})
-    fig, axes = plt.subplots(1, 3, figsize=(7.16, 2.45), gridspec_kw={"width_ratios": [1.35, 1, 1]})
-
-    def tidy(ax, title):
-        ax.set_title(title, fontsize=8.5, color=INK, loc="left")
-        for side in ("top", "right"):
-            ax.spines[side].set_visible(False)
-        ax.tick_params(length=0)
-        ax.set_axisbelow(True)
-
-    t = results["benchmark"].set_index("method")
-    shown = [m for m in ["QUANT + pooled quantiles", "QUANT + conv quantiles", "conv quantiles alone",
-                         "QUANT + Hydra (equal weights)", "QUANT + Hydra (weighted)", "QUANT + augmentation",
-                         "QUANT + augmentation + TTA"] if m in t.index][::-1]
-    y = np.arange(len(shown))
-    ax = axes[0]
-    ax.barh(y + 0.18, 100 * t.loc[shown, "diff"], 0.36, color=BLUE, label="142 datasets")
-    ax.barh(y - 0.18, 100 * t.loc[shown, "manyclass_diff"], 0.36, color=ORANGE, label="18 many-class")
-    ax.axvline(0, color=MUTED, lw=0.8)
-    ax.set_yticks(y, [m.replace("QUANT + ", "+ ") for m in shown])
-    ax.set_xlabel("accuracy change vs QUANT (points)")
-    ax.grid(axis="x", color=GRID, lw=0.6)
-    ax.set_xlim(right=8.5)
-    ax.legend(frameon=False, loc="lower right", fontsize=7)
-    tidy(ax, "(a) Change in accuracy")
-
-    c = results["shift"]
-    ax = axes[1]
-    styles = {"QUANT": (BLUE, "o", "-"), "Hydra": (ORANGE, "s", "-"), "QUANT + pooled quantiles": (GREY, "^", "--"),
-              "QUANT + conv quantiles": (GREEN, "D", "--"), "QUANT + augmentation + TTA": (INK, "v", ":"),
-              "QUANT + Hydra (weighted)": ("#8a4fd1", "P", "-")}
-    x = np.arange(len(c))
-    for m, (color, marker, ls) in styles.items():
-        if m in c.columns:
-            ax.plot(x, c[m].values, ls=ls, color=color, marker=marker, lw=1.3, ms=4, mec="white", mew=0.6,
-                    label=m.replace("QUANT + ", "+ "))
-    ax.set_xticks(x, [f"{int(100 * v)}%" for v in c.index])
-    ax.set_xlabel("extra window length (random offset)")
-    ax.set_ylabel("mean accuracy")
-    ax.grid(axis="y", color=GRID, lw=0.6)
-    ax.legend(frameon=False, fontsize=6, loc="lower left")
-    tidy(ax, "(b) Patterns at random positions")
-
-    vl = results["varlen"]
-    ax = axes[2]
-    short = {"QUANT (padded, original)": "padded (QUANT)", "QUANT (stretched to equal length) + length":
-             "stretched + length", "QUANT (native windows)": "native", "QUANT (native windows) + length":
-             "native + length", "QUANT (padded + native windows)": "padded + native"}
-    shown = [m for m in short if m in vl.index][::-1]
-    y = np.arange(len(shown))
-    colors = [GREEN if "native" in m else (BLUE if "padded, original" in m else GREY) for m in shown]
-    ax.scatter(vl[shown].values, y, s=28, color=colors, zorder=3, edgecolor="white", linewidth=0.6)
-    for yi, m in zip(y, shown):
-        ax.text(vl[m] + 0.003, yi, f"{100 * vl[m]:.1f}%", va="center", fontsize=6.5, color=MUTED)
-    ax.axvline(vl["MR-Hydra (bake-off)"], color=ORANGE, lw=1.2, ls="--")
-    ax.text(vl["MR-Hydra (bake-off)"] - 0.002, len(shown) - 0.6, "MR-Hydra", color=ORANGE, ha="right",
-            va="bottom", fontsize=7)
-    ax.set_yticks(y, [short[m] for m in shown], fontsize=7)
-    ax.set_xlim(0.74, 0.815)
-    ax.set_ylim(-0.6, len(shown) - 0.1)
-    ax.set_xlabel("mean accuracy")
-    ax.grid(axis="x", color=GRID, lw=0.6)
-    tidy(ax, "(c) 11 variable-length sets")
-    fig.tight_layout()
-    out = ROOT / "Papers" / "figures" / "improvements.png"
-    out.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(out, dpi=200)
-    print(f"wrote {out}")

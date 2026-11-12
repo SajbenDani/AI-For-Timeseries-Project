@@ -12,7 +12,8 @@ UCD *AI for Time Series* group project by Dániel Sajben (26107621) and Tymur Su
 Everything runs on a laptop CPU, with no GPU needed.
 
 - **Paper:** [Papers/documentation.pdf](Papers/documentation.pdf) (IEEE format; LaTeX source [Papers/documentation.tex](Papers/documentation.tex), figures in [Papers/figures/](Papers/figures/)).
-- **Full write-up of every experiment:** [report.md](report.md). **All ideas, with evidence and verdicts:** [ideas.md](ideas.md).
+- **All ideas, with the evidence behind them and the result of each test:** [ideas.md](ideas.md).
+- **Full numbers of every experiment:** the `summary.txt` files in [results/](results/).
 
 ## Who did what
 
@@ -62,7 +63,7 @@ We planned the project, discussed every result and wrote the paper together. The
 
 With the sensors of the 6 accelerometer/gyroscope datasets tilted at random by up to 180°, QUANT loses 18.1 points and idea 19 only 12.3.
 
-**Ideas that did not help on average:** shift/stretch augmentation (idea 5), the cycle view (15), the bispectrum view (16), rank-uniform splits (17), autocorrelation and AR features (7, although they gave +4 to +14 points on the Pig heartbeat recordings), multi-scale differences (11), order-aware counts per window (12), and other classifiers instead of ExtraTrees (13: Random Forest −1.3 and LightGBM −2.7 points). Details are in the paper and in [report.md](report.md).
+**Ideas that did not help on average:** shift/stretch augmentation (idea 5), the cycle view (15), the bispectrum view (16), rank-uniform splits (17), autocorrelation and AR features (7, although they gave +4 to +14 points on the Pig heartbeat recordings), multi-scale differences (11), order-aware counts per window (12), and other classifiers instead of ExtraTrees (13: Random Forest −1.3 and LightGBM −2.7 points). Details are in the paper and in [ideas.md](ideas.md).
 
 ## Repository layout
 
@@ -88,7 +89,7 @@ results/                         raw results (CSV) and text summaries of every e
   pruning/, stacking/              round 4: idea 9, ideas 1 + 14 + 18 stacked
   bakeoff_redux/                   published results of other methods, used for comparison
 Papers/                          the paper (documentation.tex, documentation.pdf) and its figures
-report.md, ideas.md              detailed write-up and idea catalogue
+ideas.md                         every idea we considered, with evidence and verdict
 data/                            created by the download steps (not in git, ~4 GB)
 ```
 
@@ -139,7 +140,7 @@ python scripts/multiple_testing.py
 Run these steps in order, because later steps read earlier results. Steps 1–5 take about 30 h of compute in total on our first laptop (Ryzen 5 5600H, 6 cores, 16 GB RAM). Steps 6–8 were run on a second laptop (a MacBook); their times are wall-clock times of our runs, about 13 h in total.
 
 - **Resumable:** every run saves after each finished dataset and skips finished datasets when restarted, so it can be stopped at any time. To redo a step, delete its output files first.
-- **Same numbers as ours?** All runs use the official resamples and seed = resample index. On the same computer this reproduces our accuracies exactly. On another computer, single splits can differ: between our two laptops, plain QUANT differed on 722 of 1,420 splits (by up to 4.3 points on one split and 0.9 points on one dataset's mean), while the mean over the 142 datasets was the same (85.36%). So expect the same means and conclusions, but not every digit. This is why steps 6 and 8 are compared with plain QUANT fitted on the same computer (in the pruning run of step 8). Timings always depend on the machine.
+- **Same numbers as ours?** All runs use the official resamples and seed = resample index. On the same computer this reproduces our accuracies exactly. On another computer, single splits can differ: between our two laptops, plain QUANT differed on 722 of 1,420 splits (by up to 4.3 points on one split and 0.9 points on one dataset's mean), while the mean over the 142 datasets was the same (85.36%). The likely cause is that different processors round QUANT's features differently in the last digit, and a forest magnifies such differences. So expect the same means and conclusions, but not every digit. This is why steps 6 and 8 are compared with plain QUANT fitted on the same computer (in the pruning run of step 8). Timings always depend on the machine.
 - **Timing runs:** run the one-core timing steps alone on the machine.
 
 ```bash

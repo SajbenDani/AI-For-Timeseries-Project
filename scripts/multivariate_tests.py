@@ -35,7 +35,8 @@ DATA = ROOT / "data" / "UEA"
 OUT = ROOT / "results" / "multivariate"
 NAMES = pd.read_csv(OUT / "datasets.csv").dataset.tolist()
 
-# idea 18's two-level gate, as chosen on the univariate benchmark (report.md: gap 0.3-0.4, share 10-20%)
+# idea 18's two-level gate, as chosen on the univariate benchmark (results/efficient/summary.txt: gap 0.3-0.4,
+# share 10-20%)
 THRESHOLD = 0.4  # ask Hydra when the gap between QUANT's two most likely classes is below this
 MIN_ASKED = 0.1  # ... and only if at least this share of a dataset's test series is unsure
 
