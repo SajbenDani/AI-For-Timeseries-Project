@@ -2,7 +2,9 @@
 
 Every idea we considered for improving QUANT, with the evidence behind it and what happened when we tested it. Ideas 1–10 are ranked by expected impact. Ideas 11–13 came out of our team discussions (the verdict on every suggestion is at the end). Ideas 14–18 are **efficient approaches**, added after the first round of experiments: they should raise accuracy while keeping QUANT cheap. Idea 19 is for multivariate data. Each idea is backed by (a) something we **measured** in our weakness tests (paper Section IV, `results/weaknesses/summary.txt`) and (b) **published work** it builds on.
 
-**Status:** every idea except 4, 6 and 8 has been implemented and tested; the Status column below and the note under each idea give the result. Idea 4 needs a GPU, and ideas 6 and 8 were not tried. The paper has the main results and explanations, and the `summary.txt` files in `results/` have the full numbers. The two choices we made after seeing results were checked on data they had not seen: idea 18's two-level gate held up, while idea 10's "padded + native" version gave only +0.2 pts on three fresh datasets. Ideas 7, 9, 11–13 and the stacking were run on a second computer and are compared with plain QUANT fitted on that computer.
+**Status:** every idea except 4, 6 and 8 has been implemented and tested; the Status column below and the note under each idea give the result. Idea 4 needs a GPU, and ideas 6 and 8 were not tried. The paper has the main results and explanations, and the `summary.txt` files in `results/` have the full numbers.
+
+**How to read each idea:** the Status box at the top says what we ran and what came out. The text below it (What, Why it should help, How to test) is the plan we wrote before running it, so some details differ from what we finally did; for example, most plans say 142 × 30 resamples, but we ran 142 × 10 to fit on a laptop. The two choices we made after seeing results were checked on data they had not seen: idea 18's two-level gate held up, while idea 10's "padded + native" version gave only +0.2 pts on three fresh datasets. Ideas 7, 9, 11–13 and the stacking were run on a second computer and are compared with plain QUANT fitted on that computer.
 
 **The one-sentence diagnosis behind most ideas:** QUANT describes "what values occur in a *fixed window*", so when the same pattern appears at a different time, it produces different features. When patterns moved to random positions, QUANT lost 5.6 accuracy points against Hydra's 2.4 (Hydra is position-free). The same cause most likely explains its large losses on gesture data (−5.1 points) and on many-class data with few examples (up to −27 points).
 
@@ -104,11 +106,11 @@ Rotation stress test (6 datasets with 3-axis sensors, every series tilted by up 
 > **Status: done. Success.** 85.36% → 87.39% (+2.03 pts), better on 99 / worse on 33, p = 4e-12; +6.4 pts on many-class data. Statistically level with MultiRocket+Hydra (87.06%) and HIVE-COTE 2 (87.53%) on the same splits. Equal weights give nearly the same: 87.25%. **Cost (measured on one core):** 91 min vs QUANT's 15.7 min (×5.8); ×4.1 with equal weights once Hydra's calibration is free (see idea 18; our first equal-weights run still cross-validated it, which made it ×5.0). Half the time goes to computing Hydra's features; the weighting's cross-validation adds 26 min for only +0.14 pts. Under random shifts (50%) it loses only 2.5 pts, as little as Hydra (2.4), and beats QUANT by +5.0 pts.
 
 **What.** Train QUANT and Hydra (or MultiRocket+Hydra) separately and average their predicted class probabilities. Each model's vote is weighted by its cross-validated accuracy on the training data, as HIVE-COTE does with its "CAWPE" weighting.
-- Ridge-based methods give poor probabilities (MultiRocket+Hydra: log-loss 4.6 vs QUANT's 0.5 in the bake-off). They first need calibrating, e.g. a softmax over their scores with a temperature fitted by cross-validation.
+- Ridge-based methods give poor probabilities (MultiRocket+Hydra: log-loss 4.2 vs QUANT's 0.5 on the bake-off's 112 original datasets). They first need calibrating, e.g. a softmax over their scores with a temperature fitted by cross-validation.
 
 **Why it should help.**
 - The two methods fail on different data. QUANT does well on spectrographs and where the value *level* matters (our normalisation test). Hydra wins where *shape and position* matter (shift test, many-class data).
-- QUANT already has the second-best probabilities among top methods (AUROC 0.956), so it's a good ensemble partner.
+- QUANT already has the second-best probabilities among top methods (AUROC 0.962, after HC2's 0.968), so it's a good ensemble partner.
 
 **Inspired by:**
 - [HIVE-COTE 2](https://arxiv.org/abs/2104.07551) and its CAWPE weighting (Large, Lines & Bagnall, DAMI 2019).
@@ -119,6 +121,8 @@ Rotation stress test (6 datasets with 3-axis sensors, every series tilted by up 
 - Compare with HC2 using the bake-off files. Can a two-method ensemble get close to HC2 at a tiny fraction of its cost?
 
 ## 4. QUANT features + a tabular foundation model ("QuantPFN")
+
+> **Status: not tested.** It needs a GPU at our dataset sizes.
 
 **What.** Keep QUANT's features but replace the forest with **TabPFN** or **TabICL**. These models are pre-trained on millions of synthetic tables and classify a new dataset in a single forward pass, with no training.
 - They accept at most 500–2,000 features, so we reduce QUANT's ~3,000 features first, using idea 9's ranking or random feature groups as RocketPFN does.
@@ -160,6 +164,8 @@ Rotation stress test (6 datasets with 3-axis sensors, every series tilted by up 
 
 ## 6. Align series before windowing
 
+> **Status: not tested.**
+
 **What.** Shift every series so its patterns line up before QUANT cuts it into windows, then QUANT runs unchanged:
 - **General data:** align each series to a reference (e.g. the training mean) using the shift with the highest cross-correlation.
 - **Periodic signals** such as heartbeats: rotate each series so its main cycle starts at the same phase. This can be read off the Fourier transform.
@@ -170,7 +176,7 @@ Rotation stress test (6 datasets with 3-axis sensors, every series tilted by up 
 
 **Inspired by:**
 - k-Shape's shift-invariant cross-correlation distance (Paparrizos & Gravano, SIGMOD 2015).
-- [Kaya & Gündüz-Öğüdücü 2015](https://research.itu.edu.tr/tr/publications/a-distance-based-time-series-classification-framework/), who found that "a suitable alignment method enhances classification performance on nearly every dataset".
+- [Kaya & Gündüz-Öğüdücü 2015](https://research.itu.edu.tr/tr/publications/a-distance-based-time-series-classification-framework/), who found that "a suitable alignment method enhances the time series classification performance on nearly every dataset".
 
 **How to test.** Use the shift test, the Pig datasets and the gesture datasets. Check it doesn't hurt the already-aligned datasets.
 
@@ -197,6 +203,8 @@ A log-spectrum would add little. Taking the log doesn't change the order of valu
 **How to test.** Run 142 × 30 and check the per-domain effect, especially on periodic signals.
 
 ## 8. Oblique / rotation trees for correlated quantile features
+
+> **Status: not tested.**
 
 **What.** Replace the forest's ordinary splits ("feature 17 > 0.3") with splits on *combinations* of features. Rotation Forest does this by rotating feature subsets first; sparse oblique forests (SPORF) split on random sparse feature combinations.
 
@@ -240,7 +248,7 @@ A log-spectrum would add little. Taking the log doesn't change the order of valu
 > - **Native windows instead of padding**, with the series length as a feature: 75.55% → 75.66% (+0.1 pts, p = 0.9); without the length 75.35% (−0.2 pts, p = 0.97). Large effects in both directions: GesturePebble +3.5 to +3.9, GestureMidAir −3.6 to −6.7. Stretching all series to one length gives the same average.
 > - **Padded + native features together**, letting the forest choose: 77.53% (+2.0 pts), better on 10 of 11, p = 0.005. That closes 41% of the gap to MultiRocket+Hydra.
 >
-> - **Fresh-data check** (10 Oct): the combined version was added after seeing the first results, so we ran it unchanged on three variable-length datasets we had never used (the Asphalt road-surface sets, 30 splits). The gain shrinks to **+0.21 pts** (92.31% → 92.52%): +0.63 on AsphaltObstacles (better on 22 of 30 splits, p = 0.001), +0.07 and −0.06 on the other two. Native windows alone were worse on all three (−1.7 pts).
+> - **Fresh-data check:** the combined version was added after seeing the first results, so we ran it unchanged on three variable-length datasets we had never used (the Asphalt road-surface sets, 30 splits). The gain shrinks to **+0.21 pts** (92.31% → 92.52%): +0.63 on AsphaltObstacles (better on 22 of 30 splits, p = 0.001), +0.07 and −0.06 on the other two. Native windows alone were worse on all three (−1.7 pts).
 >
 > The padding carries useful information (gesture length and speed), so it should be kept. The amount of padding does not explain why the fresh gain is small: the Asphalt series are padded at least as heavily as the gestures. All gains of 2 points or more were on gesture data, so the combined version is worth adding for gesture-like data, but should not be expected to add much elsewhere (it never cost more than 0.2 pts on any of the 14 datasets). Our simple code computes the native windows slowly (117 s vs 8 s for QUANT's features on these 11 datasets).
 
@@ -455,9 +463,9 @@ Almost everything QUANT computes depends on *when* things happen. The exceptions
 
 **Why it should help.**
 - **The gain is concentrated; the cost is not.** Looking back at our results, 20 datasets gave 66% of the ensemble's gain while costing only 6% of Hydra's extra time. 40 datasets gave 94% of the gain for 13% of the time. A gate that finds those datasets keeps most of the gain for little cost.
-- **Even a crude rule works.** Take "use Hydra only if there are at least 10 classes, or at most 10 training series per class", which matches the weaknesses in paper Section IV. It keeps 66% of the gain: 86.62%, against 85.36% for QUANT alone and 87.25% for the full ensemble. It takes 27.5 min on one core instead of 65.6, so 1.75× QUANT's time instead of 4.2×. We tried three such rules and this was the best, so treat the number as optimistic.
+- **Even a crude rule works.** Take "use Hydra only if there are at least 10 classes, or at most 10 training series per class", which matches the weaknesses in paper Section IV. It keeps 66% of the gain: 86.62%, against 85.36% for QUANT alone and 87.25% for the full ensemble. It takes 27.5 min on one core, 1.75× QUANT's time. We tried three such rules and this was the best, so treat the number as optimistic.
 - **Test series are two thirds of all series** and take 59% of Hydra's feature time. So skipping Hydra on test series where QUANT is confident saves much of the remaining cost.
-- **QUANT knows when it is unsure.** Its probabilities are among the best of the top methods (bake-off AUROC 0.956; log-loss 0.53, against 4.6 for MultiRocket+Hydra), and a reliable confidence is what a gate needs.
+- **QUANT knows when it is unsure.** Its probabilities are among the best of the top methods (bake-off AUROC 0.962; log-loss 0.50, against 4.2 for MultiRocket+Hydra), and a reliable confidence is what a gate needs.
 
 **Why it's new.** The [Meta-Learning Gap](https://arxiv.org/abs/2512.06666) paper (2025) tested six ways to combine Hydra and QUANT: feature concatenation, two kinds of stacking, and weighted averaging. All of them run both models on every series. Cascades that call an expensive model only when a cheap one is unsure are standard in other fields, e.g. Viola–Jones face detection (2001), but we found none in TSC.
 
